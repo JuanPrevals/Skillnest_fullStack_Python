@@ -39,3 +39,31 @@ elif num2 > num1 and num2 > num3:
 else:   print(num3, "Es mayor y los numeros menores son", num2, "y", num1)
 
 
+#Estructura if - elif - else 
+
+n1 = int(input("Ingrese el primer número: "))
+n2 = int(input("Ingrese el segundo número: "))
+n3 = int(input("Ingrese el tercero número: "))
+
+
+
+if n1 >= n2 and n1 >= n3:
+    mayor = n1
+    if n2 <= n3:
+         menor = n2
+    else:
+               menor = n3
+elif n2 >= n1 and n2 >= n3:
+    mayor = n2
+    if n1 <= n3:
+         menor = n1
+    else:
+               menor = n3
+else:  
+   mayor = n3
+if n1 <= n2 and n1 <= n3:
+    menor = n1 
+else:
+   menor = n2 
+
+print(f"El mayor es {mayor} y el menor es {menor}")
