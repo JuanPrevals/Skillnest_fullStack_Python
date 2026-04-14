@@ -99,13 +99,13 @@ def tabla_multiplicar():
 # Crea un programa que pida números continuamente y los sume. El ciclo debe terminar cuando el usuario ingrese un número negativo. Al final, muestra la suma total (sin incluir el negativo).
 
 def sumatoria_centinela():
-    sumatoria = 0
-    while True:
-        numero = int(input("Ingrese un número (negativo para terminar): "))
-        if numero < 0:
+   suma_total = 0
+while True:
+        n = float(input("Ingrese un número (negativo para terminar): "))
+        if n < 0:
             break
-        sumatoria += numero
-    print(f"La suma total es: {sumatoria}")
+        suma_total += n
+print(f"La suma total de los números ingresados es: {suma_total}")
 
 
 # En este codigo se inicializa una variable sumatoria en 0. Se utiliza un bucle while para solicitar al usuario que ingrese números continuamente. Si el número ingresado es negativo, el bucle se rompe y se termina la entrada de números. Si el número es positivo o cero, se suma a la variable sumatoria. Al finalizar, se muestra la suma total de los números ingresados (sin incluir el número negativo que terminó el ciclo).
@@ -336,3 +336,5 @@ while continuar:
         continuar = False
     else:
         print("Opción no válida. Por favor selecciona un número del 0 al 15.")
+        
+        
