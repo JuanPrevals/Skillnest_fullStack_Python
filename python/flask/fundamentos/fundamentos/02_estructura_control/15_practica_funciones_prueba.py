@@ -108,51 +108,185 @@ def ejercicio_calcular_promedio():
 
 # 5. Crear una función que reciba una lista de precios de productos y aplique un descuento del 10%, mostrando el valor original y el nuevo valor.
 def calcular_precio_con_descuento(precio):
-    pass
+    return precio * 0.90
 
 
 def aplicar_descuento(precios):
-    pass
+    for precio in precios:
+        precio_con_descuento = calcular_precio_con_descuento(precio)
+        print(f"Precio original: ${precio:.0f} - Precio con descuento: ${precio_con_descuento:.0f}")
+
+
+def ejercicio_aplicar_descuento():
+    cantidad_precios = int(input("Ingrese la cantidad de precios: "))
+
+    if cantidad_precios <= 0:
+        print("La cantidad de precios debe ser mayor a 0.")
+        return
+
+    precios = []
+    i = 1
+
+    while i <= cantidad_precios:
+        precio = float(input(f"Ingrese el precio {i}: "))
+        precios.append(precio)
+        i += 1
+
+    aplicar_descuento(precios)
 
 # 6. Crear una función que reciba un número entero y determine si es par o impar.
 def es_par(numero):
-    pass
+    return numero % 2 == 0
 
 
 def es_par_impar(numero):
-    pass
+    if es_par(numero):
+        print(f"El número {numero} es par.")
+    else:
+        print(f"El número {numero} es impar.")
+
+
+def ejercicio_es_par_impar():
+    numero = int(input("Ingrese un número entero: "))
+    es_par_impar(numero)
 
 # 7. Crear una función que reciba una lista de edades y muestre cuántas personas son mayores de edad (18 años o más).
 def es_mayor_edad(edad):
-    pass
+    return edad >= 18
 
 
 def contar_mayores_edad(edades):
-    pass
+    contador = 0
+
+    for edad in edades:
+        if es_mayor_edad(edad):
+            contador += 1
+
+    print(f"Hay {contador} personas mayores de edad.")
+
+
+def ejercicio_contar_mayores_edad():
+    cantidad_edades = int(input("Ingrese la cantidad de edades: "))
+
+    if cantidad_edades <= 0:
+        print("La cantidad de edades debe ser mayor a 0.")
+        return
+
+    edades = []
+    i = 1
+
+    while i <= cantidad_edades:
+        edad = int(input(f"Ingrese la edad {i}: "))
+        edades.append(edad)
+        i += 1
+
+    contar_mayores_edad(edades)
 
 # 8. Crear una función que reciba una lista de palabras y permita buscar cuántas veces aparece una palabra específica ingresada por el usuario.
 def palabra_coincide(palabra, palabra_buscar):
-    pass
+    return palabra.lower() == palabra_buscar.lower()
 
 
 def contar_palabra(palabras, palabra_buscar):
-    pass
+    contador = 0
+
+    for palabra in palabras:
+        if palabra_coincide(palabra, palabra_buscar):
+            contador += 1
+
+    print(f"La palabra '{palabra_buscar}' aparece {contador} veces.")
+
+
+def ejercicio_contar_palabra():
+    cantidad_palabras = int(input("Ingrese la cantidad de palabras: "))
+
+    if cantidad_palabras <= 0:
+        print("La cantidad de palabras debe ser mayor a 0.")
+        return
+
+    palabras = []
+    i = 1
+
+    while i <= cantidad_palabras:
+        palabra = input(f"Ingrese la palabra {i}: ")
+        palabras.append(palabra)
+        i += 1
+
+    palabra_buscar = input("Ingrese la palabra que desea buscar: ")
+    contar_palabra(palabras, palabra_buscar)
 
 # 9. Crear una función que reciba una lista de números y genere una nueva lista que contenga únicamente los números positivos.
 def es_positivo(numero):
-    pass
+    return numero > 0
 
 
 def filtrar_positivos(numeros):
-    pass
+    positivos = []
+
+    for numero in numeros:
+        if es_positivo(numero):
+            positivos.append(numero)
+
+    print(f"Los números positivos son: {positivos}")
+
+
+def ejercicio_filtrar_positivos():
+    cantidad_numeros = int(input("Ingrese la cantidad de números: "))
+
+    if cantidad_numeros <= 0:
+        print("La cantidad de números debe ser mayor a 0.")
+        return
+
+    numeros = []
+    i = 1
+
+    while i <= cantidad_numeros:
+        numero = int(input(f"Ingrese el número {i}: "))
+        numeros.append(numero)
+        i += 1
+
+    filtrar_positivos(numeros)
 
 # 10. Crear una función que reciba una lista de productos (utilizando diccionarios con nombre y stock) y muestre cuáles tienen un stock menor a 5 unidades.
 def tiene_bajo_stock(producto):
-    pass
+    return producto["stock"] < 5
 
 
 def productos_bajo_stock(productos):
-    pass
+    print("Productos con bajo stock:")
+
+    hay_bajo_stock = False
+
+    for producto in productos:
+        if tiene_bajo_stock(producto):
+            print(f"{producto['nombre']} - Stock: {producto['stock']}")
+            hay_bajo_stock = True
+
+    if not hay_bajo_stock:
+        print("No hay productos con bajo stock.")
+
+
+def ejercicio_productos_bajo_stock():
+    cantidad_productos = int(input("Ingrese la cantidad de productos: "))
+
+    if cantidad_productos <= 0:
+        print("La cantidad de productos debe ser mayor a 0.")
+        return
+
+    productos = []
+    i = 1
+
+    while i <= cantidad_productos:
+        nombre = input(f"Ingrese el nombre del producto {i}: ")
+        stock = int(input(f"Ingrese el stock de {nombre}: "))
+        producto = {
+            "nombre": nombre,
+            "stock": stock
+        }
+        productos.append(producto)
+        i += 1
+
+    productos_bajo_stock(productos)
 
 #Menu while
 def menu():
@@ -181,17 +315,17 @@ def menu():
         elif opcion == "4":
             ejercicio_calcular_promedio()
         elif opcion == "5":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_aplicar_descuento()
         elif opcion == "6":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_es_par_impar()
         elif opcion == "7":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_contar_mayores_edad()
         elif opcion == "8":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_contar_palabra()
         elif opcion == "9":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_filtrar_positivos()
         elif opcion == "10":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_productos_bajo_stock()
         elif opcion == "11":
             print("Saliendo del programa...")
             break
