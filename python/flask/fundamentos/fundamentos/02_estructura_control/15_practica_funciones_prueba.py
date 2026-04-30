@@ -71,11 +71,40 @@ def ejercicio_filtrar_nombres():
 
 # 4. Crear una función que reciba una lista de notas (números decimales), calcule el promedio e indique si el estudiante aprueba (promedio mayor o igual a 4.0).
 def calcular_promedio(notas):
-    pass
+    if len(notas) == 0:
+        print("Debe ingresar al menos una nota.")
+        return
+
+    suma = 0
+
+    for nota in notas:
+        suma += nota
+
+    promedio = suma / len(notas)
+    print(f"El promedio es: {promedio:.1f}")
+
+    if promedio >= 4.0:
+        print("El estudiante aprueba.")
+    else:
+        print("El estudiante reprueba.")
 
 
-def lista_notas(notas):
-    pass
+def ejercicio_calcular_promedio():
+    cantidad_notas = int(input("Ingrese la cantidad de notas: "))
+
+    if cantidad_notas <= 0:
+        print("La cantidad de notas debe ser mayor a 0.")
+        return
+
+    notas = []
+    i = 1
+
+    while i <= cantidad_notas:
+        nota = float(input(f"Ingrese la nota {i}: ").replace(",", "."))
+        notas.append(nota)
+        i += 1
+
+    calcular_promedio(notas)
 
 # 5. Crear una función que reciba una lista de precios de productos y aplique un descuento del 10%, mostrando el valor original y el nuevo valor.
 def calcular_precio_con_descuento(precio):
@@ -150,7 +179,7 @@ def menu():
         elif opcion == "3":
             ejercicio_filtrar_nombres()
         elif opcion == "4":
-            pass  # Aquí se llamaría a la función correspondiente
+            ejercicio_calcular_promedio()
         elif opcion == "5":
             pass  # Aquí se llamaría a la función correspondiente
         elif opcion == "6":
@@ -169,4 +198,5 @@ def menu():
         else:
             print("Opción no válida, por favor intente nuevamente.")
 
-menu()
+if __name__ == "__main__":
+    menu()
