@@ -126,3 +126,47 @@ def productos_bajo_stock(productos):
     pass
 
 #Menu while
+def menu():
+    while True:
+        print("\nMenú de opciones:")
+        print("1. Calcular mayor y menor")
+        print("2. Contar vocales")
+        print("3. Filtrar nombres con más de 5 letras")
+        print("4. Calcular promedio de notas")
+        print("5. Aplicar descuento a precios")
+        print("6. Determinar si un número es par o impar")
+        print("7. Contar personas mayores de edad")
+        print("8. Contar ocurrencias de una palabra")
+        print("9. Filtrar números positivos")
+        print("10. Mostrar productos con bajo stock")
+        print("11. Salir")
+
+        opcion = input("Seleccione una opción (1-11): ")
+
+        if opcion == "1":
+            ejercicio_calcular_mayor_menor()
+        elif opcion == "2":
+            ejercicio_contar_vocales()
+        elif opcion == "3":
+            ejercicio_filtrar_nombres()
+        elif opcion == "4":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "5":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "6":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "7":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "8":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "9":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "10":
+            pass  # Aquí se llamaría a la función correspondiente
+        elif opcion == "11":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida, por favor intente nuevamente.")
+
+menu()
