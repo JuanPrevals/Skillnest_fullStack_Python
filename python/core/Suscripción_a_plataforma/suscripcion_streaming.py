@@ -33,10 +33,6 @@ class SuscripcionStreaming:
    costos_suscripcion = {"Gratis": 0, "Estándar": 5.99, "Premium": 10.99}
 
    def __init__(self, usuario, tipo_suscripcion="Gratis"):
-         if tipo_suscripcion not in SuscripcionStreaming.costos_suscripcion:
-              print("Tipo de suscripción no válido. Se asignará la suscripción Gratis.")
-              tipo_suscripcion = "Gratis"
-
          self.usuario = usuario
          self.tipo_suscripcion = tipo_suscripcion
          self.costo_mensual = SuscripcionStreaming.costos_suscripcion[tipo_suscripcion]
