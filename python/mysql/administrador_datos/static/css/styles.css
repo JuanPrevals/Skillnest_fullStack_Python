@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #fff;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+.page-shell {
+    width: 560px;
+    margin: 20px auto 0;
+}
+
+.forms-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 72px;
+    align-items: start;
+}
+
+.auth-form {
+    display: grid;
+    gap: 8px;
+}
+
+.auth-form h1,
+.auth-form h2 {
+    margin: 0 0 16px;
+    font-size: 23px;
+    line-height: 1;
+}
+
+.auth-form label {
+    display: grid;
+    grid-template-columns: 74px 102px;
+    align-items: center;
+    gap: 12px;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.register-card label {
+    grid-template-columns: 96px 102px;
+}
+
+.auth-form input {
+    width: 102px;
+    height: 28px;
+    padding: 2px 5px;
+    border: 3px solid #000;
+    border-radius: 0;
+    background: #fff;
+    color: #000;
+    outline: none;
+}
+
+.submit-button {
+    width: max-content;
+    min-height: 27px;
+    justify-self: center;
+    margin-top: 2px;
+    padding: 3px 12px;
+    border: 3px solid #000;
+    border-radius: 0;
+    background: #fff;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.status-message {
+    min-height: 18px;
+    margin-top: 14px;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .page-shell {
+        width: calc(100vw - 24px);
+    }
+
+    .forms-panel {
+        grid-template-columns: 1fr;
+        row-gap: 34px;
+    }
+}

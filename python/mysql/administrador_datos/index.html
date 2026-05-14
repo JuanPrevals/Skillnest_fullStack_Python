@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <main class="page-shell" aria-label="Pagina de inicio de sesion y registro">
+        <section class="forms-panel" aria-label="Acceso de usuarios">
+            <form class="auth-form login-card" id="loginForm">
+                <h1>Inicio de Sesión</h1>
+
+                <label>
+                    <span>E-mail</span>
+                    <input type="email" name="loginEmail" autocomplete="email" required>
+                </label>
+
+                <label>
+                    <span>Contraseña</span>
+                    <input type="password" name="loginPassword" autocomplete="current-password" required>
+                </label>
+
+                <button class="submit-button" type="submit">Iniciar Sesión</button>
+            </form>
+
+            <form class="auth-form register-card" id="registerForm">
+                <h2>Registro</h2>
+
+                <label>
+                    <span>Nombre</span>
+                    <input type="text" name="name" autocomplete="name" required>
+                </label>
+
+                <label>
+                    <span>E-mail</span>
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+
+                <label>
+                    <span>Contraseña</span>
+                    <input type="password" name="password" autocomplete="new-password" required>
+                </label>
+
+                <label>
+                    <span>Conf. Contraseña</span>
+                    <input type="password" name="confirmPassword" autocomplete="new-password" required>
+                </label>
+
+                <button class="submit-button" type="submit">Registrar</button>
+            </form>
+        </section>
+
+        <div class="status-message" id="statusMessage" role="status" aria-live="polite"></div>
+    </main>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>
