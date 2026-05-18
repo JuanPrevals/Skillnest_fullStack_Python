@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <main class="page-shell admin-dashboard-page" aria-label="Dashboard de administradores">
+        <div class="page-actions">
+            <a class="submit-button link-button" href="nuevo-usuario.html">Nuevo Usuario</a>
+            <a class="submit-button link-button" href="../index.html">Cerrar Sesion</a>
+        </div>
+
+        <section class="table-wrap" aria-label="Usuarios registrados">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>E-mail</th>
+                        <th>Tipo Usuario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Patricia</td>
+                        <td>patricia@codingdojo.com</td>
+                        <td>Admin</td>
+                        <td class="actions-cell">
+                            <a class="icon-button" href="editar-usuario.html" aria-label="Editar Patricia">&#9998;</a>
+                            <button class="icon-button" type="button" aria-label="Borrar Patricia">&#128465;</button>
+                            <a class="icon-button" href="mensajes.html" aria-label="Enviar mensaje a Patricia">&#9993;</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Andrea</td>
+                        <td>andrea@codingdojo.com</td>
+                        <td>Usuario</td>
+                        <td class="actions-cell">
+                            <a class="icon-button" href="editar-usuario.html" aria-label="Editar Andrea">&#9998;</a>
+                            <button class="icon-button" type="button" aria-label="Borrar Andrea">&#128465;</button>
+                            <a class="icon-button" href="mensajes.html" aria-label="Enviar mensaje a Andrea">&#9993;</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Katya</td>
+                        <td>katya@codingdojo.com</td>
+                        <td>Usuario</td>
+                        <td class="actions-cell">
+                            <a class="icon-button" href="editar-usuario.html" aria-label="Editar Katya">&#9998;</a>
+                            <button class="icon-button" type="button" aria-label="Borrar Katya">&#128465;</button>
+                            <a class="icon-button" href="mensajes.html" aria-label="Enviar mensaje a Katya">&#9993;</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

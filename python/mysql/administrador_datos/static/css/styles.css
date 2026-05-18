@@ -9,22 +9,37 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
 button,
-input {
+input,
+select {
     font: inherit;
 }
 
 .page-shell {
     width: min(960px, calc(100vw - 48px));
-    margin: 56px auto 0;
+    margin: 36px auto 0;
+    padding-bottom: 40px;
+    position: relative;
 }
 
 .forms-panel {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 120px;
-    align-items: start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px 120px;
+    align-items: flex-start;
     justify-content: center;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 360px;
 }
 
 .auth-form h1,
@@ -34,15 +49,8 @@ input {
     line-height: 1;
 }
 
-.auth-form {
-    display: grid;
-    gap: 14px;
-    width: 360px;
-}
-
 .auth-form label {
-    display: grid;
-    grid-template-columns: 130px 1fr;
+    display: flex;
     align-items: center;
     gap: 18px;
     color: #000;
@@ -50,11 +58,21 @@ input {
     font-weight: 700;
 }
 
-.register-card label {
-    grid-template-columns: 150px 1fr;
+.auth-form label span {
+    flex: 0 0 130px;
 }
 
-.auth-form input {
+.register-card label {
+    gap: 18px;
+}
+
+.register-card label span {
+    flex-basis: 150px;
+}
+
+.auth-form input,
+.auth-form select,
+.inline-form input {
     width: 100%;
     height: 40px;
     padding: 4px 8px;
@@ -66,9 +84,12 @@ input {
 }
 
 .submit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: max-content;
     min-height: 36px;
-    justify-self: center;
+    align-self: center;
     margin-top: 8px;
     padding: 5px 18px;
     border: 3px solid #000;
@@ -81,6 +102,193 @@ input {
     cursor: pointer;
 }
 
+.link-button {
+    margin-top: 0;
+}
+
+.page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-end;
+    width: min(860px, 100%);
+    margin: 0 auto 24px;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.form-actions .submit-button {
+    margin-top: 0;
+}
+
+.message-actions {
+    justify-content: flex-start;
+    margin-top: 30px;
+}
+
+.user-form-page {
+    min-height: 560px;
+}
+
+.user-data-form {
+    width: 470px;
+    margin: 0 auto;
+}
+
+.user-data-form h1 {
+    text-align: center;
+}
+
+.user-data-form label {
+    gap: 18px;
+}
+
+.user-data-form label span {
+    flex-basis: 170px;
+}
+
+.dashboard-admin-page,
+.dashboard-page {
+    min-height: 560px;
+}
+
+.table-wrap {
+    width: min(860px, 100%);
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid #000;
+    font-size: 15px;
+}
+
+.users-table th,
+.users-table td {
+    height: 62px;
+    padding: 12px;
+    border: 3px solid #000;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.users-table th {
+    font-weight: 700;
+}
+
+.users-table th:last-child,
+.users-table td:last-child {
+    width: 170px;
+    text-align: center;
+}
+
+.actions-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.icon-button {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 34px;
+    border: 0;
+    background: transparent;
+    color: #000;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.message-panel {
+    width: min(720px, 100%);
+    margin: 0 auto;
+}
+
+.message-panel h1,
+.message-panel h2,
+.message-panel h3 {
+    margin: 0;
+    line-height: 1;
+}
+
+.message-panel h1 {
+    margin-bottom: 10px;
+    font-size: 48px;
+}
+
+.message-panel h2 {
+    margin-bottom: 16px;
+    font-size: 30px;
+    font-style: italic;
+}
+
+.message-panel h3 {
+    margin: 28px 0 14px;
+    padding-left: 96px;
+    font-size: 32px;
+}
+
+.inline-form {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.inline-form input {
+    flex: 1 1 auto;
+}
+
+.inline-form .submit-button {
+    flex: 0 0 auto;
+    margin-top: 0;
+}
+
+.message-link {
+    display: inline-block;
+    margin-top: 28px;
+    color: #0b73ff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.message-text {
+    max-width: 610px;
+    margin: 12px 0 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.comment-link,
+.comment-text,
+.comment-form {
+    margin-left: 110px;
+}
+
+.comment-form {
+    margin-top: 28px;
+}
+
+.comment-form input::placeholder {
+    color: #000;
+    font-style: italic;
+    opacity: 1;
+}
+
 .status-message {
     min-height: 22px;
     margin-top: 28px;
@@ -90,30 +298,72 @@ input {
     text-align: center;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 760px) {
     .page-shell {
         width: calc(100vw - 32px);
-        margin-top: 32px;
+        margin-top: 28px;
     }
 
     .forms-panel {
-        grid-template-columns: 1fr;
-        row-gap: 48px;
-        justify-items: stretch;
+        flex-direction: column;
+        gap: 48px;
     }
 
-    .auth-form {
+    .auth-form,
+    .user-data-form {
         width: 100%;
     }
 
     .auth-form h1,
-    .auth-form h2 {
+    .auth-form h2,
+    .message-panel h1 {
         font-size: 30px;
     }
 
     .auth-form label,
-    .register-card label {
-        grid-template-columns: 1fr;
+    .register-card label,
+    .user-data-form label {
+        align-items: flex-start;
+        flex-direction: column;
         gap: 8px;
+    }
+
+    .auth-form label span,
+    .register-card label span,
+    .user-data-form label span {
+        flex-basis: auto;
+    }
+
+    .page-actions {
+        justify-content: flex-start;
+    }
+
+    .users-table {
+        min-width: 680px;
+    }
+
+    .message-panel h2 {
+        font-size: 24px;
+    }
+
+    .message-panel h3 {
+        padding-left: 0;
+        font-size: 26px;
+    }
+
+    .inline-form {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .inline-form .submit-button {
+        align-self: flex-end;
+    }
+
+    .comment-link,
+    .comment-text,
+    .comment-form {
+        margin-left: 0;
     }
 }

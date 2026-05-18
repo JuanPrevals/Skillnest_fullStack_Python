@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes a Andrea</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <main class="page-shell" aria-label="Mensajes a Andrea">
+        <article class="message-panel">
+            <h1>Andrea</h1>
+            <h2>Mensajes a Andrea</h2>
+
+            <form class="inline-form" id="messageForm">
+                <input type="text" name="message" aria-label="Mensaje para Andrea" required>
+                <button class="submit-button" type="submit">Enviar</button>
+            </form>
+
+            <a class="message-link" href="#">Mensaje de Katya, hace 5 horas</a>
+            <p class="message-text">
+                lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+
+            <h3>Comentarios</h3>
+            <a class="message-link comment-link" href="#">Comentario de Patricia, hace 1 hora</a>
+            <p class="message-text comment-text">
+                lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+
+            <form class="inline-form comment-form" id="commentForm">
+                <input type="text" name="comment" placeholder="Escribe un comentario..." aria-label="Comentario" required>
+                <button class="submit-button" type="submit">Enviar</button>
+            </form>
+
+            <div class="form-actions message-actions">
+                <a class="submit-button link-button" href="dashboard.html">Volver</a>
+            </div>
+        </article>
+
+        <div class="status-message" id="statusMessage" role="status" aria-live="polite"></div>
+    </main>
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

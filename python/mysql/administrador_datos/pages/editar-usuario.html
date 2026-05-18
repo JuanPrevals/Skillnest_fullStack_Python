@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <main class="page-shell user-form-page" aria-label="Editar usuario">
+        <form class="auth-form user-data-form" id="editUserForm">
+            <h1>Editar Usuario</h1>
+
+            <label>
+                <span>Nombre</span>
+                <input type="text" name="editName" value="Patricia" autocomplete="name" required>
+            </label>
+
+            <label>
+                <span>E-mail</span>
+                <input type="email" name="editEmail" value="patricia@codingdojo.com" autocomplete="email" required>
+            </label>
+
+            <label>
+                <span>Contrasena</span>
+                <input type="password" name="editPassword" value="12345678" autocomplete="new-password" required>
+            </label>
+
+            <label>
+                <span>Conf. Contrasena</span>
+                <input type="password" name="editConfirmPassword" value="12345678" autocomplete="new-password" required>
+            </label>
+
+            <label>
+                <span>Tipo de Usuario</span>
+                <select name="editUserType" required>
+                    <option value="admin" selected>Administrador</option>
+                    <option value="user">Usuario</option>
+                </select>
+            </label>
+
+            <div class="form-actions">
+                <button class="submit-button" type="submit">Guardar</button>
+                <a class="submit-button link-button" href="dashboard-admin.html">Cancelar</a>
+            </div>
+        </form>
+        <div class="status-message" id="statusMessage" role="status" aria-live="polite"></div>
+    </main>
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>
