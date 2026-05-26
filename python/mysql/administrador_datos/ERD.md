@@ -2,66 +2,72 @@
 
 ERD simple para MySQL Workbench basado en los datos visibles de la web.
 
-El script principal es `administrador_datos_erd.sql`.
+El script principal es `resources/database.sql`.
 
 ## Tablas
 
 | Tabla | Comentario |
 | --- | --- |
-| `tipos_usuarios` | Guarda los tipos: administrador o usuario normal |
+| `roles` | Guarda los roles disponibles para los usuarios |
 | `usuarios` | Guarda los usuarios registrados |
 | `mensajes` | Guarda mensajes enviados de un usuario a otro |
 | `comentarios` | Guarda comentarios sobre los mensajes |
 
 ## Campos
 
-### tipos_usuarios
+### roles
 
 | Campo | Tipo | Comentario |
 | --- | --- | --- |
-| `id` | INT | Identificador principal |
-| `nombre` | VARCHAR(50) | Nombre del tipo de usuario |
+| `id_rol` | INT | Identificador principal |
+| `nombre` | VARCHAR(50) | Nombre del rol |
+| `descripcion_rol` | VARCHAR(75) | Descripcion del rol |
+| `created` | DATETIME | Fecha de creacion |
+| `updated` | DATETIME | Fecha de actualizacion |
+| `deleted` | TINYINT(1) | Borrado logico |
 
 ### usuarios
 
 | Campo | Tipo | Comentario |
 | --- | --- | --- |
-| `id` | INT | Identificador principal |
-| `tipo_usuario_id` | INT | Tipo de usuario |
+| `id_usuario` | INT | Identificador principal |
+| `rol_id` | INT | Rol del usuario |
 | `nombre` | VARCHAR(100) | Nombre del usuario |
 | `email` | VARCHAR(255) | Correo del usuario |
 | `contrasena` | VARCHAR(255) | Contrasena del usuario |
-| `creado_en` | DATETIME | Fecha de creacion |
-| `actualizado_en` | DATETIME | Fecha de actualizacion |
+| `created` | DATETIME | Fecha de creacion |
+| `updated` | DATETIME | Fecha de actualizacion |
+| `deleted` | TINYINT(1) | Borrado logico |
 
 ### mensajes
 
 | Campo | Tipo | Comentario |
 | --- | --- | --- |
 | `id` | INT | Identificador principal |
-| `usuario_envia_id` | INT | Usuario que envia |
-| `usuario_recibe_id` | INT | Usuario que recibe |
+| `user_sent_id` | INT | Usuario que envia |
+| `user_recibe_id` | INT | Usuario que recibe |
 | `mensaje` | TEXT | Texto del mensaje |
-| `creado_en` | DATETIME | Fecha de creacion |
-| `actualizado_en` | DATETIME | Fecha de actualizacion |
+| `created` | DATETIME | Fecha de creacion |
+| `updated` | DATETIME | Fecha de actualizacion |
+| `deleted` | TINYINT(1) | Borrado logico |
 
 ### comentarios
 
 | Campo | Tipo | Comentario |
 | --- | --- | --- |
-| `id` | INT | Identificador principal |
+| `id_comentario` | INT | Identificador principal |
 | `mensaje_id` | INT | Mensaje comentado |
 | `usuario_id` | INT | Usuario que comenta |
 | `comentario` | TEXT | Texto del comentario |
-| `creado_en` | DATETIME | Fecha de creacion |
-| `actualizado_en` | DATETIME | Fecha de actualizacion |
+| `created` | DATETIME | Fecha de creacion |
+| `updated` | DATETIME | Fecha de actualizacion |
 
 ## Relaciones
 
 | Relacion | Comentario |
 | --- | --- |
-| `usuarios.tipo_usuario_id` -> `tipos_usuarios.id` | Cada usuario tiene un tipo |
-| `mensajes.usuario_envia_id` -> `usuarios.id` | Un usuario envia mensajes |
-| `mensajes.usuario_recibe_id` -> `usuarios.id` | Un usuario recibe mensajes |
+| `usuarios.rol_id` -> `roles.id_rol` | Cada usuario tiene un rol |
+| `mensajes.user_sent_id` -> `usuarios.id_usuario` | Un usuario envia mensajes |
+| `mensajes.user_recibe_id` -> `usuarios.id_usuario` | Un usuario recibe mensajes |
 | `comentarios.mensaje_id` -> `mensajes.id` | Un mensaje tiene comentarios |
-| `comentarios.usuario_id` -> `usuarios.id` | Un usuario escribe comentarios |
+| `comentarios.usuario_id` -> `usuarios.id_usuario` | Un usuario escribe comentarios |

@@ -210,7 +210,7 @@ WHERE id_usuario = 2;
 
 SELECT nombre_usuario, email, id_rol, deleted
 FROM usuarios;
-
+o
 -- VER SOLO ACTIVOS
 SELECT nombre_usuario, email, id_rol, deleted
 FROM usuarios
