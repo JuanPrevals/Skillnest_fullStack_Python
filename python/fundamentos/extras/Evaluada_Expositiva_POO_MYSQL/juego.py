@@ -1,5 +1,5 @@
 from conexion import Conexion
-from catalogo import Plataforma, Genero, Formato
+from catalogo import Plataforma, Genero, Formato, pedir_id_catalogo
 
 
 class Juego:
@@ -167,15 +167,15 @@ class Juego:
 
         print("\nPLATAFORMAS DISPONIBLES")
         Plataforma.listar()
-        id_plataforma = Juego.pedir_entero("\nNuevo ID plataforma: ")
+        id_plataforma = pedir_id_catalogo("plataforma", "id_plataforma", "Plataforma")
 
         print("\nGENEROS DISPONIBLES")
         Genero.listar()
-        id_genero = Juego.pedir_entero("\nNuevo ID genero: ")
+        id_genero = pedir_id_catalogo("genero", "id_genero", "Genero")
 
         print("\nFORMATOS DISPONIBLES")
         Formato.listar()
-        id_formato = Juego.pedir_entero("\nNuevo ID formato: ")
+        id_formato = pedir_id_catalogo("formato", "id_formato", "Formato")
 
         conexion = Conexion.conectar()
         cursor = conexion.cursor()

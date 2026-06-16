@@ -214,3 +214,45 @@ def eliminar_catalogo(tabla, id_columna, etiqueta):
 
     cursor.close()
     conexion.close()
+
+
+def obtener_id_catalogo(tabla, id_columna, valor):
+    conexion = Conexion.conectar()
+    cursor = conexion.cursor()
+
+    valor = str(valor).strip()
+
+    if valor.isdigit():
+        sql = f"""
+        SELECT {id_columna}
+        FROM {tabla}
+        WHERE {id_columna} = %s AND deleted_at IS NULL
+        """
+    else:
+        sql = f"""
+        SELECT {id_columna}
+        FROM {tabla}
+        WHERE nombre = %s AND deleted_at IS NULL
+        """
+
+    cursor.execute(sql, (valor,))
+    resultado = cursor.fetchone()
+
+    cursor.close()
+    conexion.close()
+
+    if resultado is None:
+        return None
+
+    return resultado[0]
+
+
+def pedir_id_catalogo(tabla, id_columna, etiqueta):
+    while True:
+        valor = input(f"\nID o nombre de {etiqueta.lower()}: ")
+        id_registro = obtener_id_catalogo(tabla, id_columna, valor)
+
+        if id_registro is not None:
+            return id_registro
+
+        print(f"{etiqueta} no existe. Ingrese un ID o nombre valido.")

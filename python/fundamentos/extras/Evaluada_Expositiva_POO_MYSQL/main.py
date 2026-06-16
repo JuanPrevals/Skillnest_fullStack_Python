@@ -1,7 +1,7 @@
 import os
 from usuario import Usuario
 from cliente import Cliente
-from catalogo import Plataforma, Genero, Formato
+from catalogo import Plataforma, Genero, Formato, pedir_id_catalogo
 from juego import Juego
 from compra import Compra
 
@@ -108,15 +108,15 @@ def crear_juego(created_by):
 
     print("\nPLATAFORMAS DISPONIBLES")
     Plataforma.listar()
-    id_plataforma = pedir_entero("\nID plataforma: ")
+    id_plataforma = pedir_id_catalogo("plataforma", "id_plataforma", "Plataforma")
 
     print("\nGENEROS DISPONIBLES")
     Genero.listar()
-    id_genero = pedir_entero("\nID genero: ")
+    id_genero = pedir_id_catalogo("genero", "id_genero", "Genero")
 
     print("\nFORMATOS DISPONIBLES")
     Formato.listar()
-    id_formato = pedir_entero("\nID formato: ")
+    id_formato = pedir_id_catalogo("formato", "id_formato", "Formato")
 
     juego = Juego(
         titulo=titulo,
