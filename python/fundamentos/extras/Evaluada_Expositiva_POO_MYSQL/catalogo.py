@@ -11,7 +11,13 @@ class Plataforma:
         return f"ID: {self.id_plataforma}, Plataforma: {self.nombre}"
 
     def guardar(self):
-        guardar_catalogo("plataforma", "id_plataforma", self.nombre, self.created_by, "Plataforma")
+        guardar_catalogo(
+            "plataforma",
+            "id_plataforma",
+            self.nombre,
+            self.created_by,
+            "Plataforma"
+        )
 
     @staticmethod
     def listar():
@@ -40,7 +46,13 @@ class Genero:
         return f"ID: {self.id_genero}, Genero: {self.nombre}"
 
     def guardar(self):
-        guardar_catalogo("genero", "id_genero", self.nombre, self.created_by, "Genero")
+        guardar_catalogo(
+            "genero",
+            "id_genero",
+            self.nombre,
+            self.created_by,
+            "Genero"
+        )
 
     @staticmethod
     def listar():
@@ -69,7 +81,13 @@ class Formato:
         return f"ID: {self.id_formato}, Formato: {self.nombre}"
 
     def guardar(self):
-        guardar_catalogo("formato", "id_formato", self.nombre, self.created_by, "Formato")
+        guardar_catalogo(
+            "formato",
+            "id_formato",
+            self.nombre,
+            self.created_by,
+            "Formato"
+        )
 
     @staticmethod
     def listar():

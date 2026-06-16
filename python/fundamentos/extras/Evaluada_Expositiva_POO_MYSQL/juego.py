@@ -1,9 +1,19 @@
 from conexion import Conexion
+from catalogo import Plataforma, Genero, Formato
 
 
 class Juego:
-    def __init__(self, id_juego=None, titulo=None, precio=None, stock=None,
-                 id_plataforma=None, id_genero=None, id_formato=None, created_by=1):
+    def __init__(
+        self,
+        id_juego=None,
+        titulo=None,
+        precio=None,
+        stock=None,
+        id_plataforma=None,
+        id_genero=None,
+        id_formato=None,
+        created_by=1
+    ):
         self.id_juego = id_juego
         self.titulo = titulo
         self.precio = precio
@@ -46,6 +56,22 @@ class Juego:
 
         cursor.close()
         conexion.close()
+
+    @staticmethod
+    def pedir_entero(mensaje):
+        while True:
+            try:
+                return int(input(mensaje))
+            except ValueError:
+                print("Debe ingresar un numero entero.")
+
+    @staticmethod
+    def pedir_decimal(mensaje):
+        while True:
+            try:
+                return float(input(mensaje))
+            except ValueError:
+                print("Debe ingresar un numero valido.")
 
     @staticmethod
     def listar():
@@ -134,13 +160,22 @@ class Juego:
 
     @staticmethod
     def actualizar():
-        id_juego = input("Ingrese ID del juego: ")
+        id_juego = Juego.pedir_entero("Ingrese ID del juego: ")
         titulo = input("Nuevo titulo: ")
-        precio = input("Nuevo precio: ")
-        stock = input("Nuevo stock: ")
-        id_plataforma = input("Nuevo ID plataforma: ")
-        id_genero = input("Nuevo ID genero: ")
-        id_formato = input("Nuevo ID formato: ")
+        precio = Juego.pedir_decimal("Nuevo precio: ")
+        stock = Juego.pedir_entero("Nuevo stock: ")
+
+        print("\nPLATAFORMAS DISPONIBLES")
+        Plataforma.listar()
+        id_plataforma = Juego.pedir_entero("\nNuevo ID plataforma: ")
+
+        print("\nGENEROS DISPONIBLES")
+        Genero.listar()
+        id_genero = Juego.pedir_entero("\nNuevo ID genero: ")
+
+        print("\nFORMATOS DISPONIBLES")
+        Formato.listar()
+        id_formato = Juego.pedir_entero("\nNuevo ID formato: ")
 
         conexion = Conexion.conectar()
         cursor = conexion.cursor()
@@ -158,7 +193,15 @@ class Juego:
         WHERE id_juego = %s AND deleted_at IS NULL
         """
 
-        valores = (titulo, precio, stock, id_plataforma, id_genero, id_formato, id_juego)
+        valores = (
+            titulo,
+            precio,
+            stock,
+            id_plataforma,
+            id_genero,
+            id_formato,
+            id_juego
+        )
         cursor.execute(sql, valores)
         conexion.commit()
         print("\nJuego actualizado correctamente.")
@@ -168,7 +211,7 @@ class Juego:
 
     @staticmethod
     def eliminar():
-        id_juego = input("Ingrese ID del juego: ")
+        id_juego = Juego.pedir_entero("Ingrese ID del juego: ")
         conexion = Conexion.conectar()
         cursor = conexion.cursor()
 

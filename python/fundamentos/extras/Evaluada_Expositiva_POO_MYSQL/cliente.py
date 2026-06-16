@@ -2,7 +2,15 @@ from conexion import Conexion
 
 
 class Cliente:
-    def __init__(self, id_cliente=None, rut=None, nombre=None, telefono=None, correo=None, created_by=1):
+    def __init__(
+        self,
+        id_cliente=None,
+        rut=None,
+        nombre=None,
+        telefono=None,
+        correo=None,
+        created_by=1
+    ):
         self.id_cliente = id_cliente
         self.rut = rut
         self.nombre = nombre
@@ -25,7 +33,16 @@ class Cliente:
         VALUES (%s, %s, %s, %s, %s)
         """
 
-        cursor.execute(sql, (self.rut, self.nombre, self.telefono, self.correo, self.created_by))
+        cursor.execute(
+            sql,
+            (
+                self.rut,
+                self.nombre,
+                self.telefono,
+                self.correo,
+                self.created_by
+            )
+        )
         conexion.commit()
         print("\nCliente creado correctamente.")
 
@@ -108,7 +125,16 @@ class Cliente:
         WHERE id_cliente = %s AND deleted_at IS NULL
         """
 
-        cursor.execute(sql, (rut, nombre, telefono, correo, id_cliente))
+        cursor.execute(
+            sql,
+            (
+                rut,
+                nombre,
+                telefono,
+                correo,
+                id_cliente
+            )
+        )
         conexion.commit()
         print("\nCliente actualizado correctamente.")
 

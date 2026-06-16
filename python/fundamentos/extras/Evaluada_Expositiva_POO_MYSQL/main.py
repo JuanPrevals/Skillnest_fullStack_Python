@@ -30,102 +30,77 @@ def pedir_decimal(mensaje):
             print("Debe ingresar un numero valido.")
 
 
-def iniciar_sesion():
+def pedir_usuario_responsable():
     while True:
-        limpiar_consola()
-        print("\n===================================")
-        print("     INICIO DE SESION")
-        print("===================================")
         Usuario.listar()
-        id_usuario = pedir_entero("\nID del usuario que usara el sistema: ")
+        id_usuario = pedir_entero("\nID del usuario que realiza la accion: ")
         usuario = Usuario.obtener_por_id(id_usuario)
 
         if usuario is None:
             print("\nUsuario no encontrado.")
-            pausar()
             continue
 
-        if usuario["tipo_usuario"] == "Administrador":
-            password = input("Password de administrador: ")
-            if not Usuario.validar_password(usuario, password):
-                print("\nPassword incorrecta.")
-                pausar()
-                continue
-
-        print(f"\nSesion iniciada como {usuario['nombre_usuario']} ({usuario['tipo_usuario']}).")
-        pausar()
-        return usuario
+        return id_usuario
 
 
-def mostrar_usuario_actual(usuario_actual):
-    print(f"Usuario actual: {usuario_actual['nombre_usuario']} | Rol: {usuario_actual['tipo_usuario']}")
-
-
-def sin_permiso():
-    print("\nNo tiene permiso para realizar esta operacion.")
-
-
-def crear_usuario(usuario_actual):
+def crear_usuario(created_by):
     print("\n===== NUEVO USUARIO =====")
     nombre_usuario = input("Nombre de usuario: ")
     correo = input("Correo: ")
-
-    Usuario.listar_tipos()
-    id_tipo_usuario = pedir_entero("\nID del rol que tendra el usuario: ")
-
-    password = None
-    if id_tipo_usuario == 1:
-        while not password:
-            password = input("Password para el administrador: ")
-            if not password:
-                print("El rol Administrador requiere password.")
+    password = ""
+    while not password:
+        password = input("Password: ")
+        if not password:
+            print("La password es obligatoria.")
 
     usuario = Usuario(
         nombre_usuario=nombre_usuario,
         correo=correo,
-        id_tipo_usuario=id_tipo_usuario,
         password=password,
-        created_by=usuario_actual["id_usuario"]
+        created_by=created_by
     )
     usuario.guardar()
 
 
-def crear_cliente(usuario_actual):
+def crear_cliente(created_by):
     print("\n===== NUEVO CLIENTE =====")
     rut = input("RUT: ")
     nombre = input("Nombre: ")
     telefono = input("Telefono: ")
     correo = input("Correo: ")
-    created_by = usuario_actual["id_usuario"]
-    cliente = Cliente(rut=rut, nombre=nombre, telefono=telefono, correo=correo, created_by=created_by)
+
+    cliente = Cliente(
+        rut=rut,
+        nombre=nombre,
+        telefono=telefono,
+        correo=correo,
+        created_by=created_by
+    )
     cliente.guardar()
 
 
-def crear_plataforma(usuario_actual):
+def crear_plataforma(created_by):
     print("\n===== NUEVA PLATAFORMA =====")
     nombre = input("Nombre: ")
-    created_by = usuario_actual["id_usuario"]
     plataforma = Plataforma(nombre=nombre, created_by=created_by)
     plataforma.guardar()
 
 
-def crear_genero(usuario_actual):
+def crear_genero(created_by):
     print("\n===== NUEVO GENERO =====")
     nombre = input("Nombre: ")
-    created_by = usuario_actual["id_usuario"]
     genero = Genero(nombre=nombre, created_by=created_by)
     genero.guardar()
 
 
-def crear_formato(usuario_actual):
+def crear_formato(created_by):
     print("\n===== NUEVO FORMATO =====")
     nombre = input("Nombre: ")
-    created_by = usuario_actual["id_usuario"]
     formato = Formato(nombre=nombre, created_by=created_by)
     formato.guardar()
 
 
-def crear_juego(usuario_actual):
+def crear_juego(created_by):
     print("\n===== NUEVO JUEGO =====")
     titulo = input("Titulo: ")
     precio = pedir_decimal("Precio: ")
@@ -143,8 +118,6 @@ def crear_juego(usuario_actual):
     Formato.listar()
     id_formato = pedir_entero("\nID formato: ")
 
-    created_by = usuario_actual["id_usuario"]
-
     juego = Juego(
         titulo=titulo,
         precio=precio,
@@ -157,7 +130,7 @@ def crear_juego(usuario_actual):
     juego.guardar()
 
 
-def crear_compra(usuario_actual):
+def crear_compra(created_by):
     print("\n===== NUEVA COMPRA =====")
 
     print("\nCLIENTES DISPONIBLES")
@@ -169,7 +142,6 @@ def crear_compra(usuario_actual):
     id_juego = pedir_entero("\nID juego: ")
 
     cantidad = pedir_entero("Cantidad: ")
-    created_by = usuario_actual["id_usuario"]
 
     compra = Compra(
         id_cliente=id_cliente,
@@ -180,47 +152,34 @@ def crear_compra(usuario_actual):
     compra.guardar()
 
 
-def menu_crud(titulo, listar, buscar, crear, actualizar, eliminar, usuario_actual):
+def menu_crud(titulo, listar, buscar, crear, actualizar, eliminar):
     while True:
         limpiar_consola()
         print("\n===================================")
         print(f"     C.R.U.D {titulo.upper()}")
         print("===================================")
-        mostrar_usuario_actual(usuario_actual)
         print("1. Listar")
         print("2. Buscar")
-        print("3. Crear" if usuario_actual["puede_crear"] else "3. Crear (sin permiso)")
-        print("4. Actualizar" if usuario_actual["puede_actualizar"] else "4. Actualizar (sin permiso)")
-        print("5. Eliminar" if usuario_actual["puede_eliminar"] else "5. Eliminar (sin permiso)")
+        print("3. Crear")
+        print("4. Actualizar")
+        print("5. Eliminar")
         print("6. Volver")
 
         opcion = input("\nSeleccione una opcion: ")
 
         if opcion == "1":
-            if usuario_actual["puede_leer"]:
-                listar()
-            else:
-                sin_permiso()
+            listar()
         elif opcion == "2":
-            if usuario_actual["puede_leer"]:
-                buscar()
-            else:
-                sin_permiso()
+            buscar()
         elif opcion == "3":
-            if usuario_actual["puede_crear"]:
-                crear(usuario_actual)
-            else:
-                sin_permiso()
+            created_by = pedir_usuario_responsable()
+            crear(created_by)
         elif opcion == "4":
-            if usuario_actual["puede_actualizar"]:
-                actualizar()
-            else:
-                sin_permiso()
+            pedir_usuario_responsable()
+            actualizar()
         elif opcion == "5":
-            if usuario_actual["puede_eliminar"]:
-                eliminar()
-            else:
-                sin_permiso()
+            pedir_usuario_responsable()
+            eliminar()
         elif opcion == "6":
             break
         else:
@@ -230,14 +189,11 @@ def menu_crud(titulo, listar, buscar, crear, actualizar, eliminar, usuario_actua
 
 
 def main():
-    usuario_actual = iniciar_sesion()
-
     while True:
         limpiar_consola()
         print("\n===================================")
         print("     TIENDA DE VIDEOJUEGOS")
         print("===================================")
-        mostrar_usuario_actual(usuario_actual)
         print("1. CRUD usuarios")
         print("2. CRUD clientes")
         print("3. CRUD plataformas")
@@ -250,19 +206,14 @@ def main():
         opcion = input("\nSeleccione una opcion: ")
 
         if opcion == "1":
-            if usuario_actual["puede_gestionar_usuarios"]:
-                menu_crud(
-                    "usuarios",
-                    Usuario.listar,
-                    Usuario.buscar,
-                    crear_usuario,
-                    Usuario.actualizar,
-                    Usuario.eliminar,
-                    usuario_actual
-                )
-            else:
-                sin_permiso()
-                pausar()
+            menu_crud(
+                "usuarios",
+                Usuario.listar,
+                Usuario.buscar,
+                crear_usuario,
+                Usuario.actualizar,
+                Usuario.eliminar
+            )
         elif opcion == "2":
             menu_crud(
                 "clientes",
@@ -270,8 +221,7 @@ def main():
                 Cliente.buscar,
                 crear_cliente,
                 Cliente.actualizar,
-                Cliente.eliminar,
-                usuario_actual
+                Cliente.eliminar
             )
         elif opcion == "3":
             menu_crud(
@@ -280,8 +230,7 @@ def main():
                 Plataforma.buscar,
                 crear_plataforma,
                 Plataforma.actualizar,
-                Plataforma.eliminar,
-                usuario_actual
+                Plataforma.eliminar
             )
         elif opcion == "4":
             menu_crud(
@@ -290,8 +239,7 @@ def main():
                 Genero.buscar,
                 crear_genero,
                 Genero.actualizar,
-                Genero.eliminar,
-                usuario_actual
+                Genero.eliminar
             )
         elif opcion == "5":
             menu_crud(
@@ -300,8 +248,7 @@ def main():
                 Formato.buscar,
                 crear_formato,
                 Formato.actualizar,
-                Formato.eliminar,
-                usuario_actual
+                Formato.eliminar
             )
         elif opcion == "6":
             menu_crud(
@@ -310,8 +257,7 @@ def main():
                 Juego.buscar,
                 crear_juego,
                 Juego.actualizar,
-                Juego.eliminar,
-                usuario_actual
+                Juego.eliminar
             )
         elif opcion == "7":
             menu_crud(
@@ -320,8 +266,7 @@ def main():
                 Compra.buscar,
                 crear_compra,
                 Compra.actualizar,
-                Compra.eliminar,
-                usuario_actual
+                Compra.eliminar
             )
         elif opcion == "8":
             print("\nPrograma finalizado.")

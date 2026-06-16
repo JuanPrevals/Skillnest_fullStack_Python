@@ -18,44 +18,10 @@ CREATE SCHEMA IF NOT EXISTS `tienda_videojuegos` DEFAULT CHARACTER SET utf8mb4 C
 USE `tienda_videojuegos` ;
 
 -- -----------------------------------------------------
--- Table `tienda_videojuegos`.`tipo_usuario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tienda_videojuegos`.`tipo_usuario` (
-  `id_tipo_usuario` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(40) NOT NULL,
-  `descripcion` VARCHAR(150) NULL DEFAULT NULL,
-  `puede_crear` TINYINT NOT NULL DEFAULT 0,
-  `puede_leer` TINYINT NOT NULL DEFAULT 1,
-  `puede_actualizar` TINYINT NOT NULL DEFAULT 0,
-  `puede_eliminar` TINYINT NOT NULL DEFAULT 0,
-  `puede_gestionar_usuarios` TINYINT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id_tipo_usuario`),
-  UNIQUE INDEX `nombre` (`nombre` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_spanish_ci;
-
-INSERT INTO `tienda_videojuegos`.`tipo_usuario`
-(`id_tipo_usuario`, `nombre`, `descripcion`, `puede_crear`, `puede_leer`, `puede_actualizar`, `puede_eliminar`, `puede_gestionar_usuarios`)
-VALUES
-(1, 'Administrador', 'Puede realizar todas las operaciones del sistema.', 1, 1, 1, 1, 1),
-(2, 'Vendedor', 'Puede registrar, consultar y actualizar datos, pero no eliminar ni administrar usuarios.', 1, 1, 1, 0, 0),
-(3, 'Consulta', 'Solo puede listar y buscar informacion.', 0, 1, 0, 0, 0)
-ON DUPLICATE KEY UPDATE
-  descripcion = VALUES(descripcion),
-  puede_crear = VALUES(puede_crear),
-  puede_leer = VALUES(puede_leer),
-  puede_actualizar = VALUES(puede_actualizar),
-  puede_eliminar = VALUES(puede_eliminar),
-  puede_gestionar_usuarios = VALUES(puede_gestionar_usuarios);
-
-
--- -----------------------------------------------------
 -- Table `tienda_videojuegos`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tienda_videojuegos`.`usuario` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
-  `id_tipo_usuario` INT NOT NULL DEFAULT 2,
   `nombre_usuario` VARCHAR(80) NOT NULL,
   `correo` VARCHAR(120) NOT NULL,
   `password_hash` VARCHAR(64) NULL DEFAULT NULL,
@@ -64,22 +30,17 @@ CREATE TABLE IF NOT EXISTS `tienda_videojuegos`.`usuario` (
   `updated_at` DATETIME NULL DEFAULT NULL,
   `deleted_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
-  UNIQUE INDEX `correo` (`correo` ASC) VISIBLE,
-  INDEX `id_tipo_usuario` (`id_tipo_usuario` ASC) VISIBLE,
-  CONSTRAINT `usuario_ibfk_1`
-    FOREIGN KEY (`id_tipo_usuario`)
-    REFERENCES `tienda_videojuegos`.`tipo_usuario` (`id_tipo_usuario`))
+  UNIQUE INDEX `correo` (`correo` ASC) VISIBLE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
 
 INSERT INTO `tienda_videojuegos`.`usuario`
-(`id_usuario`, `id_tipo_usuario`, `nombre_usuario`, `correo`, `password_hash`)
+(`id_usuario`, `nombre_usuario`, `correo`, `password_hash`)
 VALUES
-(1, 1, 'admin', 'admin@tienda.cl', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9')
+(1, 'admin', 'admin@tienda.cl', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9')
 ON DUPLICATE KEY UPDATE
-  id_tipo_usuario = VALUES(id_tipo_usuario),
   password_hash = VALUES(password_hash),
   deleted_at = NULL;
 

@@ -2,8 +2,15 @@ from conexion import Conexion
 
 
 class Compra:
-    def __init__(self, id_compra=None, id_cliente=None, id_juego=None,
-                 cantidad=None, precio_unitario=None, created_by=1):
+    def __init__(
+        self,
+        id_compra=None,
+        id_cliente=None,
+        id_juego=None,
+        cantidad=None,
+        precio_unitario=None,
+        created_by=1
+    ):
         self.id_compra = id_compra
         self.id_cliente = id_cliente
         self.id_juego = id_juego
