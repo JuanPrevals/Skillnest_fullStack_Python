@@ -52,7 +52,7 @@ class Compra:
 
             cursor.execute(sql_usuario, (self.created_by,))
             if cursor.fetchone() is None:
-                print("\nEl usuario creador no existe.")
+                print("\nEl usuario que realiza la compra no existe.")
                 return
 
             sql_juego = """
