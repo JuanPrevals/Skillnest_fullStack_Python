@@ -69,6 +69,18 @@ AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
 
+INSERT INTO `tienda_videojuegos`.`cliente`
+(`id_cliente`, `rut`, `nombre`, `telefono`, `correo`, `created_by`)
+VALUES
+(1, '11111111-1', 'Carlos Perez', '+56911111111', 'carlos.perez@mail.com', 1),
+(2, '22222222-2', 'Ana Torres', '+56922222222', 'ana.torres@mail.com', 1),
+(3, '33333333-3', 'Luis Ramirez', '+56933333333', 'luis.ramirez@mail.com', 1)
+ON DUPLICATE KEY UPDATE
+  nombre = VALUES(nombre),
+  telefono = VALUES(telefono),
+  correo = VALUES(correo),
+  deleted_at = NULL;
+
 
 -- -----------------------------------------------------
 -- Table `tienda_videojuegos`.`plataforma`
@@ -90,6 +102,17 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
+
+INSERT INTO `tienda_videojuegos`.`plataforma`
+(`id_plataforma`, `nombre`, `created_by`)
+VALUES
+(1, 'PS5', 1),
+(2, 'Xbox Series X', 1),
+(3, 'PC', 1),
+(4, 'Nintendo Switch', 1)
+ON DUPLICATE KEY UPDATE
+  nombre = VALUES(nombre),
+  deleted_at = NULL;
 
 
 -- -----------------------------------------------------
@@ -113,6 +136,17 @@ AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
 
+INSERT INTO `tienda_videojuegos`.`genero`
+(`id_genero`, `nombre`, `created_by`)
+VALUES
+(1, 'Accion', 1),
+(2, 'Aventura', 1),
+(3, 'Deportes', 1),
+(4, 'Carreras', 1)
+ON DUPLICATE KEY UPDATE
+  nombre = VALUES(nombre),
+  deleted_at = NULL;
+
 
 -- -----------------------------------------------------
 -- Table `tienda_videojuegos`.`formato`
@@ -134,6 +168,15 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
+
+INSERT INTO `tienda_videojuegos`.`formato`
+(`id_formato`, `nombre`, `created_by`)
+VALUES
+(1, 'Fisico', 1),
+(2, 'Digital', 1)
+ON DUPLICATE KEY UPDATE
+  nombre = VALUES(nombre),
+  deleted_at = NULL;
 
 
 -- -----------------------------------------------------
@@ -173,6 +216,23 @@ AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
 
+INSERT INTO `tienda_videojuegos`.`juego`
+(`id_juego`, `titulo`, `precio`, `stock`, `id_plataforma`, `id_genero`, `id_formato`, `created_by`)
+VALUES
+(1, 'Spider-Man 2', 49990.00, 10, 1, 1, 1, 1),
+(2, 'FIFA 25', 59990.00, 8, 1, 3, 2, 1),
+(3, 'Forza Horizon 5', 45990.00, 6, 2, 4, 2, 1),
+(4, 'Minecraft', 29990.00, 13, 3, 2, 2, 1),
+(5, 'Mario Kart 8 Deluxe', 54990.00, 5, 4, 4, 1, 1)
+ON DUPLICATE KEY UPDATE
+  titulo = VALUES(titulo),
+  precio = VALUES(precio),
+  stock = VALUES(stock),
+  id_plataforma = VALUES(id_plataforma),
+  id_genero = VALUES(id_genero),
+  id_formato = VALUES(id_formato),
+  deleted_at = NULL;
+
 
 -- -----------------------------------------------------
 -- Table `tienda_videojuegos`.`compra_juego`
@@ -205,6 +265,19 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_spanish_ci;
+
+INSERT INTO `tienda_videojuegos`.`compra_juego`
+(`id_compra`, `id_cliente`, `id_juego`, `cantidad`, `precio_unitario`, `created_by`)
+VALUES
+(1, 1, 1, 1, 49990.00, 1),
+(2, 2, 4, 2, 29990.00, 1),
+(3, 3, 2, 1, 59990.00, 1)
+ON DUPLICATE KEY UPDATE
+  id_cliente = VALUES(id_cliente),
+  id_juego = VALUES(id_juego),
+  cantidad = VALUES(cantidad),
+  precio_unitario = VALUES(precio_unitario),
+  deleted_at = NULL;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
