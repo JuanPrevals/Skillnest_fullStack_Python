@@ -1,5 +1,4 @@
 from conexion import Conexion
-from juego import Juego
 
 
 class Compra:
@@ -29,52 +28,86 @@ class Compra:
         conexion = Conexion.conectar()
         cursor = conexion.cursor()
 
-        sql_precio = """
-        SELECT precio
-        FROM juego
-        WHERE id_juego = %s AND deleted_at IS NULL
-        """
+        try:
+            if self.cantidad <= 0:
+                print("\nLa cantidad debe ser mayor a cero.")
+                return
 
-        cursor.execute(sql_precio, (self.id_juego,))
-        resultado = cursor.fetchone()
+            sql_cliente = """
+            SELECT id_cliente
+            FROM cliente
+            WHERE id_cliente = %s AND deleted_at IS NULL
+            """
 
-        if resultado is None:
-            print("\nEl juego no existe.")
+            cursor.execute(sql_cliente, (self.id_cliente,))
+            if cursor.fetchone() is None:
+                print("\nEl cliente no existe.")
+                return
+
+            sql_usuario = """
+            SELECT id_usuario
+            FROM usuario
+            WHERE id_usuario = %s AND deleted_at IS NULL
+            """
+
+            cursor.execute(sql_usuario, (self.created_by,))
+            if cursor.fetchone() is None:
+                print("\nEl usuario creador no existe.")
+                return
+
+            sql_juego = """
+            SELECT precio, stock
+            FROM juego
+            WHERE id_juego = %s AND deleted_at IS NULL
+            FOR UPDATE
+            """
+
+            cursor.execute(sql_juego, (self.id_juego,))
+            resultado = cursor.fetchone()
+
+            if resultado is None:
+                print("\nEl juego no existe.")
+                return
+
+            self.precio_unitario = resultado[0]
+            stock = resultado[1]
+
+            if stock < self.cantidad:
+                print("\nNo hay stock suficiente.")
+                return
+
+            sql_update_stock = """
+            UPDATE juego
+            SET stock = stock - %s, updated_at = NOW()
+            WHERE id_juego = %s AND deleted_at IS NULL
+            """
+
+            cursor.execute(sql_update_stock, (self.cantidad, self.id_juego))
+
+            sql_compra = """
+            INSERT INTO compra_juego
+            (id_cliente, id_juego, cantidad, precio_unitario, created_by)
+            VALUES (%s, %s, %s, %s, %s)
+            """
+
+            valores = (
+                self.id_cliente,
+                self.id_juego,
+                self.cantidad,
+                self.precio_unitario,
+                self.created_by
+            )
+
+            cursor.execute(sql_compra, valores)
+            conexion.commit()
+            print("\nCompra registrada correctamente.")
+
+        except Exception:
+            conexion.rollback()
+            raise
+        finally:
             cursor.close()
             conexion.close()
-            return
-
-        self.precio_unitario = resultado[0]
-        cursor.close()
-        conexion.close()
-
-        if not Juego.vender(self.id_juego, self.cantidad):
-            print("\nNo hay stock suficiente.")
-            return
-
-        conexion = Conexion.conectar()
-        cursor = conexion.cursor()
-
-        sql = """
-        INSERT INTO compra_juego
-        (id_cliente, id_juego, cantidad, precio_unitario, created_by)
-        VALUES (%s, %s, %s, %s, %s)
-        """
-
-        valores = (
-            self.id_cliente,
-            self.id_juego,
-            self.cantidad,
-            self.precio_unitario,
-            self.created_by
-        )
-
-        cursor.execute(sql, valores)
-        conexion.commit()
-        print("\nCompra registrada correctamente.")
-
-        cursor.close()
-        conexion.close()
 
     @staticmethod
     def listar():

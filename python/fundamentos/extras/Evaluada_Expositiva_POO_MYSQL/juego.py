@@ -187,6 +187,9 @@ class Juego:
 
     @staticmethod
     def vender(id_juego, cantidad):
+        if cantidad <= 0:
+            return False
+
         conexion = Conexion.conectar()
         cursor = conexion.cursor()
 
