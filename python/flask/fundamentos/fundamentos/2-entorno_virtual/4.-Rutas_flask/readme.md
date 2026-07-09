@@ -1,21 +1,37 @@
-# 🚀 Lección 3 - ¡Hola, Flask!
+# 🌐 Lección 4 - Rutas en Flask
 
 > **Curso:** Desarrollo Web con Flask desde Cero  
-> **Lección 3:** Creando nuestro primer servidor web con Flask.
+> **Lección 4:** Rutas (Routes) en Flask  
+> **Duración estimada:** 60 - 90 minutos
 
 ---
 
 # 📖 Descripción General
 
-¡Ha llegado el momento de crear nuestra primera aplicación web con Flask!
+Hasta ahora hemos construido nuestro primer servidor web con Flask y aprendido cómo responder con el clásico **"¡Hola Mundo!"**.
 
-Hasta ahora hemos preparado nuestro entorno de desarrollo e instalado todas las herramientas necesarias. En esta lección construiremos un servidor web muy sencillo que responderá con el clásico mensaje:
+Sin embargo, una aplicación web real no posee una única página. Un sistema web normalmente cuenta con decenas o incluso cientos de páginas diferentes.
 
-> **¡Hola Mundo!**
+Por ejemplo:
 
-Aunque parezca un ejemplo muy simple, este proyecto representa el punto de partida de prácticamente cualquier aplicación desarrollada con Flask.
+- Página de inicio
+- Iniciar sesión
+- Registro de usuarios
+- Perfil del usuario
+- Lista de productos
+- Panel de administración
+- Contacto
+- Reportes
 
-A partir de aquí comprenderemos cómo recibe solicitudes un servidor, cómo responde a un navegador y cómo comienza a construirse una aplicación web profesional.
+¿Cómo sabe Flask qué función ejecutar cuando un usuario visita una dirección determinada?
+
+La respuesta son **las rutas (Routes).**
+
+Las rutas son uno de los componentes más importantes de Flask. Cada vez que un usuario escribe una dirección en el navegador o hace clic sobre un enlace, Flask identifica la ruta solicitada y ejecuta la función correspondiente.
+
+En esta lección aprenderemos a crear rutas estáticas, rutas dinámicas, recibir parámetros desde la URL y utilizar convertidores de tipo para validar automáticamente los datos recibidos.
+
+Estos conceptos serán utilizados durante todo el curso.
 
 ---
 
@@ -23,19 +39,134 @@ A partir de aquí comprenderemos cómo recibe solicitudes un servidor, cómo res
 
 Al finalizar esta lección serás capaz de:
 
-- Crear tu primer servidor utilizando Flask.
-- Comprender la estructura mínima de una aplicación Flask.
-- Entender qué es una ruta (Route).
-- Comprender qué es un decorador.
-- Ejecutar una aplicación Flask.
-- Acceder al servidor desde el navegador.
-- Comprender cómo ocurre la comunicación entre el navegador y el servidor.
+- Comprender qué es una ruta dentro de una aplicación web.
+- Crear múltiples rutas en Flask.
+- Asociar una URL a una función.
+- Recibir parámetros desde la URL.
+- Crear rutas dinámicas.
+- Utilizar convertidores de tipo.
+- Comprender el flujo completo entre navegador y servidor.
 
 ---
 
-# 📂 Estructura del proyecto
+# 📚 Antes de comenzar
 
-Dentro de la carpeta creada en la lección anterior (**hola_flask**) crearemos nuestro primer archivo de Python.
+En esta lección continuaremos trabajando sobre el proyecto creado en las clases anteriores.
+
+Si vienes comenzando el curso o deseas crear el proyecto nuevamente, sigue el siguiente procedimiento desde cero.
+
+---
+
+# 🏗 Paso 1. Crear la carpeta del proyecto
+
+Crea la siguiente estructura de carpetas.
+
+```text
+python/
+│
+└── flask/
+      │
+      └── fundamentos/
+              │
+              └── hola_flask/
+```
+
+La carpeta **hola_flask** será nuestro proyecto Flask.
+
+---
+
+# 🖥 Paso 2. Abrir el proyecto con Visual Studio Code
+
+Abre **Visual Studio Code**.
+
+Selecciona:
+
+```
+Archivo
+    ↓
+Abrir carpeta...
+```
+
+Luego selecciona la carpeta:
+
+```text
+hola_flask
+```
+
+---
+
+# 💻 Paso 3. Abrir una terminal
+
+Dentro de VS Code selecciona:
+
+```
+Terminal
+      ↓
+Nueva Terminal
+```
+
+La terminal debería ubicarse dentro del proyecto.
+
+Puedes comprobarlo ejecutando.
+
+### Windows
+
+```bash
+cd
+```
+
+### macOS / Linux
+
+```bash
+pwd
+```
+
+El resultado debería terminar en:
+
+```text
+hola_flask
+```
+
+---
+
+# 📦 Paso 4. Instalar Flask (si aún no está instalado)
+
+Si es la primera vez que trabajas con este proyecto ejecuta:
+
+```bash
+pipenv install flask
+```
+
+Esto realizará automáticamente:
+
+- Creación del entorno virtual.
+- Instalación de Flask.
+- Creación del archivo `Pipfile`.
+- Creación del archivo `Pipfile.lock`.
+
+---
+
+# 🟢 Paso 5. Activar el entorno virtual
+
+Antes de ejecutar cualquier aplicación debemos activar el entorno virtual.
+
+```bash
+pipenv shell
+```
+
+Cuando esté activo aparecerá algo similar a:
+
+```text
+(hola_flask)
+```
+
+Eso significa que estamos trabajando dentro del entorno del proyecto.
+
+---
+
+# 📁 Paso 6. Verificar la estructura
+
+Nuestra carpeta debería verse así.
 
 ```text
 hola_flask/
@@ -45,21 +176,15 @@ hola_flask/
 └── server.py
 ```
 
-> **¿Por qué `server.py`?**
->
-> Este archivo será el punto de entrada de nuestra aplicación. Aquí escribiremos la lógica principal del servidor y definiremos las rutas que responderán a las solicitudes de los usuarios.
+Si aún no tienes el archivo `server.py`, créalo ahora.
 
 ---
 
-# 💻 Nuestro primer servidor
+# 💻 Paso 7. Abrir el archivo server.py
 
-Crea un archivo llamado:
+Este archivo contiene nuestro servidor Flask.
 
-```text
-server.py
-```
-
-Y escribe el siguiente código:
+Hasta este momento debería verse aproximadamente así.
 
 ```python
 from flask import Flask
@@ -67,183 +192,119 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
-def hola_mundo():
+def inicio():
     return "¡Hola Mundo!"
 
 if __name__ == "__main__":
     app.run(debug=True)
 ```
 
----
-
-# 🔍 Analizando el código paso a paso
-
-Veamos qué hace cada línea del programa.
+A partir de este código comenzaremos a trabajar.
 
 ---
 
-## 1️⃣ Importar Flask
+# 🌎 ¿Qué es una ruta?
+
+Una ruta (**Route**) representa una dirección dentro de una aplicación web.
+
+Cada vez que un usuario escribe una dirección en el navegador, Flask analiza esa URL y decide qué función ejecutar.
+
+Por ejemplo.
+
+| URL | Función |
+|------|----------|
+| `/` | Página principal |
+| `/login` | Inicio de sesión |
+| `/productos` | Catálogo |
+| `/usuarios` | Lista de usuarios |
+| `/contacto` | Página de contacto |
+
+Cada una de estas páginas corresponde a una función diferente dentro del servidor.
+
+---
+
+# 🧩 Componentes de una ruta
+
+Una ruta está formada por dos elementos.
+
+## 🔤 Método HTTP
+
+Indica qué acción desea realizar el cliente.
+
+Los más utilizados son.
+
+| Método | Uso |
+|---------|---------------------------|
+| GET | Obtener información |
+| POST | Enviar información |
+| PUT | Actualizar información |
+| PATCH | Actualizar parcialmente |
+| DELETE | Eliminar información |
+
+Durante estas primeras clases utilizaremos únicamente **GET**.
+
+---
+
+## 🔗 URL
+
+Es la dirección que visita el usuario.
+
+Ejemplo.
+
+```
+http://localhost:5000/productos
+```
+
+Aquí:
+
+Servidor
+
+```
+http://localhost:5000
+```
+
+Ruta
+
+```
+/productos
+```
+
+---
+
+# 🏗 Creando nuestra segunda ruta
+
+Debajo de la ruta principal agregaremos una nueva.
+
+```python
+@app.route("/exito")
+def exito():
+    return "¡Éxito!"
+```
+
+Ahora nuestro servidor completo será:
 
 ```python
 from flask import Flask
-```
 
-Aquí importamos la clase **Flask**, que pertenece al framework.
-
-Sin esta importación no podríamos crear una aplicación web.
-
-Piensa en esta línea como cuando importamos una librería de Python para utilizar sus funciones.
-
----
-
-## 2️⃣ Crear la aplicación
-
-```python
 app = Flask(__name__)
-```
 
-Aquí estamos creando un objeto llamado **app**.
-
-Este objeto representa toda nuestra aplicación web.
-
-A partir de este momento podremos utilizar métodos como:
-
-- Crear rutas.
-- Ejecutar el servidor.
-- Configurar la aplicación.
-- Registrar extensiones.
-
----
-
-### ¿Qué significa `__name__`?
-
-Python posee una variable especial llamada:
-
-```python
-__name__
-```
-
-Flask la utiliza para identificar dónde se encuentra el proyecto y localizar correctamente archivos como:
-
-- HTML
-- CSS
-- JavaScript
-- Imágenes
-
-Por ahora basta con saber que **siempre utilizaremos esta instrucción** al crear una aplicación Flask.
-
----
-
-## 3️⃣ Crear una ruta
-
-```python
 @app.route("/")
-```
+def inicio():
+    return "¡Hola Mundo!"
 
-Esta línea indica que cuando un usuario visite la dirección:
+@app.route("/exito")
+def exito():
+    return "¡Éxito!"
 
-```
-http://localhost:5000/
-```
-
-Flask ejecutará la función ubicada inmediatamente debajo.
-
-A esta línea se le conoce como **decorador**.
-
----
-
-## 📌 ¿Qué es un decorador?
-
-Un decorador es una instrucción especial de Python que modifica el comportamiento de una función.
-
-En Flask, los decoradores se utilizan principalmente para asociar una **URL** con una función.
-
-Por ejemplo:
-
-```python
-@app.route("/")
-```
-
-significa:
-
-> "Cuando alguien visite la ruta `/`, ejecuta esta función."
-
-Más adelante aprenderemos a crear muchas rutas diferentes.
-
----
-
-## 4️⃣ Crear la función
-
-```python
-def hola_mundo():
-```
-
-Esta función será ejecutada únicamente cuando alguien visite la ruta `/`.
-
-En Flask, cada ruta normalmente posee una función asociada.
-
----
-
-## 5️⃣ Enviar una respuesta
-
-```python
-return "¡Hola Mundo!"
-```
-
-La palabra reservada `return` indica qué información enviará el servidor al navegador.
-
-En este caso la respuesta será simplemente un texto.
-
-Más adelante devolveremos:
-
-- HTML
-- JSON
-- Imágenes
-- Archivos
-- Plantillas dinámicas
-
----
-
-## 6️⃣ Ejecutar la aplicación
-
-```python
 if __name__ == "__main__":
     app.run(debug=True)
 ```
 
-Esta sección inicia el servidor Flask.
-
-Mientras el servidor esté ejecutándose permanecerá esperando solicitudes provenientes del navegador.
-
 ---
 
-# 🐞 ¿Qué significa `debug=True`?
+# ▶️ Paso 8. Ejecutar el servidor
 
-El modo **Debug** es una herramienta muy útil durante el desarrollo.
-
-```python
-app.run(debug=True)
-```
-
-Cuando está activado:
-
-- Reinicia automáticamente el servidor cuando guardamos cambios.
-- Muestra información detallada sobre errores.
-- Facilita el proceso de desarrollo.
-
-> **Importante:** El modo Debug solo debe utilizarse durante el desarrollo. En aplicaciones publicadas en producción debe estar desactivado por motivos de seguridad.
-
----
-
-# ▶️ Ejecutar nuestra aplicación
-
-Antes de ejecutar el proyecto debemos activar el entorno virtual.
-
-```bash
-pipenv shell
-```
-
-Luego ejecutamos el servidor.
+Con el entorno virtual activo ejecuta:
 
 ## Windows
 
@@ -257,286 +318,502 @@ python server.py
 python3 server.py
 ```
 
-Si todo salió correctamente veremos un resultado similar a este:
+Si todo salió correctamente aparecerá:
 
 ```text
-* Serving Flask app 'server'
-* Debug mode: on
-
 * Running on http://127.0.0.1:5000
 ```
 
-Esto significa que nuestro servidor está funcionando correctamente.
-
 ---
 
-# 🌐 Abrir la aplicación en el navegador
+# 🌐 Paso 9. Probar la nueva ruta
 
-Ahora abre tu navegador favorito e ingresa una de las siguientes direcciones.
+Abre el navegador.
 
-```
-http://127.0.0.1:5000/
-```
-
-o
+Visita:
 
 ```
-http://localhost:5000/
+http://localhost:5000/exito
 ```
 
-El navegador mostrará:
+El navegador responderá:
 
 ```text
-¡Hola Mundo!
-```
-
-🎉 **¡Acabas de crear tu primer servidor web con Flask!**
-
----
-
-# 🤔 ¿Qué es `localhost`?
-
-Cuando escribimos:
-
-```
-http://localhost:5000/
-```
-
-estamos indicando al navegador que se conecte a **nuestro propio computador**.
-
-`localhost` siempre hace referencia al equipo desde donde estamos trabajando.
-
-Su dirección IP equivalente es:
-
-```
-127.0.0.1
-```
-
-Por eso ambas direcciones funcionan exactamente igual:
-
-```
-http://localhost:5000/
-```
-
-```
-http://127.0.0.1:5000/
+¡Éxito!
 ```
 
 ---
 
-# 🔢 ¿Qué es el puerto 5000?
+# 🤔 ¿Y si queremos saludar a cualquier persona?
 
-Un computador puede ejecutar muchos servicios al mismo tiempo.
+Podríamos crear:
 
-Cada servicio escucha en un número llamado **puerto**.
-
-Ejemplos:
-
-| Puerto | Servicio |
-|---------|----------|
-| 80 | HTTP |
-| 443 | HTTPS |
-| 3306 | MySQL |
-| 5000 | Flask (por defecto) |
-
-Cuando escribimos:
-
-```
-http://localhost:5000/
+```python
+/saludo/juan
 ```
 
-estamos indicando:
+```python
+/saludo/pedro
+```
 
-- Conéctate a mi computador.
-- Utiliza el puerto 5000.
-- Solicita la página principal.
+```python
+/saludo/maria
+```
+
+Pero eso significaría crear cientos de funciones.
+
+No sería una buena práctica.
+
+Además estaríamos rompiendo el principio:
+
+> **D.R.Y. (Don't Repeat Yourself)**
 
 ---
 
-# 🔄 ¿Qué ocurre cuando visitamos una página?
+# 🚀 Rutas Variables
 
-Cuando escribimos:
+Flask permite recibir información directamente desde la URL.
+
+Agreguemos una nueva ruta.
+
+```python
+@app.route("/saludo/<nombre>")
+def saludo(nombre):
+
+    return f"¡Hola {nombre}!"
+```
+
+Observa que:
+
+```python
+<nombre>
+```
+
+está entre `< >`.
+
+Eso indica que Flask debe capturar ese valor desde la URL.
+
+---
+
+# ▶️ Probar la ruta
+
+Ahora visita.
 
 ```
-http://localhost:5000/
+http://localhost:5000/saludo/Nestor
 ```
 
-ocurre el siguiente proceso.
+Flask ejecutará:
+
+```python
+saludo("Nestor")
+```
+
+Mostrando.
 
 ```text
-Usuario
-      │
-      ▼
-Escribe la URL
-
-      │
-      ▼
-El navegador envía una solicitud HTTP
-
-      │
-      ▼
-Flask recibe la solicitud
-
-      │
-      ▼
-Busca la ruta "/"
-
-      │
-      ▼
-Ejecuta la función hola_mundo()
-
-      │
-      ▼
-Devuelve "¡Hola Mundo!"
-
-      │
-      ▼
-El navegador muestra el resultado
+¡Hola Nestor!
 ```
 
-Todo este proceso ocurre en apenas unos milisegundos.
+Tal como se observa en la siguiente imagen.
+
+> *(Inserta aquí la imagen del saludo "¡Hola Nestor!")*
 
 ---
 
-# 📌 ¿Qué es una ruta?
+# 📥 Podemos utilizar cualquier nombre
 
-Una ruta representa una dirección dentro de nuestra aplicación.
+Todas estas direcciones funcionarán.
 
-Ejemplo:
+```
+/saludo/Carlos
+```
+
+```
+/saludo/Maria
+```
+
+```
+/saludo/Felipe
+```
+
+```
+/saludo/Ana
+```
+
+Sin modificar el código.
+
+---
+
+# 🌈 Varias variables
+
+También podemos recibir múltiples parámetros.
 
 ```python
-@app.route("/")
+@app.route("/color/<nombre>/<color>")
+def color_favorito(nombre, color):
+
+    return f"Hola {nombre}, tu color favorito es {color}"
 ```
 
-Ruta principal.
+Ejemplo.
+
+```
+http://localhost:5000/color/Nestor/Azul
+```
+
+Resultado.
+
+```text
+Hola Nestor, tu color favorito es Azul
+```
 
 ---
+
+# 🔁 Convertidores de tipo
+
+Por defecto todos los parámetros llegan como texto.
+
+Incluso:
+
+```
+5
+```
+
+es recibido como:
 
 ```python
-@app.route("/nosotros")
+"5"
 ```
 
-Página "Nosotros".
+Flask permite convertir automáticamente el tipo de dato.
 
 ---
+
+## Convertidor entero
 
 ```python
-@app.route("/contacto")
+@app.route("/saludo/<nombre>/<int:veces>")
+def repetir(nombre, veces):
+
+    return f"¡Hola {nombre}!" * veces
 ```
-
-Página de contacto.
-
-Cada ruta ejecutará una función distinta.
 
 ---
 
-# 🧠 Resumen del código
+# 🌐 Probar
 
-Nuestro programa realiza cuatro acciones principales:
+Visita.
 
-### 📥 Importa Flask
+```
+http://localhost:5000/saludo/Nestor/5
+```
+
+Flask convierte automáticamente.
 
 ```python
-from flask import Flask
+"5"
 ```
 
----
-
-### 🚀 Crea la aplicación
+en
 
 ```python
-app = Flask(__name__)
+5
 ```
+
+Por eso Python puede repetir el saludo cinco veces.
+
+Resultado.
+
+```text
+¡Hola Nestor!
+¡Hola Nestor!
+¡Hola Nestor!
+¡Hola Nestor!
+¡Hola Nestor!
+```
+
+Como se muestra en la siguiente imagen.
+
+> *(Inserta aquí la imagen donde el saludo aparece repetido cinco veces.)*
 
 ---
 
-### 🛤 Define una ruta
+# 🚫 ¿Qué sucede si escribimos texto?
+
+Intentemos.
+
+```
+http://localhost:5000/saludo/Nestor/cinco
+```
+
+Flask intentará convertir.
+
+```text
+cinco
+```
+
+a un entero.
+
+Como no puede hacerlo responderá automáticamente con un:
+
+```text
+404 Not Found
+```
+
+Porque la ruta exige un número entero.
+
+---
+
+# 📚 Convertidores disponibles
+
+| Convertidor | Tipo de dato |
+|-------------|--------------|
+| `string` | Texto (por defecto) |
+| `int` | Número entero |
+| `float` | Número decimal |
+| `path` | Texto incluyendo "/" |
+| `uuid` | Identificador UUID |
+
+---
+
+# 💼 Ejemplo en una aplicación real
+
+Supongamos una tienda online.
+
+El usuario visita:
+
+```
+/producto/15
+```
+
+Flask ejecuta.
 
 ```python
-@app.route("/")
+@app.route("/producto/<int:id>")
 ```
 
----
-
-### ▶️ Inicia el servidor
+Recibe.
 
 ```python
-app.run(debug=True)
+id = 15
 ```
+
+Luego consulta MySQL.
+
+```sql
+SELECT *
+FROM productos
+WHERE id = 15;
+```
+
+Finalmente genera la página del producto solicitado.
+
+Así funcionan prácticamente todos los sitios web modernos.
 
 ---
 
-# 💼 Relación con un proyecto real
-
-Imaginemos una tienda en línea.
-
-Cuando un usuario escribe:
-
-```
-https://mitienda.cl/productos
-```
-
-Flask buscará una ruta similar a:
-
-```python
-@app.route("/productos")
-```
-
-Luego ejecutará una función que:
-
-- Consultará la base de datos.
-- Obtendrá todos los productos.
-- Generará una página HTML.
-- Enviará la respuesta al navegador.
-
-Aunque hoy solo mostramos un texto, el funcionamiento será exactamente el mismo para aplicaciones mucho más grandes.
-
----
-
-# ✅ Resumen
+# 🧠 Resumen
 
 En esta lección aprendimos que:
 
-- Toda aplicación Flask comienza creando un objeto `app`.
-- Las rutas permiten asociar una URL con una función.
-- El decorador `@app.route()` conecta una dirección web con una función de Python.
-- `return` envía la respuesta al navegador.
-- `app.run(debug=True)` inicia el servidor en modo desarrollo.
-- Podemos acceder a nuestra aplicación desde `http://localhost:5000`.
+- Una ruta representa una dirección dentro de una aplicación web.
+- Cada ruta está asociada a una función mediante `@app.route()`.
+- Podemos crear múltiples rutas dentro del mismo servidor.
+- Flask permite recibir parámetros desde la URL mediante rutas dinámicas.
+- Los convertidores validan automáticamente el tipo de dato recibido.
+- Las rutas dinámicas permiten reutilizar código y seguir el principio **D.R.Y. (Don't Repeat Yourself)**.
 
-Con estos conceptos ya hemos construido nuestra primera aplicación web funcional.
+Las rutas serán uno de los elementos más utilizados durante todo el desarrollo de aplicaciones con Flask.
 
 ---
 
 # 📝 Tarea
 
-## Objetivo
+## 🎯 Objetivo
 
-Modificar el servidor para responder con un mensaje personalizado.
+Practicar la creación de rutas estáticas, rutas dinámicas y el uso de convertidores de tipo en Flask, fortaleciendo la comprensión sobre cómo el servidor responde a diferentes solicitudes realizadas desde el navegador.
 
-### Instrucciones
+---
 
-1. Ejecuta correctamente el servidor Flask.
-2. Verifica que el navegador muestre `¡Hola Mundo!`.
-3. Cambia el mensaje por uno personalizado. Por ejemplo:
+## 📌 Instrucciones
 
-```python
-return "¡Bienvenido al curso de Flask!"
+Modifica tu archivo **`server.py`** para que implemente las siguientes rutas.
+
+| Ruta | Resultado esperado |
+|------|--------------------|
+| `/` | Mostrar **"Bienvenido a Flask"**. |
+| `/exito` | Mostrar **"¡Éxito!"**. |
+| `/saludo/<nombre>` | Saludar utilizando el nombre recibido. Ejemplo: **"¡Hola Daniel!"** |
+| `/color/<nombre>/<color>` | Mostrar el color favorito del usuario. Ejemplo: **"Hola Daniel, tu color favorito es Azul."** |
+| `/saludo/<nombre>/<int:veces>` | Repetir el saludo la cantidad de veces indicada en la URL. |
+
+---
+
+## 🚀 Desafíos adicionales
+
+Una vez completadas las rutas anteriores, crea las siguientes rutas utilizando los conceptos aprendidos en clase.
+
+### 1️⃣ Ruta de despedida
+
+Crea una ruta que reciba un nombre y despida al usuario.
+
+**Ruta**
+
+```text
+/despedida/<nombre>
 ```
 
-4. Guarda el archivo y observa cómo el servidor se reinicia automáticamente gracias al modo **Debug**.
-5. Recarga el navegador y verifica que aparezca el nuevo mensaje.
+**Ejemplo**
 
-### Evidencia
+```
+http://localhost:5000/despedida/Camila
+```
 
-Realiza una captura de pantalla donde se observe:
+**Resultado esperado**
 
-- El archivo `server.py`.
+```text
+¡Hasta luego Camila! ¡Esperamos verte pronto!
+```
+
+---
+
+### 2️⃣ Ruta de presentación
+
+Recibe el nombre y la edad de una persona.
+
+La edad debe utilizar el convertidor **int**.
+
+**Ruta**
+
+```text
+/presentacion/<nombre>/<int:edad>
+```
+
+**Ejemplo**
+
+```
+http://localhost:5000/presentacion/Juan/20
+```
+
+**Resultado esperado**
+
+```text
+Hola Juan, tienes 20 años.
+```
+
+---
+
+### 3️⃣ Ruta de suma
+
+Recibe dos números enteros y devuelve la suma.
+
+**Ruta**
+
+```text
+/suma/<int:a>/<int:b>
+```
+
+**Ejemplo**
+
+```
+http://localhost:5000/suma/15/8
+```
+
+**Resultado esperado**
+
+```text
+La suma es: 23
+```
+
+---
+
+### 4️⃣ Ruta de multiplicación
+
+Recibe dos números enteros y devuelve el resultado de la multiplicación.
+
+**Ruta**
+
+```text
+/multiplicar/<int:a>/<int:b>
+```
+
+**Ejemplo**
+
+```
+http://localhost:5000/multiplicar/7/9
+```
+
+**Resultado esperado**
+
+```text
+El resultado es: 63
+```
+
+---
+
+### 5️⃣ Ruta de número par o impar
+
+Recibe un número entero e indica si es par o impar.
+
+**Ruta**
+
+```text
+/paridad/<int:numero>
+```
+
+**Ejemplo**
+
+```
+http://localhost:5000/paridad/18
+```
+
+**Resultado esperado**
+
+```text
+El número 18 es PAR.
+```
+
+Otro ejemplo:
+
+```
+http://localhost:5000/paridad/7
+```
+
+Resultado:
+
+```text
+El número 7 es IMPAR.
+```
+
+---
+
+### Evidencias
+
+Entrega capturas donde se observe:
+
+- El código completo de `server.py`.
 - La terminal ejecutando Flask.
-- El navegador mostrando tu mensaje personalizado.
+- El navegador mostrando correctamente las siguientes rutas:
+
+```
+http://localhost:5000/exito
+```
+
+```
+http://localhost:5000/saludo/TuNombre
+```
+
+```
+http://localhost:5000/color/TuNombre/Azul
+```
+
+```
+http://localhost:5000/saludo/TuNombre/5
+```
 
 ---
 
 # 🚀 Próxima Lección
 
-En la siguiente clase aprenderemos a crear **múltiples rutas** dentro de una misma aplicación, permitiendo que cada URL ejecute una función diferente y responda con contenido específico.
+En la siguiente clase aprenderemos a trabajar con **plantillas HTML utilizando Jinja2**, dejando atrás las respuestas de texto para comenzar a construir páginas web dinámicas con Flask, separando la lógica del servidor de la interfaz de usuario.
