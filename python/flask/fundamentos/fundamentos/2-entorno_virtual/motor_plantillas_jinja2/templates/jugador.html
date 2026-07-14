@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi primera plantilla Flask</title>
+
+</head>
+<h1>¡Bienvenido {{ nombre }}!</h1>
+<p>Esta es nuestra segunda página HTML renderizada desde Flask.</p>
+
+<body>
+
+    <h1>{{ jugador }}</h1>
+
+    <p>Puntaje: {{ puntaje }}</p>
+
+    {% if lider %}
+
+    <p>🏆 Líder del Ranking</p>
+
+    {% endif %}
+</body>
+
+</html>

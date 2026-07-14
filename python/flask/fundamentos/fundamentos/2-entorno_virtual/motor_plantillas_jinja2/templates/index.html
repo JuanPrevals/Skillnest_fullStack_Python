@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi primera plantilla Flask</title>
+
+</head>
+<h1>¡Bienvenido {{ nombre }}!</h1>
+<p>Esta es nuestra primera página HTML renderizada desde Flask.</p>
+
+<body>
+
+    <h1>Nomre: {{ nombre }}</h1>
+
+    <p>Curso: {{ curso }}</p>
+
+    <p>Ciudad: {{ ciudad }}</p>
+
+    <p>Año: {{ anio }}</p>
+
+    {% if profesor %}
+
+    <p>Bienvenido profesor.</p>
+
+    {% endif %}
+
+    <ul>
+
+        {% for tecnologia in tecnologias %}
+
+        <li>{{ tecnologia }}</li>
+
+        {% endfor %}
+
+    </ul>
+
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi primera plantilla Flask</title>
+
+</head>
+<h1>Bienvenido a tu plantilla</h1>
+
+<body>
+
+
+    <p>Canción: {{ cancion }}</p>
+    <p>Repeticiones: {{ repite }}</p>
+
+    {# repetimos la canción la cantidad de veces indicada #}
+    {% for x in range(repite): %}
+
+    <h3>{{ cancion }}</h3>
+
+    {% endfor %}
+    {# revisamos si en la canción incluyen la palabra "macarena" #}
+    {% if "macarena" in cancion: %}
+
+    <h4>¡Eh macarena!</h4>
+
+    {% endif %}
+</body>
+
+</html>
