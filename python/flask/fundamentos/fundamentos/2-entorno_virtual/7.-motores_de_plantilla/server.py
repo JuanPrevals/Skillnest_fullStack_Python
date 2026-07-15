@@ -14,7 +14,7 @@ def inicio():
 
 @app.route("/macarena")
 def macarena():
-     return render_template('macarena.html', cancion="dale a tu cuerpo alegría macarena", repite=5)
+     return render_template('macarena.html', cancion="dale a tu cuerpo alegría macarena", repite=20)
 
 
 if __name__ == "__main__":

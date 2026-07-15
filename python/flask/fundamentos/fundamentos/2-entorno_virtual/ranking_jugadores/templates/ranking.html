@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Ranking de Jugadores</title>
+   <style>
+       * {
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: Arial, sans-serif;
+           background-color: var(--background-color, #f4f4f4);
+           color: #292d32;
+           margin: 0;
+           min-height: 100vh;
+           padding: 24px 16px;
+           text-align: center;
+       }
+
+       h1 {
+           align-items: center;
+           display: flex;
+           font-size: 32px;
+           justify-content: center;
+           margin: 0 0 28px;
+       }
+
+       .title-icon {
+           display: inline-block;
+           font-size: 34px;
+           margin: 0 10px;
+       }
+
+       .ranking {
+           background: white;
+           border-radius: 14px;
+           box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
+           margin: 0 auto;
+           max-width: 650px;
+           overflow: hidden;
+           text-align: left;
+       }
+
+       .ranking-header {
+           align-items: center;
+           background: #343a40;
+           color: white;
+           display: flex;
+           font-size: 19px;
+           font-weight: bold;
+           justify-content: center;
+           padding: 20px;
+       }
+
+       .star {
+           font-size: 22px;
+           margin-right: 7px;
+       }
+
+       ul {
+           list-style: none;
+           margin: 0;
+           padding: 0;
+       }
+
+       li {
+           align-items: center;
+           border-bottom: 1px solid #e7e7e7;
+           display: grid;
+           font-size: 16px;
+           font-weight: bold;
+           grid-template-columns: 46px 1fr auto;
+           min-height: 58px;
+           padding: 8px 18px;
+       }
+
+       li:last-child {
+           border-bottom: 0;
+       }
+
+       .position {
+           align-items: center;
+           background: #e4e6e8;
+           border-radius: 50%;
+           display: flex;
+           height: 34px;
+           justify-content: center;
+           width: 34px;
+       }
+
+       li:nth-child(1) .position {
+           background: #ffd500;
+       }
+
+       li:nth-child(2) .position {
+           background: #c9cccf;
+       }
+
+       li:nth-child(3) .position {
+           background: #db8129;
+           color: white;
+       }
+
+       .player {
+           align-items: center;
+           display: flex;
+           gap: 12px;
+       }
+
+       .leader {
+           background: #ffd500;
+           border-radius: 5px;
+           color: #171717;
+           font-size: 12px;
+           font-weight: bold;
+           padding: 4px 7px;
+       }
+
+       .score {
+           color: #69727a;
+           font-size: 14px;
+           padding-left: 14px;
+           white-space: nowrap;
+       }
+
+       .total {
+           color: #69727a;
+           font-size: 13px;
+           margin: 34px 0 0;
+       }
+
+       @media (max-width: 520px) {
+           h1 {
+               font-size: 25px;
+           }
+
+           .title-icon {
+               font-size: 27px;
+               margin: 0 6px;
+           }
+
+           li {
+               grid-template-columns: 42px 1fr auto;
+               padding: 8px 12px;
+           }
+
+           .player {
+               gap: 6px;
+           }
+
+           .leader {
+               font-size: 10px;
+           }
+       }
+   </style>
+</head>
+
+<body style="--background-color: {{ color | default('#f4f4f4', true) }};">
+   <h1>
+       <span class="title-icon" aria-hidden="true">🏆</span>
+       Ranking de Jugadores
+       <span class="title-icon" aria-hidden="true">🎮</span>
+   </h1>
+
+   <div class="ranking">
+       <div class="ranking-header">
+           <span class="star" aria-hidden="true">★</span>
+           Top Jugadores
+       </div>
+
+       <ul>
+           {% for jugador in jugadores %}
+               <li>
+                   <span class="position">{{ loop.index }}</span>
+
+                   <span class="player">
+                       {{ jugador.nombre }}
+                       {% if loop.first %}
+                           <span class="leader">♛ Líder</span>
+                       {% endif %}
+                   </span>
+
+                   <span class="score">{{ jugador.puntaje }} pts</span>
+               </li>
+           {% endfor %}
+       </ul>
+   </div>
+
+   <p class="total">Total de jugadores: {{ jugadores | length }}</p>
+</body>
+</html>
