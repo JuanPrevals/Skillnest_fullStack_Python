@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pokédex</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('mostrar_pokemon') }}" aria-label="Ir a la Pokédex">
+            <span class="pokeball" aria-hidden="true"></span>
+            <span>Pokédex</span>
+        </a>
+        <p>{{ pokemones|length }} Pokémon encontrados</p>
+        <form class="search" action="{{ url_for('buscar_pokemon') }}" method="get">
+            <label class="sr-only" for="pokemon-search">Nombre o número</label>
+            <input id="pokemon-search" name="q" placeholder="Nombre o número" required>
+            <button type="submit">Buscar</button>
+        </form>
+        <nav aria-label="Filtros de Pokédex">
+            <a class="button button-primary" href="{{ url_for('mostrar_pokemon') }}">
+                <span class="list-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span>Ver todos</span>
+            </a>
+            <a class="button button-success" href="{{ url_for('mostrar_cantidad', cantidad=5) }}">
+                <span class="filter-icon" aria-hidden="true"></span>
+                <span>Ver 5 primeros</span>
+            </a>
+        </nav>
+    </header>
+
+    <main class="pokemon-grid">
+        {% for pokemon in pokemones %}
+        <article class="pokemon-card">
+            <div class="image-panel">
+                <span class="pokemon-number">#{{ pokemon.id }}</span>
+                <img src="{{ url_for('static', filename='img/' + pokemon.imagen) }}" alt="{{ pokemon.nombre }}">
+            </div>
+            <div class="card-body">
+                <h2>{{ pokemon.nombre }}</h2>
+                <div class="types">
+                    {% for tipo in pokemon.tipo.split('/') %}
+                    <span class="type type-{{ tipo|lower }}">{{ tipo }}</span>
+                    {% endfor %}
+                </div>
+                <div class="power">
+                    <span>Poder</span>
+                    <div class="power-track">
+                        <span style="width: {{ [pokemon.poder, 100]|min }}%"></span>
+                    </div>
+                    <strong>{{ pokemon.poder }}</strong>
+                </div>
+                <dl>
+                    <div>
+                        <dt>Altura</dt>
+                        <dd>{{ pokemon.altura }}</dd>
+                    </div>
+                    <div>
+                        <dt>Peso</dt>
+                        <dd>{{ pokemon.peso }}</dd>
+                    </div>
+                </dl>
+            </div>
+            <a class="details" href="{{ url_for('mostrar_pokemon_por_identificador', identificador=pokemon.id) }}">Ver
+                detalles</a>
+        </article>
+        {% endfor %}
+    </main>
+</body>
+
+</html>

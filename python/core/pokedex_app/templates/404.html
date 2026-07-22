@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Pokémon no encontrado</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="error-page">
+   <main class="error-card">
+      <p class="error-title">¡Oh no!</p>
+      <p>{{ mensaje }}</p>
+      <h1>Pokémon no encontrado</h1>
+      <p>Revisa el nombre o el número e inténtalo otra vez.</p>
+      <a class="button button-primary" href="{{ url_for('mostrar_pokemon') }}">Volver a la Pokédex</a>
+   </main>
+</body>
+</html>
