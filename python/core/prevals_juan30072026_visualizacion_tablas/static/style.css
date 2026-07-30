@@ -1,0 +1,191 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #252a2e;
+  background: #f7f8fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.contenedor {
+  width: min(88%, 1120px);
+  margin: 38px auto;
+}
+
+header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 10px;
+  color: #0877f9;
+  font-size: 42px;
+}
+
+header p,
+footer {
+  color: #555b61;
+}
+
+.icono-tabla {
+  display: inline-grid;
+  width: 46px;
+  height: 40px;
+  margin-right: 8px;
+  place-items: center;
+  border-radius: 5px;
+  background: transparent;
+  color: #0877f9;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.filtros,
+.tarjeta {
+  border: 1px solid #e7eaee;
+  border-radius: 7px;
+  background: white;
+  box-shadow: 0 2px 6px rgb(20 30 40 / 6%);
+}
+
+.filtros {
+  padding: 16px;
+  margin-bottom: 25px;
+}
+
+.filtros h2 {
+  margin: 0 0 18px;
+  font-size: 15px;
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  gap: 7px;
+  font-size: 13px;
+}
+
+.tarjeta {
+  padding: 14px 14px 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table > thead th {
+  padding: 10px 8px;
+  background: #23272a;
+  color: white;
+  text-align: left;
+}
+
+.table > tbody td {
+  height: 45px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #e5e8eb;
+}
+
+.logo {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  margin-right: 7px;
+  place-items: center;
+  border-radius: 50%;
+  background: #5b6ee1;
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.logo-instagram { background: #ea3f62; }
+.logo-netflix,
+.logo-youtube { background: #ed091b; }
+.logo-spotify { background: #20be64; }
+.logo-tiktok { background: #050505; }
+.logo-twitch { background: #6542a6; }
+
+.usuarios {
+  padding: 5px 7px;
+  border-radius: 5px;
+  background: #0877f9;
+  color: white;
+  font-weight: bold;
+}
+
+.pais {
+  padding: 5px 7px;
+  border-radius: 5px;
+  background: #7d858a;
+  color: white;
+}
+
+.detalle {
+  display: inline-grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid #04c7ef;
+  border-radius: 3px;
+  color: #04bfe6;
+}
+
+.total {
+  margin: 30px 0 2px;
+  color: #555b61;
+  font-size: 12px;
+  text-align: right;
+}
+
+.vacio {
+  padding: 30px;
+  text-align: center;
+}
+
+footer {
+  margin-top: 44px;
+  text-align: center;
+  font-size: 13px;
+}
+
+footer small {
+  display: block;
+  margin-top: 18px;
+}
+
+@media (max-width: 700px) {
+  .contenedor {
+    width: 94%;
+    margin-top: 24px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .campos {
+    grid-template-columns: 1fr;
+  }
+
+  .tabla-scroll {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 650px;
+  }
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataformas Digitales</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="contenedor">
+    <header>
+      <h1><i class="bi bi-table icono-tabla" aria-hidden="true"></i> Plataformas Digitales</h1>
+      <p>Visualización de datos de las principales plataformas digitales</p>
+    </header>
+
+    <section class="filtros">
+      <h2><i class="bi bi-funnel-fill" aria-hidden="true"></i> &nbsp;Filtros y Ordenamiento</h2>
+      <div class="campos">
+        <label>
+          Filtrar por país:
+          <select class="form-select form-select-sm">
+            <option>Todos los países</option>
+          </select>
+        </label>
+        <label>
+          Ordenar por:
+          <select class="form-select form-select-sm">
+            <option>Nombre</option>
+          </select>
+        </label>
+        <label>
+          Dirección:
+          <select class="form-select form-select-sm">
+            <option>Ascendente</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      {% if datos %}
+        <div class="tabla-scroll">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Usuarios</th>
+                <th>Año Fundación</th>
+                <th>País</th>
+                <th>Detalles</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for plataforma in datos %}
+                <tr>
+                  <td>
+                    <span class="logo logo-{{ plataforma["nombre"]|lower }}"><i class="bi bi-{{ plataforma["icono"] }}" aria-hidden="true"></i></span>
+                    <strong>{{ plataforma["nombre"] }}</strong>
+                  </td>
+                  <td><span class="usuarios">{{ plataforma["usuarios"] }}</span></td>
+                  <td>{{ plataforma["fundado"] }}</td>
+                  <td><span class="pais">{{ plataforma["pais"] }}</span></td>
+                  <td><span class="detalle"><i class="bi bi-info-circle-fill" aria-hidden="true"></i></span></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="vacio">No hay plataformas para mostrar.</p>
+      {% endif %}
+      <p class="total">Mostrando {{ datos|length }} plataformas</p>
+    </section>
+
+    <footer>
+      <p>Visualización de datos desarrollada con Flask y Bootstrap.</p>
+      <small>Los datos mostrados son ficticios para fines educativos.</small>
+    </footer>
+  </main>
+</body>
+</html>
