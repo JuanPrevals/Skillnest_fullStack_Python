@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Mercado de Frutas{% endblock %}
+{% block content %}
+<header class="encabezado encabezado-inicio">
+    <h1>Frutas Frescas a Tu Puerta</h1>
+    <p>Selecciona tus frutas favoritas y realiza tu pedido</p>
+</header>
+
+<main class="container contenido">
+    <form class="formulario-compra" action="{{ url_for('checkout') }}" method="POST">
+        <section class="panel productos">
+            <h2>Selecciona tus frutas</h2>
+            <div class="lista-frutas lista-seleccion">
+                {% for fruta in frutas %}
+                <article class="tarjeta tarjeta-seleccion">
+                    <div class="imagen-fruta"><img src="{{ url_for('static', filename='images/' + fruta.imagen) }}" alt="{{ fruta.nombre }}"></div>
+                    <div class="datos-fruta">
+                        <h3>{{ fruta.nombre }}</h3>
+                        <strong>${{ fruta.precio }}</strong>
+                    </div>
+                    <div class="cantidad">
+                        <input aria-label="Cantidad de {{ fruta.nombre }}" type="number" name="{{ fruta.id }}" value="0" min="0" required>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <aside class="panel contacto">
+            <h2>Información de Contacto</h2>
+            <div class="campos">
+                <label>Nombre<input type="text" name="nombre" required></label>
+                <label>Email<input type="email" name="email" required></label>
+                <label>Dirección de entrega<textarea name="direccion" rows="4" required></textarea></label>
+                <hr>
+                <button type="submit">🛒 Crear Orden</button>
+            </div>
+        </aside>
+    </form>
+</main>
+{% endblock %}

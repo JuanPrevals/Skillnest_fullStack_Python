@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Nuestras Frutas{% endblock %}
+{% block content %}
+<header class="encabezado encabezado-catalogo">
+    <h1>Nuestras Frutas</h1>
+    <p>Descubre nuestra variedad de frutas frescas disponibles</p>
+</header>
+
+<main class="container catalogo">
+    <div class="lista-frutas lista-catalogo">
+        {% for fruta in frutas %}
+        <article class="tarjeta-catalogo">
+            <img src="{{ url_for('static', filename='images/' + fruta.imagen) }}" alt="{{ fruta.nombre }}">
+            <div><h2>{{ fruta.nombre }}</h2><strong>${{ fruta.precio }}</strong></div>
+        </article>
+        {% endfor %}
+    </div>
+    <a class="boton-pedido" href="{{ url_for('index') }}">🛒 Hacer un pedido</a>
+
+    <h2 class="titulo-beneficios">¿Por qué elegirnos?</h2>
+    <div class="beneficios">
+        <article><b>●</b><h3>100% Orgánico</h3><p>Todas nuestras frutas son cultivadas sin pesticidas ni químicos dañinos.</p></article>
+        <article><b>🚚</b><h3>Entrega Rápida</h3><p>Entregamos en menos de 48 horas para asegurar la máxima frescura.</p></article>
+        <article><b>★</b><h3>Calidad Garantizada</h3><p>Si no estás satisfecho con nuestros productos, te devolvemos tu dinero.</p></article>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Pedido Confirmado{% endblock %}
+{% block content %}
+<main class="container checkout">
+    <section class="comprobante">
+        <header class="confirmacion"><span>✓</span><h1>¡Pedido Confirmado!</h1><p>Gracias por tu compra</p></header>
+        <div class="cuerpo-comprobante">
+            <h2>Información del Cliente</h2>
+            <div class="cliente">
+                <p><strong>Nombre:</strong> {{ nombre }}</p>
+                <p><strong>Dirección de entrega:</strong><br>{{ direccion }}</p>
+                <p><strong>Email:</strong> {{ email }}</p>
+            </div>
+
+            <h2>Detalle del Pedido</h2>
+            <p class="total-frutas">Total de frutas en tu pedido: <strong>{{ total_frutas }}</strong></p>
+
+            {% if orden %}
+            <table>
+                <thead><tr><th>Fruta</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th></tr></thead>
+                <tbody>
+                    {% for fruta in orden %}
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='images/' + fruta.imagen) }}" alt=""> {{ fruta.nombre }}</td>
+                        <td>${{ fruta.precio }}</td><td>{{ fruta.cantidad }}</td><td>${{ '%.1f'|format(fruta.subtotal) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot><tr><th colspan="3">Total:</th><th>${{ '%.1f'|format(total_pagar) }}</th></tr></tfoot>
+            </table>
+            {% else %}<p>No seleccionaste frutas.</p>{% endif %}
+
+            <div class="entrega"><span>🚚</span><p><strong>Información de entrega</strong><br>Tu pedido será entregado en un plazo de 24-48 horas.</p></div>
+            <a class="volver" href="{{ url_for('index') }}">⌂ Volver a la tienda</a>
+        </div>
+    </section>
+</main>
+{% endblock %}
