@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto registrado</title>
+</head>
+<body>
+    <header>
+        <nav aria-label="Navegación principal">
+            <a href="{{ url_for('index') }}">Inicio</a> |
+            <a href="{{ url_for('ayuda') }}">Ayuda</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Producto registrado correctamente</h1>
+        <p>La información fue procesada por el servidor.</p>
+        <p><a href="{{ url_for('index') }}">Volver al formulario</a></p>
+    </main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda sobre redirecciones</title>
+</head>
+<body>
+    <header>
+        <nav aria-label="Navegación principal">
+            <a href="{{ url_for('index') }}">Inicio</a> |
+            <a href="{{ url_for('ayuda') }}" aria-current="page">Ayuda</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Ayuda: POST, GET y redirect</h1>
+
+        <h2>¿Qué es POST?</h2>
+        <p>POST es un método HTTP que permite enviar información al servidor, por ejemplo, los datos de un formulario.</p>
+
+        <h2>¿Qué es GET?</h2>
+        <p>GET es un método HTTP utilizado para solicitar una página o un recurso al servidor.</p>
+
+        <h2>¿Para qué sirve redirect()?</h2>
+        <p><code>redirect()</code> indica al navegador que realice una nueva solicitud a otra ruta. Después de procesar un POST, evita que el formulario vuelva a enviarse al actualizar la página.</p>
+
+        <h2>¿Por qué request.form queda vacío?</h2>
+        <p>Los datos de <code>request.form</code> pertenecen a la solicitud POST original. La redirección inicia una solicitud GET nueva, que no contiene los datos del formulario anterior.</p>
+    </main>
+</body>
+</html>

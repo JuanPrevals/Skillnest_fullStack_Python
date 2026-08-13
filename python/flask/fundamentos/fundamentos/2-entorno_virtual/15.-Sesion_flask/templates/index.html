@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear usuario</title>
+</head>
+<body>
+    <main>
+        <h1>Crear usuario</h1>
+
+        <form action="{{ url_for('crear_usuario') }}" method="POST">
+            <p>
+                <label for="nombre">Nombre</label><br>
+                <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+            </p>
+
+            <p>
+                <label for="email">E-mail</label><br>
+                <input type="email" id="email" name="email" autocomplete="email" required>
+            </p>
+
+            <p>
+                <label for="ciudad">Ciudad</label><br>
+                <input type="text" id="ciudad" name="ciudad" autocomplete="address-level2" required>
+            </p>
+
+            <button type="submit">Crear usuario</button>
+        </form>
+    </main>
+</body>
+</html>

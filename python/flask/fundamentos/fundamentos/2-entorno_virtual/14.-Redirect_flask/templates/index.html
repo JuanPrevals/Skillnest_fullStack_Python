@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de productos</title>
+</head>
+<body>
+    <header>
+        <nav aria-label="Navegación principal">
+            <a href="{{ url_for('index') }}" aria-current="page">Inicio</a> |
+            <a href="{{ url_for('ayuda') }}">Ayuda</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Registro de productos</h1>
+
+        <form action="{{ url_for('registrar') }}" method="POST">
+            <p>
+                <label for="nombre">Nombre del producto</label><br>
+                <input type="text" id="nombre" name="nombre" required>
+            </p>
+
+            <p>
+                <label for="precio">Precio</label><br>
+                <input type="number" id="precio" name="precio" min="0" step="1" required>
+            </p>
+
+            <p>
+                <label for="categoria">Categoría</label><br>
+                <input type="text" id="categoria" name="categoria" required>
+            </p>
+
+            <button type="submit">Registrar producto</button>
+        </form>
+    </main>
+</body>
+</html>

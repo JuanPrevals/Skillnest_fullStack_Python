@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario registrado</title>
+</head>
+<body>
+    <main>
+        <h1>Usuario registrado</h1>
+
+        <dl>
+            <dt>Nombre</dt>
+            <dd>{{ session["nombre_usuario"] }}</dd>
+
+            <dt>E-mail</dt>
+            <dd>{{ session["email_usuario"] }}</dd>
+
+            <dt>Ciudad</dt>
+            <dd>{{ session["ciudad_usuario"] }}</dd>
+        </dl>
+
+        <nav aria-label="Acciones del usuario">
+            <a href="{{ url_for('perfil') }}">Ver perfil</a> |
+            <a href="{{ url_for('index') }}">Volver al formulario</a>
+        </nav>
+    </main>
+</body>
+</html>

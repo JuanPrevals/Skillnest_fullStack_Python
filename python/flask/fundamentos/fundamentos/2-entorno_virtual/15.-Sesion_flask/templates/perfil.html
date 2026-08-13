@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de usuario</title>
+</head>
+<body>
+    <main>
+        <h1>Perfil de usuario</h1>
+
+        <dl>
+            <dt>Nombre</dt>
+            <dd>{{ session["nombre_usuario"] }}</dd>
+
+            <dt>Email</dt>
+            <dd>{{ session["email_usuario"] }}</dd>
+
+            <dt>Ciudad</dt>
+            <dd>{{ session["ciudad_usuario"] }}</dd>
+        </dl>
+
+        <a href="{{ url_for('mostrar_usuario') }}">Volver</a>
+    </main>
+</body>
+</html>
