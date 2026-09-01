@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de visitas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="contenedor">
+        <header>
+            <p class="etiqueta">Práctica de sesiones en Flask</p>
+            <h1>Contador de visitas</h1>
+            <p class="descripcion">La información se conserva durante tu sesión en este navegador.</p>
+        </header>
+
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                <div>
+                    {% for categoria, mensaje in mensajes %}
+                        <p class="mensaje mensaje--{{ categoria }}">{{ mensaje }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <section class="resumen">
+            <article class="dato">
+                <span class="dato__numero">{{ visitas }}</span>
+                <span class="dato__nombre">Visitas</span>
+            </article>
+            <article class="dato">
+                <span class="dato__numero">{{ reinicios }}</span>
+                <span class="dato__nombre">Reinicios</span>
+            </article>
+        </section>
+
+        <section class="acciones">
+            <h2>Administrar contador</h2>
+
+            <form action="{{ url_for('aumentar_dos') }}" method="post">
+                <button class="boton boton--principal" type="submit">Aumentar en 2</button>
+            </form>
+
+            <form class="formulario" action="{{ url_for('aumentar') }}" method="post">
+                <label for="cantidad">Cantidad que deseas agregar</label>
+                <div class="formulario__fila">
+                    <input id="cantidad" name="cantidad" type="number" min="1" required>
+                    <button class="boton" type="submit">Agregar visitas</button>
+                </div>
+            </form>
+
+            <form action="{{ url_for('reiniciar') }}" method="post">
+                <button class="boton boton--secundario" type="submit">Reiniciar a 0</button>
+            </form>
+        </section>
+
+        <a class="enlace" href="{{ url_for('destruir_sesion') }}">Destruir sesión completa</a>
+    </main>
+</body>
+</html>
