@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Juego del Destino</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-dots"></div>
+    <main class="card">
+        <header class="card-header">
+            <div class="icon-circle moon" aria-hidden="true">🌙</div>
+            <h1>El Juego del Destino</h1>
+            <p class="subtitle">Descubre qué te depara el futuro</p>
+        </header>
+        <div class="card-body">
+            <form action="{{ url_for('enviar') }}" method="POST">
+                <div class="input-group">
+                    <label for="nombre">👤 Tu nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" required>
+                </div>
+                <div class="input-group">
+                    <label for="edad">📅 Tu edad</label>
+                    <input type="number" id="edad" name="edad" placeholder="Escribe tu edad" min="1" max="120" required>
+                </div>
+                <div class="input-group">
+                    <label for="color">🎨 Tu color favorito</label>
+                    <input type="text" id="color" name="color" placeholder="Ej. rojo, azul, verde, morado, amarillo...">
+                </div>
+                <div class="input-group">
+                    <label for="animal">🐾 Tu animal favorito</label>
+                    <input type="text" id="animal" name="animal" placeholder="Ej. perro, gato, águila, león, delfín...">
+                </div>
+                <div class="orb-wrapper" aria-hidden="true"><div class="orb"></div></div>
+                <button type="submit" class="btn-primary">✏️ Revelar mi destino</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

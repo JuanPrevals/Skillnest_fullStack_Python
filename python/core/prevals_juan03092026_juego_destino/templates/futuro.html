@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Destino ha sido Revelado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-dots"></div>
+    <main class="card">
+        <header class="card-header">
+            <div class="icon-circle sun" aria-hidden="true">☀️</div>
+            <h1>Tu Destino ha sido Revelado</h1>
+            <p class="subtitle">Las estrellas han hablado, {{ nombre }}</p>
+        </header>
+        <div class="card-body">
+            <section class="message-box {{ 'positive' if es_positivo else 'negative' }}">
+                <div class="message-icon" aria-hidden="true">{{ '⭐' if es_positivo else '⚠️' }}</div>
+                <p>{{ mensaje }}</p>
+            </section>
+            <div class="info-grid">
+                <section class="info-box">
+                    <h3>🎨 Tu Color</h3>
+                    <div class="color-dot" style="background-color: {{ color_hex }};"></div>
+                    <p>Tu preferencia por el color <strong>{{ color }}</strong> revela tu afinidad con la <strong>{{ significado_color }}</strong>.</p>
+                </section>
+                <section class="info-box">
+                    <h3>🐾 Tu Animal</h3>
+                    <p>Tu conexión con el <strong>{{ animal }}</strong> simboliza tu naturaleza de <strong>{{ significado_animal }}</strong>.</p>
+                </section>
+            </div>
+            <h2 class="lucky-title">Tu número de la suerte</h2>
+            <div class="lucky-circle"><span>{{ numero_suerte }}</span></div>
+            <p class="lucky-caption">Este número te acompañará en momentos importantes.</p>
+            <div class="age-box">
+                <p>A tus <strong>{{ edad }} años</strong>, estás en un momento favorable para aprovechar nuevas oportunidades.</p>
+            </div>
+            <form action="{{ url_for('index') }}" method="GET">
+                <button type="submit" class="btn-primary">↻ Consultar de nuevo</button>
+            </form>
+        </div>
+        <footer class="card-footer">
+            <p>Las estrellas te han hablado hoy: {{ nombre }}.</p>
+        </footer>
+    </main>
+</body>
+</html>
