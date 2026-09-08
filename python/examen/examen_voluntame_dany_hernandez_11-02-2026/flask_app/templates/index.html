@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block titulo_nav %}VoluntaMe{% endblock %}
+
+{% block content %}
+<div class="row bg-white border border-dark border-2 p-5 shadow-sm">
+    
+    <div class="col-md-6 border-end border-dark border-2 pe-5">
+        <h2 class="fw-bold mb-4">Registro</h2>
+        
+        {% with messages = get_flashed_messages(category_filter=['registro']) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="text-danger fw-bold m-0">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="/registro" method="POST" class="mt-3">
+            <div class="row mb-3 align-items-center">
+                <div class="col-4"><label class="fw-bold">Nombre</label></div>
+                <div class="col-8"><input type="text" name="nombre" class="form-control"></div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-4"><label class="fw-bold">Apellido</label></div>
+                <div class="col-8"><input type="text" name="apellido" class="form-control"></div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-4"><label class="fw-bold">E-mail</label></div>
+                <div class="col-8"><input type="text" name="email" class="form-control"></div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <div class="col-4"><label class="fw-bold">Contraseña</label></div>
+                <div class="col-8"><input type="password" name="contrasena" class="form-control"></div>
+            </div>
+            <div class="row mb-4 align-items-center">
+                <div class="col-4"><label class="fw-bold">Conf. Contraseña</label></div>
+                <div class="col-8"><input type="password" name="confirmar_contrasena" class="form-control"></div>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-custom px-4">Registrar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6 ps-5">
+        <h2 class="fw-bold mb-4">Inicio de Sesión</h2>
+        
+        {% with messages = get_flashed_messages(category_filter=['login']) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="text-danger fw-bold m-0">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="/login" method="POST" class="mt-3">
+            <div class="row mb-3 align-items-center">
+                <div class="col-4"><label class="fw-bold">E-mail</label></div>
+                <div class="col-8"><input type="text" name="email" class="form-control"></div>
+            </div>
+            <div class="row mb-4 align-items-center">
+                <div class="col-4"><label class="fw-bold">Contraseña</label></div>
+                <div class="col-8"><input type="password" name="contrasena" class="form-control"></div>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-custom px-4">Iniciar Sesión</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

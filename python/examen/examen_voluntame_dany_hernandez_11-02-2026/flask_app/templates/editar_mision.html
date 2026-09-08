@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block titulo_nav %}Editar Misión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fw-bold">Editar Misión</h2>
+            <a href="/dashboard" class="btn btn-sm btn-outline-dark">Volver al Inicio</a>
+        </div>
+
+        <div class="card p-4 shadow-sm border border-dark border-2">
+            
+            {% with messages = get_flashed_messages(category_filter=['mision']) %}
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                            <p class="m-0 small">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="/actualizar/{{ mision.id_mision }}" method="POST">
+                
+                <div class="mb-3">
+                    <label class="fw-bold form-label">Misión</label>
+                    <input type="text" name="nombre" class="form-control" value="{{ mision.nombre }}">
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Fecha</label>
+                        <input type="date" name="fecha" class="form-control" value="{{ mision.fecha }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Voluntarios Necesarios</label>
+                        <input type="number" name="voluntarios_necesarios" class="form-control" min="2" max="20" value="{{ mision.voluntarios_necesarios }}">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="fw-bold form-label">Descripción</label>
+                    <textarea name="descripcion" class="form-control" rows="3">{{ mision.descripcion }}</textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark fw-bold">Actualizar Misión</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo_nav %}VoluntaMe{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Bienvenid@ <span class="fw-bold">{{ session['usuario_nombre'] }}</span></h1>
+    
+    <div>
+        <a href="/nueva" class="btn btn-custom px-4 me-2">+ Nueva Misión</a>
+        <a href="/logout" class="btn btn-custom px-4">Cerrar Sesión</a>
+    </div>
+</div>
+
+<div class="card shadow-sm border border-dark border-2">
+    <div class="card-body p-0">
+        <table class="table table-hover table-striped mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class="ps-4">Misión</th>
+                    <th scope="col">Líder</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Voluntarios</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mision in misiones %}
+                <tr>
+                    <td class="ps-4 align-middle fw-bold">{{ mision.nombre }}</td>
+                    <td class="align-middle">{{ mision.lider.nombre }}</td> <td class="align-middle">{{ mision.fecha }}</td>
+                    <td class="align-middle">{{ mision.voluntarios_necesarios }}</td>
+                    
+                    <td class="text-center align-middle">
+                        <a href="/ver/{{ mision.id_mision }}" class="text-decoration-none fw-bold text-primary mx-1">Ver</a>
+
+                        {% if session['usuario_id'] == mision.usuario_id %}
+                            <span class="text-muted">|</span>
+                            <a href="/editar/{{ mision.id_mision }}" class="text-decoration-none fw-bold text-dark mx-1">Editar</a>
+                            <span class="text-muted">|</span>
+                            <a href="/borrar/{{ mision.id_mision }}" class="text-decoration-none fw-bold text-danger mx-1" onclick="return confirm('¿Estás seguro de eliminar esta misión?');">Borrar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if not misiones %}
+<div class="alert alert-info mt-4 text-center border-dark border-2">
+    No hay misiones futuras programadas. ¡Sé el primero en crear una! 🚀
+</div>
+{% endif %}
+
+{% endblock %}

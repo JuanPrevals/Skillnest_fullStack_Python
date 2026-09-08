@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascotas</title>
+</head>
+<body>
+    <h1>{{ 'Los perros:' if solo_perros else 'Las mascotas:' }}</h1>
+    <p>
+        <a href="{{ url_for('index') }}">Todas las mascotas</a> |
+        <a href="{{ url_for('perros') }}">Solo perros</a>
+    </p>
+    {% if error_db %}
+    <p role="alert">{{ error_db }}</p>
+    {% else %}
+    {% for una_mascota in todas_mascotas %}
+    <p>
+        <b>ID:</b> {{ una_mascota.id }} <br>
+        <b>Nombre:</b> {{ una_mascota.nombre }} <br>
+        <b>Tipo:</b> {{ una_mascota.tipo }} <br>
+        <b>Color:</b> {{ una_mascota.color }} <br>
+        <b>Creado:</b> {{ una_mascota.created_at.strftime('%Y-%m-%d') if una_mascota.created_at else 'Sin fecha' }} <br>
+        <b>Actualizado:</b> {{ una_mascota.updated_at.strftime('%Y-%m-%d') if una_mascota.updated_at else 'Sin fecha' }} <br>
+    </p>
+    {% else %}
+    <p>{{ 'No hay perros registrados.' if solo_perros else 'Todavía no hay mascotas registradas.' }}</p>
+    {% endfor %}
+    {% endif %}
+
+    <h2>Agregar mascota</h2>
+    {% if error %}
+    <p role="alert">{{ error }}</p>
+    {% endif %}
+    {% set datos = datos or {} %}
+    <form action="{{ url_for('crear_mascota') }}" method="post">
+        <p>
+            <label for="nombre">Nombre:</label>
+            <input id="nombre" name="nombre" maxlength="100" required value="{{ datos.get('nombre', '') }}">
+        </p>
+        <p>
+            <label for="tipo">Tipo:</label>
+            <input id="tipo" name="tipo" maxlength="100" required value="{{ datos.get('tipo', '') }}">
+        </p>
+        <p>
+            <label for="color">Color:</label>
+            <input id="color" name="color" maxlength="100" required value="{{ datos.get('color', '') }}">
+        </p>
+        <button type="submit" {% if error_db %}disabled{% endif %}>Guardar mascota</button>
+    </form>
+</body>
+</html>
