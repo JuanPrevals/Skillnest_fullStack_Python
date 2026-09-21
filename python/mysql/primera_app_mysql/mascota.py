@@ -22,6 +22,14 @@ class Mascota:
         return mascotas
 
     @classmethod
+    def save(cls, datos):
+        query = """
+            INSERT INTO mascotas (nombre, tipo, color, created_at, updated_at)
+            VALUES (%(nombre)s, %(tipo)s, %(color)s, NOW(), NOW());
+        """
+        return connectToMySQL("primera_flask").query_db(query, datos)
+
+    @classmethod
     def get_by_id(cls, id):
         query = "SELECT * FROM mascotas WHERE id = %(id)s;"
         resultados = connectToMySQL("primera_flask").query_db(query, {"id": id})

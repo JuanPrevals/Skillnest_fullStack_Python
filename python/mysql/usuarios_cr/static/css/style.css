@@ -1,0 +1,20 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #fff; color: #171717; font-family: Arial, sans-serif; line-height: 1.5; }
+main { width: min(100% - 3rem, 960px); margin: 3rem auto; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin: 0 0 2rem; }
+a { color: #0756b5; display: inline-flex; align-items: center; min-height: 44px; }
+header a { margin-bottom: 2rem; }
+.tabla { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; border: 2px solid #333; }
+caption { text-align: left; margin-bottom: .5rem; }
+th, td { padding: .65rem .8rem; text-align: left; border-inline: 1px solid #555; overflow-wrap: anywhere; }
+th { background: #ccc; }
+tbody tr:nth-child(odd) { background: #eee; }
+form { display: grid; gap: .5rem; max-width: 420px; }
+input { width: 100%; min-height: 44px; border: 2px solid #333; padding: .5rem; font: inherit; margin-bottom: 1rem; }
+.acciones { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+button { min-height: 44px; padding: .4rem 1.2rem; background: #eee; border: 2px solid #333; font: inherit; cursor: pointer; }
+button:hover { background: #ddd; }
+:focus-visible { outline: 3px solid #0756b5; outline-offset: 3px; }
+.error { background: #fff0f0; color: #8c1616; padding: 1rem 2rem; border: 1px solid #8c1616; }

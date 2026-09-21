@@ -16,5 +16,16 @@
     {% else %}
     <p>No existen mascotas registradas.</p>
     {% endif %}
+    <hr>
+    <h2>Agregar una mascota</h2>
+    <form action="/crear_mascota" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" name="tipo"><br>
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color"><br>
+        <input type="submit" value="Agregar Mascota">
+    </form>
 </body>
 </html>

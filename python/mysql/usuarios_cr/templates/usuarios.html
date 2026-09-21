@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Todos los Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <header><h1>Usuarios</h1><a href="{{ url_for('nuevo_usuario') }}">Nuevo Usuario</a></header>
+    {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+    <div class="tabla">
+        <table>
+            <caption>Todos los usuarios registrados</caption>
+            <thead><tr><th scope="col">Id</th><th scope="col">Nombre Completo</th><th scope="col">E-mail</th><th scope="col">Fecha Creación</th></tr></thead>
+            <tbody>
+            {% for usuario in usuarios %}
+                <tr><td>{{ usuario.id }}</td><td>{{ usuario.nombre }} {{ usuario.apellido }}</td><td>{{ usuario.email }}</td><td>{{ usuario.created_at.strftime('%Y-%m-%d') if usuario.created_at else '—' }}</td></tr>
+            {% else %}
+                {% if not error %}<tr><td colspan="4">Aún no hay usuarios. Crea el primero desde «Nuevo Usuario».</td></tr>{% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
