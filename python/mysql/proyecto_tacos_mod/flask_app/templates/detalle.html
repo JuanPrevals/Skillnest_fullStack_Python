@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Taco {{ taco.id }} | Tacos MVC{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <a href="{{ url_for('tacos') }}" class="btn btn-link px-0 mb-3">← Volver al listado</a>
+        <article class="card">
+            <div class="card-body p-4">
+                <p class="text-uppercase text-secondary fw-semibold mb-2">Detalle del registro</p>
+                <h1 class="h2 mb-4">Taco {{ taco.id }}</h1>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Tortilla</dt><dd class="col-sm-8">{{ taco.tortilla }}</dd>
+                    <dt class="col-sm-4">Guiso</dt><dd class="col-sm-8">{{ taco.guiso }}</dd>
+                    <dt class="col-sm-4">Salsa</dt><dd class="col-sm-8">{{ taco.salsa }}</dd>
+                    <dt class="col-sm-4">Creado</dt><dd class="col-sm-8">{{ taco.created_at.strftime('%d-%m-%Y %H:%M') }}</dd>
+                </dl>
+            </div>
+            <div class="card-footer bg-white p-4 d-flex flex-wrap gap-2">
+                <a href="{{ url_for('editar', taco_id=taco.id) }}" class="btn btn-warning">Editar</a>
+                <form action="{{ url_for('borrar', taco_id=taco.id) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este taco?');">
+                    <button type="submit" class="btn btn-danger">Borrar</button>
+                </form>
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Crear taco | Tacos MVC{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <header class="text-center mb-4">
+            <p class="text-uppercase text-secondary fw-semibold mb-2">Flask · MySQL · MVC</p>
+            <h1>Crear taco</h1>
+            <p class="text-secondary">Agrega una combinación de tortilla, guiso y salsa.</p>
+        </header>
+
+        <form action="{{ url_for('crear') }}" method="post" class="bg-white border rounded p-4">
+            <div class="mb-3">
+                <label for="tortilla" class="form-label">Tortilla</label>
+                <input type="text" name="tortilla" id="tortilla" class="form-control" maxlength="45" required autofocus>
+            </div>
+            <div class="mb-3">
+                <label for="guiso" class="form-label">Guiso</label>
+                <input type="text" name="guiso" id="guiso" class="form-control" maxlength="45" required>
+            </div>
+            <div class="mb-4">
+                <label for="salsa" class="form-label">Salsa</label>
+                <input type="text" name="salsa" id="salsa" class="form-control" maxlength="45" required>
+            </div>
+            <div class="d-grid gap-2 d-sm-flex">
+                <button type="submit" class="btn btn-primary">Crear taco</button>
+                <a href="{{ url_for('tacos') }}" class="btn btn-outline-secondary">Ver todos</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

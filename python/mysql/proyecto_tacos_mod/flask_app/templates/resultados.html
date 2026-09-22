@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Todos los tacos | Tacos MVC{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+    <div>
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Lectura del CRUD</p>
+        <h1 class="mb-0">Todos los tacos</h1>
+    </div>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Crear otro taco</a>
+</div>
+
+{% if todos_tacos %}
+<div class="row g-4">
+    {% for taco in todos_tacos %}
+    <article class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h4 card-title">Taco {{ taco.id }}</h2>
+                <dl class="mb-0">
+                    <dt>Tortilla</dt><dd>{{ taco.tortilla }}</dd>
+                    <dt>Guiso</dt><dd>{{ taco.guiso }}</dd>
+                    <dt>Salsa</dt><dd>{{ taco.salsa }}</dd>
+                </dl>
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center gap-2">
+                <small class="text-secondary">{{ taco.created_at.strftime('%d-%m-%Y') }}</small>
+                <a href="{{ url_for('detalle', taco_id=taco.id) }}" class="btn btn-outline-primary">Ver taco</a>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="bg-white border rounded p-5 text-center">
+    <h2 class="h4">Aún no hay tacos</h2>
+    <p class="text-secondary">Crea el primero para comenzar el listado.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Crear taco</a>
+</div>
+{% endif %}
+{% endblock %}
+
