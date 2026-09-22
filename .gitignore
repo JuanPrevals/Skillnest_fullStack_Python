@@ -1,1 +1,4 @@
 *.zip
+
+# Variables de entorno locales (aplica en cualquier subcarpeta)
+.env
