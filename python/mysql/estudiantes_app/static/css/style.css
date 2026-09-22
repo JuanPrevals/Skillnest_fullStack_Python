@@ -1,0 +1,29 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #fff; color: #171717; font-family: Arial, sans-serif; line-height: 1.5; }
+main { width: min(100% - 3rem, 960px); margin: 3rem auto; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin: 0 0 .5rem; }
+header { margin-bottom: 2rem; }
+a, .enlace-peligro { color: #0756b5; }
+a { display: inline-flex; align-items: center; min-height: 44px; }
+.tabla { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; border: 2px solid #333; }
+caption { text-align: left; margin-bottom: .5rem; }
+th, td { padding: .65rem .8rem; text-align: left; border-inline: 1px solid #555; overflow-wrap: anywhere; }
+th { background: #ccc; }
+tbody tr:nth-child(odd) { background: #eee; }
+.acciones { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+.form-eliminar { display: inline; }
+.enlace-peligro { min-height: 44px; padding: 0; border: 0; background: none; font: inherit; text-decoration: underline; cursor: pointer; }
+.form-editar { display: grid; gap: .5rem; max-width: 440px; margin-top: 2rem; }
+input { width: 100%; min-height: 44px; margin-bottom: 1rem; padding: .5rem; border: 2px solid #333; font: inherit; }
+button[type="submit"]:not(.enlace-peligro) { min-height: 44px; padding: .4rem 1.2rem; border: 2px solid #333; background: #eee; font: inherit; cursor: pointer; }
+.detalle { max-width: 620px; margin: 2rem 0 1.5rem; padding: 1rem; border: 2px solid #333; }
+.detalle p { margin: .5rem 0; }
+.error { max-width: 620px; padding: 1rem 2rem; border: 1px solid #8c1616; background: #fff0f0; color: #8c1616; }
+:focus-visible { outline: 3px solid #0756b5; outline-offset: 3px; }
+
+@media (max-width: 600px) {
+    main { width: min(100% - 2rem, 960px); margin-block: 2rem; }
+    .acciones { gap: .75rem; }
+}
+

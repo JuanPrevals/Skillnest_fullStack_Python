@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error de base de datos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <h1>No fue posible completar la operación</h1>
+    <p class="error" role="alert">Revisa la conexión y el esquema de MySQL e intenta nuevamente.</p>
+    <a href="{{ url_for('estudiantes') }}">Volver a Estudiantes</a>
+</main>
+</body>
+</html>
+

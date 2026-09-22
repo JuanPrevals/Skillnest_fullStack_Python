@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Estudiantes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <header>
+        <div>
+            <h1>Estudiantes</h1>
+            <p>Listado de estudiantes registrados.</p>
+        </div>
+    </header>
+
+    <div class="tabla">
+        <table>
+            <caption>Estudiantes registrados</caption>
+            <thead>
+                <tr><th scope="col">ID</th><th scope="col">Nombre</th><th scope="col">E-mail</th><th scope="col">Fecha de creación</th><th scope="col">Acciones</th></tr>
+            </thead>
+            <tbody>
+            {% for estudiante in estudiantes %}
+                <tr>
+                    <td>{{ estudiante.id_estudiante }}</td>
+                    <td>{{ estudiante.nombre }}</td>
+                    <td>{{ estudiante.email }}</td>
+                    <td>{{ estudiante.created_at.strftime('%Y-%m-%d') if estudiante.created_at else '—' }}</td>
+                    <td>
+                        <div class="acciones">
+                            <a href="{{ url_for('ver_estudiante', id_estudiante=estudiante.id_estudiante) }}">Ver</a>
+                            <a href="{{ url_for('editar_estudiante', id_estudiante=estudiante.id_estudiante) }}">Editar</a>
+                            <form class="form-eliminar" action="{{ url_for('eliminar_estudiante', id_estudiante=estudiante.id_estudiante) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este estudiante?');">
+                                <button class="enlace-peligro" type="submit">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">No existen estudiantes registrados.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
+

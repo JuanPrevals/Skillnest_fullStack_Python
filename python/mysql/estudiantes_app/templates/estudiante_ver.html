@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Estudiante {{ estudiante.id_estudiante }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <h1>Estudiante {{ estudiante.id_estudiante }}</h1>
+    <section class="detalle" aria-label="Información del estudiante">
+        <p><strong>Nombre:</strong> {{ estudiante.nombre }}</p>
+        <p><strong>E-mail:</strong> {{ estudiante.email }}</p>
+        <p><strong>Fecha de creación:</strong> {{ estudiante.created_at.strftime('%Y-%m-%d %H:%M:%S') if estudiante.created_at else '—' }}</p>
+    </section>
+    <div class="acciones">
+        <a href="{{ url_for('editar_estudiante', id_estudiante=estudiante.id_estudiante) }}">Editar</a>
+        <form class="form-eliminar" action="{{ url_for('eliminar_estudiante', id_estudiante=estudiante.id_estudiante) }}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este estudiante?');">
+            <button class="enlace-peligro" type="submit">Eliminar</button>
+        </form>
+        <a href="{{ url_for('estudiantes') }}">Volver</a>
+    </div>
+</main>
+</body>
+</html>
+
