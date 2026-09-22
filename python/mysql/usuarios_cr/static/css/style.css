@@ -14,6 +14,8 @@ tbody tr:nth-child(odd) { background: #eee; }
 form { display: grid; gap: .5rem; max-width: 420px; }
 input { width: 100%; min-height: 44px; border: 2px solid #333; padding: .5rem; font: inherit; margin-bottom: 1rem; }
 .acciones { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.detalle { max-width: 620px; margin-bottom: 1.5rem; padding: 1rem; border: 2px solid #333; }
+.detalle p { margin: .5rem 0; }
 button { min-height: 44px; padding: .4rem 1.2rem; background: #eee; border: 2px solid #333; font: inherit; cursor: pointer; }
 button:hover { background: #ddd; }
 :focus-visible { outline: 3px solid #0756b5; outline-offset: 3px; }

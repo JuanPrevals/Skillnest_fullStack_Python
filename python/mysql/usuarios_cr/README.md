@@ -1,8 +1,8 @@
-# Usuarios CR — Flask y MySQL
+# Usuarios CRUD — Flask y MySQL
 
-Aplicación para crear y listar usuarios del esquema `esquema_usuarios`.
-Incluye dos plantillas de acuerdo con el wireframe, modelo `Usuario` y
-consultas parametrizadas. Las fechas se guardan con `NOW()` en MySQL.
+Aplicación para crear, listar, consultar, actualizar y borrar usuarios del
+esquema `esquema_usuarios`. Incluye consultas parametrizadas y registra las
+fechas de creación y actualización con `NOW()` en MySQL.
 
 ## Preparación (PowerShell)
 
@@ -41,6 +41,10 @@ Visita http://127.0.0.1:5000/usuarios.
 - `GET /usuarios`: consulta MySQL y muestra Id, Nombre Completo, E-mail y Fecha Creación.
 - `GET /usuarios/nuevo`: muestra el formulario de nombre, apellido y e-mail.
 - `POST /usuarios/crear`: valida los campos, inserta el registro y redirige al listado.
+- `GET /usuarios/<id>`: muestra toda la información de un usuario.
+- `GET /usuarios/editar/<id>`: muestra el formulario con sus datos actuales.
+- `POST /usuarios/<id>/actualizar`: valida, actualiza y redirige al listado.
+- `GET /usuarios/borrar/<id>`: elimina el usuario y redirige al listado (ruta solicitada por la actividad).
 - `GET /`: redirige al listado.
 
 Los campos son obligatorios y admiten hasta 45 caracteres. Los errores de
