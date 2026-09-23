@@ -4,8 +4,11 @@ from unittest.mock import patch
 
 from pymysql import OperationalError
 
-from server import app
-from usuario import Usuario
+from python.core.usuarios_cr.flask_app.models.usuario import Usuario
+from python.core.usuarios_cr.server import app
+
+
+MODELO = "flask_app.controllers.usuarios.Usuario"
 
 
 class UsuariosTest(unittest.TestCase):
@@ -13,7 +16,7 @@ class UsuariosTest(unittest.TestCase):
         app.config.update(TESTING=True)
         self.client = app.test_client()
 
-    @patch("server.Usuario.get_all")
+    @patch(f"{MODELO}.get_all")
     def test_listado_y_escape_html(self, get_all):
         get_all.return_value = [Usuario(dict(
             id=1, nombre="<script>alert(1)</script>", apellido="Pérez",
@@ -35,11 +38,11 @@ class UsuariosTest(unittest.TestCase):
         self.assertIn(b'/usuarios/crear', response.data)
         self.assertEqual(self.client.get("/usuarios/crear").status_code, 405)
 
-    @patch("server.Usuario.get_all", return_value=[])
+    @patch(f"{MODELO}.get_all", return_value=[])
     def test_listado_vacio(self, get_all):
         self.assertIn("Aún no hay usuarios", self.client.get("/usuarios").text)
 
-    @patch("server.Usuario.save", return_value=5)
+    @patch(f"{MODELO}.save", return_value=5)
     def test_creacion_redirige(self, save):
         response = self.client.post("/usuarios/crear", data={
             "nombre": " Ana ", "apellido": "Pérez", "email": "ana@example.com",
@@ -48,15 +51,19 @@ class UsuariosTest(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/usuarios")
 
-    @patch("server.Usuario.save")
+    @patch(f"{MODELO}.save")
     def test_datos_invalidos_no_insertan(self, save):
-        for datos in ({}, dict(nombre="A" * 46, apellido="Pérez", email="ana@example.com"),
-                      dict(nombre="Ana", apellido="Pérez", email="invalido")):
+        casos = (
+            {},
+            dict(nombre="A" * 46, apellido="Pérez", email="ana@example.com"),
+            dict(nombre="Ana", apellido="Pérez", email="invalido"),
+        )
+        for datos in casos:
             with self.subTest(datos=datos):
                 self.assertEqual(self.client.post("/usuarios/crear", data=datos).status_code, 400)
         save.assert_not_called()
 
-    @patch("server.Usuario.save", side_effect=OperationalError(2003, "Sin conexión"))
+    @patch(f"{MODELO}.save", side_effect=OperationalError(2003, "Sin conexión"))
     def test_error_mysql_conserva_formulario(self, save):
         with self.assertLogs(app.logger, level="ERROR"):
             response = self.client.post("/usuarios/crear", data=dict(
@@ -64,7 +71,7 @@ class UsuariosTest(unittest.TestCase):
         self.assertEqual(response.status_code, 503)
         self.assertIn(b'value="Ana"', response.data)
 
-    @patch("server.Usuario.get_by_id")
+    @patch(f"{MODELO}.get_by_id")
     def test_ver_usuario(self, get_by_id):
         get_by_id.return_value = Usuario(dict(
             id=3, nombre="Celia", apellido="Cruz", email="celia@example.com",
@@ -77,12 +84,12 @@ class UsuariosTest(unittest.TestCase):
         self.assertIn(b"2026-09-21 11:45:00", response.data)
         get_by_id.assert_called_once_with(3)
 
-    @patch("server.Usuario.get_by_id", return_value=None)
+    @patch(f"{MODELO}.get_by_id", return_value=None)
     def test_usuario_inexistente_devuelve_404(self, get_by_id):
         self.assertEqual(self.client.get("/usuarios/99").status_code, 404)
         self.assertEqual(self.client.get("/usuarios/editar/99").status_code, 404)
 
-    @patch("server.Usuario.get_by_id")
+    @patch(f"{MODELO}.get_by_id")
     def test_formulario_editar_precargado(self, get_by_id):
         get_by_id.return_value = Usuario(dict(
             id=3, nombre="Celia", apellido="Cruz", email="celia@example.com",
@@ -95,8 +102,8 @@ class UsuariosTest(unittest.TestCase):
         self.assertIn(b'value="Cruz"', response.data)
         self.assertIn(b'value="celia@example.com"', response.data)
 
-    @patch("server.Usuario.update", return_value=0)
-    @patch("server.Usuario.get_by_id")
+    @patch(f"{MODELO}.update", return_value=0)
+    @patch(f"{MODELO}.get_by_id")
     def test_actualizacion_redirige(self, get_by_id, update):
         get_by_id.return_value = Usuario(dict(
             id=3, nombre="Celia", apellido="Cruz", email="celia@example.com",
@@ -111,8 +118,8 @@ class UsuariosTest(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/usuarios")
 
-    @patch("server.Usuario.update")
-    @patch("server.Usuario.get_by_id")
+    @patch(f"{MODELO}.update")
+    @patch(f"{MODELO}.get_by_id")
     def test_actualizacion_invalida_conserva_datos(self, get_by_id, update):
         get_by_id.return_value = Usuario(dict(
             id=3, nombre="Celia", apellido="Cruz", email="celia@example.com",
@@ -125,7 +132,7 @@ class UsuariosTest(unittest.TestCase):
         self.assertIn(b'value="Nuevo"', response.data)
         update.assert_not_called()
 
-    @patch("server.Usuario.delete", return_value=0)
+    @patch(f"{MODELO}.delete", return_value=0)
     def test_borrado_redirige(self, delete):
         response = self.client.get("/usuarios/borrar/3")
         delete.assert_called_once_with(3)

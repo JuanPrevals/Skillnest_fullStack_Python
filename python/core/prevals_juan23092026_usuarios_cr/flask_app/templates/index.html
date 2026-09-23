@@ -8,12 +8,23 @@
 </head>
 <body>
 <main>
-    <header><h1>Usuarios</h1><a href="{{ url_for('nuevo_usuario') }}">Nuevo Usuario</a></header>
+    <header>
+        <h1>Usuarios</h1>
+        <a href="{{ url_for('nuevo_usuario') }}">Nuevo Usuario</a>
+    </header>
     {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
     <div class="tabla">
         <table>
             <caption>Todos los usuarios registrados</caption>
-            <thead><tr><th scope="col">Id</th><th scope="col">Nombre Completo</th><th scope="col">E-mail</th><th scope="col">Fecha Creación</th><th scope="col">Acciones</th></tr></thead>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre Completo</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Fecha Creación</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
             <tbody>
             {% for usuario in usuarios %}
                 <tr>

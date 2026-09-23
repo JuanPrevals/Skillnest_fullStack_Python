@@ -3,21 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nuevo Usuario</title>
+    <title>Editar Usuario {{ usuario.id }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 <main>
-    <h1>Crear nuevo usuario</h1>
+    <h1>Editar usuario {{ usuario.id }}</h1>
     {% if errores %}<ul class="error" role="alert">{% for error in errores %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
-    <form action="{{ url_for('crear_usuario') }}" method="post">
+    <form action="{{ url_for('actualizar_usuario', id=usuario.id) }}" method="post">
         <label for="nombre">Nombre:</label>
         <input id="nombre" name="nombre" autocomplete="given-name" value="{{ datos.get('nombre', '') }}" maxlength="45" required>
         <label for="apellido">Apellido:</label>
         <input id="apellido" name="apellido" autocomplete="family-name" value="{{ datos.get('apellido', '') }}" maxlength="45" required>
         <label for="email">E-mail:</label>
         <input id="email" name="email" type="email" autocomplete="email" value="{{ datos.get('email', '') }}" maxlength="45" required>
-        <div class="acciones"><button type="submit">Crear</button><a href="{{ url_for('usuarios') }}">Volver a Usuarios</a></div>
+        <div class="acciones">
+            <button type="submit">Actualizar</button>
+            <a href="{{ url_for('usuarios') }}">Cancelar</a>
+        </div>
     </form>
 </main>
 </body>

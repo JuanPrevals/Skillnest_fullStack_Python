@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama entidad-relación de esquema_usuarios</title>
+  <desc id="desc">Tabla usuarios con id, nombre, apellido, email, created_at y updated_at.</desc>
+  <rect width="760" height="520" fill="#ffffff"/>
+  <text x="380" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#171717">esquema_usuarios</text>
+  <rect x="150" y="85" width="460" height="370" rx="8" fill="#ffffff" stroke="#333333" stroke-width="3"/>
+  <rect x="150" y="85" width="460" height="70" rx="8" fill="#d9d9d9" stroke="#333333" stroke-width="3"/>
+  <path d="M150 147 H610" stroke="#333333" stroke-width="3"/>
+  <text x="380" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#171717">usuarios</text>
+  <g font-family="Arial, sans-serif" font-size="18" fill="#171717">
+    <text x="180" y="195" font-weight="700">PK</text><text x="235" y="195">id</text><text x="430" y="195">INT AUTO_INCREMENT</text>
+    <text x="235" y="243">nombre</text><text x="430" y="243">VARCHAR(45)</text>
+    <text x="235" y="291">apellido</text><text x="430" y="291">VARCHAR(45)</text>
+    <text x="235" y="339">email</text><text x="430" y="339">VARCHAR(45)</text>
+    <text x="235" y="387">created_at</text><text x="430" y="387">DATETIME</text>
+    <text x="235" y="435">updated_at</text><text x="430" y="435">DATETIME</text>
+  </g>
+  <g stroke="#dddddd" stroke-width="1">
+    <path d="M170 211 H590"/><path d="M170 259 H590"/><path d="M170 307 H590"/><path d="M170 355 H590"/><path d="M170 403 H590"/>
+  </g>
+</svg>

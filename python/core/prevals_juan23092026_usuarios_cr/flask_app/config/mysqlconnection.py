@@ -34,3 +34,7 @@ class MySQLConnection:
 
 def connect_to_mysql(db):
     return MySQLConnection(db)
+
+
+# Alias utilizado en el material del curso.
+connectToMySQL = connect_to_mysql
