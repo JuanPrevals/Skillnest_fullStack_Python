@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Usuarios | Archivo sonoro{% endblock %}
+
+{% block content %}
+<header class="hero">
+    <div>
+        <p class="kicker">Directorio de oyentes</p>
+        <h1>Usuarios</h1>
+        <p class="hero-copy">Perfiles vinculados con sus canciones favoritas.</p>
+    </div>
+    <div class="vinyl" aria-hidden="true"><span>U</span></div>
+</header>
+
+<div class="split-layout">
+    <section class="panel form-panel" aria-labelledby="nuevo-usuario">
+        <p class="panel-label">Nuevo registro</p>
+        <h2 id="nuevo-usuario">Crear usuario</h2>
+        <form action="{{ url_for('crear_usuario') }}" method="post" class="stack-form">
+            <div>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" maxlength="45" required autofocus>
+            </div>
+            <div>
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" maxlength="45" required>
+            </div>
+            <div>
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" maxlength="45" required>
+            </div>
+            <button type="submit" class="primary-action">Crear usuario</button>
+        </form>
+    </section>
+
+    <section class="panel list-panel" aria-labelledby="todos-usuarios">
+        <div class="panel-heading">
+            <div>
+                <p class="panel-label">Colección</p>
+                <h2 id="todos-usuarios">Todos los usuarios</h2>
+            </div>
+            <span class="count-badge">{{ usuarios|length }}</span>
+        </div>
+
+        {% if usuarios %}
+            <ol class="record-list">
+                {% for usuario in usuarios %}
+                    <li>
+                        <a href="{{ url_for('mostrar_usuario', usuario_id=usuario.id) }}">
+                            <span class="record-index">{{ '%02d'|format(loop.index) }}</span>
+                            <span>
+                                <strong>{{ usuario.nombre }}</strong>
+                                <small>{{ usuario.email }}</small>
+                            </span>
+                            <span class="record-arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p class="empty-state">Sin usuarios registrados.</p>
+        {% endif %}
+
+        <a href="{{ url_for('canciones') }}" class="text-link">Abrir catálogo de canciones <span aria-hidden="true">→</span></a>
+    </section>
+</div>
+{% endblock %}

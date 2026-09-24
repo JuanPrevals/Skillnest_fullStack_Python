@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Canciones | Archivo sonoro{% endblock %}
+
+{% block content %}
+<header class="hero hero-coral">
+    <div>
+        <p class="kicker">Catálogo musical</p>
+        <h1>Canciones</h1>
+        <p class="hero-copy">Títulos y artistas disponibles para marcar como favoritos.</p>
+    </div>
+    <div class="vinyl vinyl-coral" aria-hidden="true"><span>♪</span></div>
+</header>
+
+<div class="split-layout">
+    <section class="panel form-panel" aria-labelledby="nueva-cancion">
+        <p class="panel-label">Nuevo registro</p>
+        <h2 id="nueva-cancion">Crear canción</h2>
+        <form action="{{ url_for('crear_cancion') }}" method="post" class="stack-form">
+            <div>
+                <label for="titulo">Título</label>
+                <input type="text" id="titulo" name="titulo" maxlength="45" required autofocus>
+            </div>
+            <div>
+                <label for="artista">Artista</label>
+                <input type="text" id="artista" name="artista" maxlength="45" required>
+            </div>
+            <button type="submit" class="primary-action">Crear canción</button>
+        </form>
+    </section>
+
+    <section class="panel list-panel" aria-labelledby="todas-canciones">
+        <div class="panel-heading">
+            <div>
+                <p class="panel-label">Colección</p>
+                <h2 id="todas-canciones">Todas las canciones</h2>
+            </div>
+            <span class="count-badge">{{ canciones|length }}</span>
+        </div>
+
+        {% if canciones %}
+            <ol class="record-list song-list">
+                {% for cancion in canciones %}
+                    <li>
+                        <a href="{{ url_for('mostrar_cancion', cancion_id=cancion.id) }}">
+                            <span class="record-index">{{ '%02d'|format(loop.index) }}</span>
+                            <span>
+                                <strong>{{ cancion.titulo }}</strong>
+                                <small>{{ cancion.artista }}</small>
+                            </span>
+                            <span class="record-arrow" aria-hidden="true">↗</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p class="empty-state">Sin canciones registradas.</p>
+        {% endif %}
+
+        <a href="{{ url_for('usuarios') }}" class="text-link">Abrir directorio de usuarios <span aria-hidden="true">→</span></a>
+    </section>
+</div>
+{% endblock %}
