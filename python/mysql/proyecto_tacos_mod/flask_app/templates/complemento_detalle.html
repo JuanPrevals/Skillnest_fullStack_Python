@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ complemento.nombre_complemento }} | Tacos MVC{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('complementos') }}" class="btn btn-link px-0 mb-3">← Volver a complementos</a>
+
+<div class="d-flex flex-column flex-md-row justify-content-between gap-4 mb-4">
+    <header>
+        <p class="text-uppercase text-secondary fw-semibold mb-2">Complemento</p>
+        <h1>{{ complemento.nombre_complemento }}</h1>
+        <p class="text-secondary mb-0">Este objeto contiene <code>en_tacos</code>, una lista de objetos Taco.</p>
+    </header>
+
+    <form action="{{ url_for('asociar_taco', complemento_id=complemento.id) }}" method="post" class="bg-white border rounded p-3">
+        <label for="taco_id" class="form-label">Asociar con un taco</label>
+        <div class="d-flex gap-2">
+            <select name="taco_id" id="taco_id" class="form-select" required>
+                <option value="" selected disabled>Selecciona...</option>
+                {% for taco in todos_tacos %}
+                <option value="{{ taco.id }}">Taco {{ taco.id }} · {{ taco.guiso }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Asociar</button>
+        </div>
+    </form>
+</div>
+
+{% if complemento.en_tacos %}
+<div class="row g-4">
+    {% for taco in complemento.en_tacos %}
+    <article class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h4">Taco {{ taco.id }}</h2>
+                <p class="mb-1"><strong>Tortilla:</strong> {{ taco.tortilla }}</p>
+                <p class="mb-1"><strong>Guiso:</strong> {{ taco.guiso }}</p>
+                <p class="mb-0"><strong>Salsa:</strong> {{ taco.salsa }}</p>
+            </div>
+            <div class="card-footer bg-white">
+                <form action="{{ url_for('desasociar_taco', complemento_id=complemento.id, taco_id=taco.id) }}" method="post">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Quitar relación</button>
+                </form>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<p class="alert alert-info">Este complemento todavía no está asociado a ningún taco.</p>
+{% endif %}
+{% endblock %}

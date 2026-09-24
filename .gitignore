@@ -2,3 +2,8 @@
 
 # Variables de entorno locales (aplica en cualquier subcarpeta)
 .env
+.codebase-memory
+.pytest_cache/
+.pytest.ini
+.tests
+.README.md

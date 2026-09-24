@@ -3,6 +3,7 @@
 from flask import flash, redirect, render_template, request, url_for
 
 from flask_app import app
+from flask_app.models.complemento import Complemento
 from flask_app.models.taco import Taco
 
 
@@ -38,6 +39,63 @@ def crear():
 @app.route("/tacos")
 def tacos():
     return render_template("resultados.html", todos_tacos=Taco.get_all())
+
+
+@app.route("/complementos")
+def complementos():
+    return render_template(
+        "complementos.html",
+        todos_complementos=Complemento.get_all(),
+    )
+
+
+@app.route("/complementos/crear", methods=["POST"])
+def crear_complemento():
+    nombre = request.form.get("nombre_complemento", "").strip()
+    if not 0 < len(nombre) <= 45:
+        flash("Escribe un complemento (máximo 45 caracteres).", "danger")
+        return redirect(url_for("complementos"))
+
+    Complemento.save({"nombre_complemento": nombre})
+    flash("Complemento creado correctamente.", "success")
+    return redirect(url_for("complementos"))
+
+
+@app.route("/complementos/<int:complemento_id>")
+def detalle_complemento(complemento_id):
+    complemento = Complemento.get_complementos_y_tacos({"id": complemento_id})
+    if complemento is None:
+        return render_template("404.html"), 404
+    return render_template(
+        "complemento_detalle.html",
+        complemento=complemento,
+        todos_tacos=Taco.get_all(),
+    )
+
+
+@app.route("/complementos/<int:complemento_id>/tacos", methods=["POST"])
+def asociar_taco(complemento_id):
+    taco_id = request.form.get("taco_id", type=int)
+    if taco_id is None or Taco.get_one({"id": taco_id}) is None:
+        flash("Selecciona un taco válido.", "danger")
+    else:
+        Complemento.asociar_taco(
+            {"complemento_id": complemento_id, "taco_id": taco_id}
+        )
+        flash("Taco asociado al complemento.", "success")
+    return redirect(url_for("detalle_complemento", complemento_id=complemento_id))
+
+
+@app.route(
+    "/complementos/<int:complemento_id>/tacos/<int:taco_id>/quitar",
+    methods=["POST"],
+)
+def desasociar_taco(complemento_id, taco_id):
+    Complemento.desasociar_taco(
+        {"complemento_id": complemento_id, "taco_id": taco_id}
+    )
+    flash("Relación eliminada.", "success")
+    return redirect(url_for("detalle_complemento", complemento_id=complemento_id))
 
 
 @app.route("/mostrar/<int:taco_id>")
