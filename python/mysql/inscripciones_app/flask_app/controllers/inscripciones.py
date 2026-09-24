@@ -25,7 +25,7 @@ def inscribir():
     curso_id = request.form.get("curso_id", type=int)
 
     if not estudiante_id or not curso_id:
-        flash("Selecciona un estudiante y un curso válidos.", "danger")
+        flash("Se requieren un estudiante y un curso válidos.", "danger")
         return redirect(url_for("index"))
 
     if Estudiante.get_by_id(estudiante_id) is None:

@@ -7,3 +7,7 @@
 .pytest.ini
 .tests
 .README.md
+
+# Documentación y recursos conservados únicamente en el entorno local
+**/[Rr][Ee][Aa][Dd][Mm][Ee]*.md
+**/resources/

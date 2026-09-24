@@ -77,7 +77,7 @@ def detalle_complemento(complemento_id):
 def asociar_taco(complemento_id):
     taco_id = request.form.get("taco_id", type=int)
     if taco_id is None or Taco.get_one({"id": taco_id}) is None:
-        flash("Selecciona un taco válido.", "danger")
+        flash("Se requiere un taco válido.", "danger")
     else:
         Complemento.asociar_taco(
             {"complemento_id": complemento_id, "taco_id": taco_id}

@@ -16,7 +16,7 @@
         <label for="taco_id" class="form-label">Asociar con un taco</label>
         <div class="d-flex gap-2">
             <select name="taco_id" id="taco_id" class="form-select" required>
-                <option value="" selected disabled>Selecciona...</option>
+                <option value="" selected disabled>Taco sin seleccionar</option>
                 {% for taco in todos_tacos %}
                 <option value="{{ taco.id }}">Taco {{ taco.id }} · {{ taco.guiso }}</option>
                 {% endfor %}
