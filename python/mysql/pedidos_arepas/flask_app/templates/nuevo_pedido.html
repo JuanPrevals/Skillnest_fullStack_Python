@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuevo Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <h1>Nuevo Pedido</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="error">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('crear_pedido') }}" method="post" novalidate>
+        <label for="nombre">Nombre Cliente:</label>
+        <input id="nombre" name="nombre" type="text">
+
+        <label for="cantidad">Cantidad:</label>
+        <input id="cantidad" name="cantidad" type="number">
+
+        <label for="relleno">Relleno:</label>
+        <input id="relleno" name="relleno" type="text">
+
+        <div class="acciones">
+            <button type="submit">Crear Pedido</button>
+            <a href="{{ url_for('listar_pedidos') }}">Inicio</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

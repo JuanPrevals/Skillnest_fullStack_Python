@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pedidos de Arepas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <header>
+        <h1>Pedidos</h1>
+        <a href="{{ url_for('nuevo_pedido') }}">Nuevo Pedido</a>
+    </header>
+
+    <div class="tabla">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre Cliente</th>
+                    <th>Cantidad</th>
+                    <th>Relleno</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ pedido.nombre }}</td>
+                    <td>{{ pedido.cantidad }}</td>
+                    <td>{{ pedido.relleno }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No hay pedidos registrados.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
