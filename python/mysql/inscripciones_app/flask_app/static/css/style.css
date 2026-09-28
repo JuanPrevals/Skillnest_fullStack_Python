@@ -1,0 +1,69 @@
+:root {
+    --ink: #172033;
+    --muted: #667085;
+    --paper: #ffffff;
+    --canvas: #f1f4f9;
+    --accent: #3157d5;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(49, 87, 213, 0.12), transparent 28rem),
+        var(--canvas);
+    color: var(--ink);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.page-heading {
+    max-width: 760px;
+}
+
+.page-heading h1,
+.card h2 {
+    font-weight: 750;
+    letter-spacing: -0.025em;
+}
+
+.eyebrow {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.card,
+.form-select,
+.btn,
+.alert {
+    border-radius: 0.8rem;
+}
+
+.form-select {
+    min-height: 3rem;
+}
+
+.btn-primary {
+    min-height: 3rem;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 700;
+}
+
+.table thead th {
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.course-chip {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #e9edff;
+    color: #243f9e;
+    font-weight: 700;
+}

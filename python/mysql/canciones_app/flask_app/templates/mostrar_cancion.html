@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ cancion.titulo }} | Archivo sonoro{% endblock %}
+
+{% block content %}
+<header class="detail-hero detail-song">
+    <a href="{{ url_for('canciones') }}" class="back-link">← Canciones</a>
+    <p class="kicker">Ficha de canción</p>
+    <h1>{{ cancion.titulo }}</h1>
+    <p>{{ cancion.artista }}</p>
+</header>
+
+<div class="detail-grid">
+    <section class="panel" aria-labelledby="usuarios-favoritos">
+        <div class="panel-heading">
+            <div>
+                <p class="panel-label">Presente en</p>
+                <h2 id="usuarios-favoritos">Favoritos de usuarios</h2>
+            </div>
+            <span class="count-badge">{{ cancion.usuarios|length }}</span>
+        </div>
+
+        {% if cancion.usuarios %}
+            <ul class="people-list">
+                {% for usuario in cancion.usuarios %}
+                    <li>
+                        <span class="avatar" aria-hidden="true">{{ usuario.nombre[0]|upper }}</span>
+                        <span><strong>{{ usuario.nombre }}</strong><small>{{ usuario.email }}</small></span>
+                        <a href="{{ url_for('mostrar_usuario', usuario_id=usuario.id) }}" aria-label="Abrir perfil de {{ usuario.nombre }}">↗</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">La canción aún no figura entre los favoritos.</p>
+        {% endif %}
+    </section>
+
+    <aside class="panel favorite-panel" aria-labelledby="agregar-favorito-cancion">
+        <div class="star-seal" aria-hidden="true">★</div>
+        <p class="panel-label">Nueva relación</p>
+        <h2 id="agregar-favorito-cancion">Agregar favorito</h2>
+        {% if usuarios %}
+            <form action="{{ url_for('agregar_favorito') }}" method="post" class="stack-form">
+                <input type="hidden" name="cancion_id" value="{{ cancion.id }}">
+                <input type="hidden" name="origen" value="cancion">
+                <div>
+                    <label for="usuario_id">Usuario</label>
+                    <select id="usuario_id" name="usuario_id" required>
+                        <option value="" selected disabled>Usuario sin seleccionar</option>
+                        {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}">{{ usuario.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="primary-action">Agregar favorito</button>
+            </form>
+        {% else %}
+            <p class="empty-state">Todos los usuarios registrados ya marcaron esta canción como favorita.</p>
+        {% endif %}
+    </aside>
+</div>
+{% endblock %}

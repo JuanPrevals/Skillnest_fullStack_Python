@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Registro no encontrado | Archivo sonoro{% endblock %}
+
+{% block content %}
+<section class="not-found">
+    <div class="vinyl" aria-hidden="true"><span>404</span></div>
+    <p class="kicker">Registro no encontrado</p>
+    <h1>La ficha solicitada no existe.</h1>
+    <a href="{{ url_for('usuarios') }}" class="primary-action">Volver a usuarios</a>
+</section>
+{% endblock %}

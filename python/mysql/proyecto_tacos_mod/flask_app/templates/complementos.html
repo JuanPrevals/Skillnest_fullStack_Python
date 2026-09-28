@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Complementos | Tacos MVC{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <section class="col-12 col-lg-5">
+        <div class="bg-white border rounded p-4">
+            <p class="text-uppercase text-secondary fw-semibold mb-2">Relación muchos a muchos</p>
+            <h1 class="h2">Crear complemento</h1>
+            <form action="{{ url_for('crear_complemento') }}" method="post">
+                <label for="nombre_complemento" class="form-label">Nombre</label>
+                <input type="text" name="nombre_complemento" id="nombre_complemento" class="form-control mb-3" maxlength="45" required>
+                <button type="submit" class="btn btn-primary">Crear complemento</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="col-12 col-lg-7">
+        <h2>Complementos disponibles</h2>
+        {% if todos_complementos %}
+        <div class="list-group">
+            {% for complemento in todos_complementos %}
+            <a href="{{ url_for('detalle_complemento', complemento_id=complemento.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                {{ complemento.nombre_complemento }}
+                <span aria-hidden="true">→</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="alert alert-info">Aún no hay complementos.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

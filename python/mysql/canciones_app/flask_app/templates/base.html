@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Catálogo de usuarios, canciones y favoritos">
+    <title>{% block title %}Archivo sonoro{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('usuarios') }}" aria-label="Archivo sonoro, inicio">
+            <span class="brand-mark" aria-hidden="true">◎</span>
+            <span>Archivo sonoro</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegación principal">
+            <a href="{{ url_for('usuarios') }}" {% if request.endpoint in ['usuarios', 'mostrar_usuario'] %}aria-current="page"{% endif %}>Usuarios</a>
+            <a href="{{ url_for('canciones') }}" {% if request.endpoint in ['canciones', 'mostrar_cancion'] %}aria-current="page"{% endif %}>Canciones</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                <div class="flash-stack" aria-live="polite">
+                    {% for categoria, mensaje in mensajes %}
+                        <div class="flash flash-{{ categoria }}">{{ mensaje }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

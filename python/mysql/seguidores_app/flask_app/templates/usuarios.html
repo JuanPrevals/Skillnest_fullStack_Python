@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Usuarios y relaciones de seguimiento mediante self join">
+    <title>Red de seguidores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <a href="{{ url_for('usuarios') }}" class="brand">
+        <span class="brand-symbol" aria-hidden="true">↔</span>
+        Red de seguidores
+    </a>
+    <span class="schema-label">SELF JOIN · esquema_seguidores</span>
+</header>
+
+<main class="page-shell">
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% if mensajes %}
+            <div class="flash-stack" aria-live="polite">
+                {% for categoria, mensaje in mensajes %}
+                    <div class="flash flash-{{ categoria }}">{{ mensaje }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <header class="hero">
+        <div class="hero-copy">
+            <p class="kicker">Una tabla · dos roles</p>
+            <h1>Quién sigue<br>a quién.</h1>
+            <p>La misma entidad aparece a ambos lados de cada conexión.</p>
+        </div>
+        <div class="network-mark" aria-hidden="true">
+            <span class="node node-a">U</span>
+            <span class="node node-b">S</span>
+            <span class="node node-c">U</span>
+            <span class="edge edge-a"></span>
+            <span class="edge edge-b"></span>
+        </div>
+    </header>
+
+    <section class="relations-card" aria-labelledby="titulo-relaciones">
+        <div class="section-heading">
+            <div>
+                <p class="kicker dark-kicker">Relaciones activas</p>
+                <h2 id="titulo-relaciones">Seguidores</h2>
+            </div>
+            <span class="count-badge">{{ relaciones|length }}</span>
+        </div>
+
+        {% if relaciones %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Usuario seguido</th><th>Seguidor</th><th>Relación</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for relacion in relaciones %}
+                            <tr>
+                                <td><span class="person-dot blue-dot"></span>{{ relacion.usuario_nombre }}</td>
+                                <td><span class="person-dot coral-dot"></span>{{ relacion.seguidor_nombre }}</td>
+                                <td><span class="relation-arrow" aria-label="es seguido por">←</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="empty-state">Sin relaciones de seguimiento registradas.</p>
+        {% endif %}
+    </section>
+
+    <div class="forms-grid">
+        <section class="form-card user-card" aria-labelledby="titulo-usuario">
+            <p class="kicker dark-kicker">Nueva entidad</p>
+            <h2 id="titulo-usuario">Crear usuario</h2>
+            <form action="{{ url_for('crear_usuario') }}" method="post" class="stack-form">
+                <div>
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" maxlength="45" required autofocus>
+                </div>
+                <div>
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" maxlength="45" required>
+                </div>
+                <div>
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" maxlength="45" required>
+                </div>
+                <button type="submit" class="action-button">Crear usuario</button>
+            </form>
+        </section>
+
+        <section class="form-card follow-card" aria-labelledby="titulo-seguir">
+            <p class="kicker dark-kicker">Nueva conexión</p>
+            <h2 id="titulo-seguir">Registrar seguimiento</h2>
+            {% if usuarios|length >= 2 %}
+                <form action="{{ url_for('seguir') }}" method="post" class="stack-form">
+                    <div>
+                        <label for="usuario_id">Usuario seguido</label>
+                        <select id="usuario_id" name="usuario_id" required>
+                            <option value="" selected disabled>Usuario sin seleccionar</option>
+                            {% for usuario in usuarios %}
+                                <option value="{{ usuario.id }}">{{ usuario.nombre_completo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="seguidor_id">Seguidor</label>
+                        <select id="seguidor_id" name="seguidor_id" required>
+                            <option value="" selected disabled>Seguidor sin seleccionar</option>
+                            {% for usuario in usuarios %}
+                                <option value="{{ usuario.id }}">{{ usuario.nombre_completo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="action-button coral-button">Registrar seguimiento</button>
+                </form>
+            {% else %}
+                <p class="empty-state">Se requieren al menos dos usuarios para registrar una relación.</p>
+            {% endif %}
+        </section>
+    </div>
+</main>
+</body>
+</html>

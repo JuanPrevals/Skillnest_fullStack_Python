@@ -1,22 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
-  <title id="title">ERD del esquema de tacos</title>
-  <desc id="desc">Diagrama entidad relación con la tabla tacos y sus seis columnas.</desc>
-  <rect width="960" height="600" fill="#f8f9fa"/>
-  <text x="480" y="74" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#212529">ERD · esquema_tacos</text>
-  <rect x="250" y="120" width="460" height="400" rx="8" fill="#ffffff" stroke="#212529" stroke-width="3"/>
-  <rect x="250" y="120" width="460" height="70" rx="8" fill="#212529"/>
-  <path d="M250 182h460" stroke="#212529" stroke-width="16"/>
-  <text x="480" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">tacos</text>
-  <g font-family="Arial, sans-serif" font-size="20" fill="#212529">
-    <text x="285" y="235" font-weight="700">PK</text><text x="345" y="235">id</text><text x="540" y="235">INT UNSIGNED</text>
-    <text x="345" y="290">tortilla</text><text x="540" y="290">VARCHAR(45)</text>
-    <text x="345" y="345">guiso</text><text x="540" y="345">VARCHAR(45)</text>
-    <text x="345" y="400">salsa</text><text x="540" y="400">VARCHAR(45)</text>
-    <text x="345" y="455">created_at</text><text x="540" y="455">DATETIME</text>
-    <text x="345" y="500">updated_at</text><text x="540" y="500">DATETIME</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">ERD del esquema de tacos y complementos</title>
+  <desc id="desc">Relación muchos a muchos entre tacos y complementos mediante complementos_en_tacos.</desc>
+  <rect width="1200" height="650" fill="#f8f9fa"/>
+  <text x="600" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#212529">ERD · esquema_tacos</text>
+
+  <g font-family="Arial, sans-serif" fill="#212529">
+    <rect x="40" y="135" width="320" height="380" rx="8" fill="#fff" stroke="#212529" stroke-width="3"/>
+    <rect x="40" y="135" width="320" height="70" rx="8" fill="#212529"/>
+    <text x="200" y="180" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">tacos</text>
+    <g font-size="18">
+      <text x="65" y="250" font-weight="700">PK</text><text x="110" y="250">id</text><text x="240" y="250">INT</text>
+      <text x="110" y="300">tortilla</text><text x="240" y="300">VARCHAR</text>
+      <text x="110" y="350">guiso</text><text x="240" y="350">VARCHAR</text>
+      <text x="110" y="400">salsa</text><text x="240" y="400">VARCHAR</text>
+      <text x="110" y="450">created_at</text><text x="240" y="450">DATETIME</text>
+      <text x="110" y="500">updated_at</text><text x="240" y="500">DATETIME</text>
+    </g>
+
+    <rect x="440" y="175" width="320" height="300" rx="8" fill="#fff" stroke="#0d6efd" stroke-width="3"/>
+    <rect x="440" y="175" width="320" height="70" rx="8" fill="#0d6efd"/>
+    <text x="600" y="220" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">complementos_en_tacos</text>
+    <g font-size="18">
+      <text x="465" y="295" font-weight="700">PK, FK</text><text x="540" y="295">complemento_id</text>
+      <text x="465" y="355" font-weight="700">PK, FK</text><text x="540" y="355">taco_id</text>
+    </g>
+
+    <rect x="840" y="155" width="320" height="340" rx="8" fill="#fff" stroke="#212529" stroke-width="3"/>
+    <rect x="840" y="155" width="320" height="70" rx="8" fill="#212529"/>
+    <text x="1000" y="200" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">complementos</text>
+    <g font-size="18">
+      <text x="865" y="270" font-weight="700">PK</text><text x="910" y="270">id</text><text x="1070" y="270">INT</text>
+      <text x="865" y="330">nombre_complemento</text><text x="1070" y="330">VARCHAR</text>
+      <text x="865" y="390">created_at</text><text x="1070" y="390">DATETIME</text>
+      <text x="865" y="450">updated_at</text><text x="1070" y="450">DATETIME</text>
+    </g>
   </g>
-  <g stroke="#dee2e6" stroke-width="2">
-    <path d="M275 255h410M275 310h410M275 365h410M275 420h410M275 475h410"/>
+
+  <g stroke="#0d6efd" stroke-width="4" fill="none">
+    <path d="M360 325h80"/>
+    <path d="M760 325h80"/>
   </g>
+  <g font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#0d6efd">
+    <text x="375" y="310">1</text><text x="420" y="310">N</text>
+    <text x="775" y="310">N</text><text x="820" y="310">1</text>
+  </g>
+  <text x="600" y="590" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#495057">Un taco tiene muchos complementos · Un complemento aparece en muchos tacos</text>
 </svg>
 

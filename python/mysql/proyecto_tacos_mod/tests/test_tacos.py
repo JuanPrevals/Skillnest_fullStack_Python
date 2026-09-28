@@ -5,6 +5,7 @@ import pytest
 
 from flask_app import app
 from flask_app.controllers import tacos as controlador
+from flask_app.models import complemento as complemento_modelo
 
 
 @pytest.fixture()
@@ -88,4 +89,106 @@ def test_eliminar_taco_por_post(client, monkeypatch):
     response = client.post("/borrar/4")
     assert response.status_code == 302
     assert eliminado == {"id": 4}
+
+
+def test_complemento_convierte_filas_del_join_en_tacos(monkeypatch):
+    fecha = datetime(2026, 9, 24, 9, 0)
+    filas = [
+        {
+            "complemento_id": 3,
+            "nombre_complemento": "Cilantro",
+            "complemento_created_at": fecha,
+            "complemento_updated_at": fecha,
+            "taco_id": 1,
+            "tortilla": "Maíz",
+            "guiso": "Pastor",
+            "salsa": "Verde",
+            "taco_created_at": fecha,
+            "taco_updated_at": fecha,
+        },
+        {
+            "complemento_id": 3,
+            "nombre_complemento": "Cilantro",
+            "complemento_created_at": fecha,
+            "complemento_updated_at": fecha,
+            "taco_id": 2,
+            "tortilla": "Harina",
+            "guiso": "Pollo",
+            "salsa": "Roja",
+            "taco_created_at": fecha,
+            "taco_updated_at": fecha,
+        },
+    ]
+
+    class ConexionFalsa:
+        def query_db(self, query, datos):
+            assert "LEFT JOIN complementos_en_tacos" in query
+            assert datos == {"id": 3}
+            return filas
+
+    monkeypatch.setattr(
+        complemento_modelo,
+        "connectToMySQL",
+        lambda _database: ConexionFalsa(),
+    )
+
+    complemento = complemento_modelo.Complemento.get_complementos_y_tacos({"id": 3})
+
+    assert complemento.nombre_complemento == "Cilantro"
+    assert [taco.id for taco in complemento.en_tacos] == [1, 2]
+    assert complemento.en_tacos[0].guiso == "Pastor"
+
+
+def test_complemento_sin_tacos_conserva_lista_vacia(monkeypatch):
+    fecha = datetime(2026, 9, 24, 9, 0)
+    filas = [
+        {
+            "complemento_id": 4,
+            "nombre_complemento": "Rábanos",
+            "complemento_created_at": fecha,
+            "complemento_updated_at": fecha,
+            "taco_id": None,
+            "tortilla": None,
+            "guiso": None,
+            "salsa": None,
+            "taco_created_at": None,
+            "taco_updated_at": None,
+        }
+    ]
+
+    class ConexionFalsa:
+        def query_db(self, _query, _datos):
+            return filas
+
+    monkeypatch.setattr(
+        complemento_modelo,
+        "connectToMySQL",
+        lambda _database: ConexionFalsa(),
+    )
+
+    complemento = complemento_modelo.Complemento.get_complementos_y_tacos({"id": 4})
+
+    assert complemento is not None
+    assert complemento.en_tacos == []
+
+
+def test_detalle_complemento_muestra_tacos_asociados(client, monkeypatch, taco):
+    complemento = SimpleNamespace(
+        id=2,
+        nombre_complemento="Cebolla",
+        en_tacos=[taco],
+    )
+    monkeypatch.setattr(
+        controlador.Complemento,
+        "get_complementos_y_tacos",
+        lambda _datos: complemento,
+    )
+    monkeypatch.setattr(controlador.Taco, "get_all", lambda: [taco])
+
+    response = client.get("/complementos/2")
+
+    assert response.status_code == 200
+    contenido = response.get_data(as_text=True)
+    assert "Cebolla" in contenido
+    assert "Carne asada" in contenido
 

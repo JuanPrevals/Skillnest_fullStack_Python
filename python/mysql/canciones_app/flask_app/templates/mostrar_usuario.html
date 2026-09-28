@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ usuario.nombre }} | Archivo sonoro{% endblock %}
+
+{% block content %}
+<header class="detail-hero">
+    <a href="{{ url_for('usuarios') }}" class="back-link">← Usuarios</a>
+    <p class="kicker">Perfil de oyente</p>
+    <h1>{{ usuario.nombre }}</h1>
+    <p>{{ usuario.email }}</p>
+</header>
+
+<div class="detail-grid">
+    <section class="panel" aria-labelledby="favoritos-usuario">
+        <div class="panel-heading">
+            <div>
+                <p class="panel-label">Selección personal</p>
+                <h2 id="favoritos-usuario">Canciones favoritas</h2>
+            </div>
+            <span class="count-badge">{{ usuario.favoritos|length }}</span>
+        </div>
+
+        {% if usuario.favoritos %}
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Canción</th><th>Artista</th></tr></thead>
+                    <tbody>
+                        {% for favorita in usuario.favoritos %}
+                            <tr>
+                                <td><a href="{{ url_for('mostrar_cancion', cancion_id=favorita.id) }}">{{ favorita.titulo }}</a></td>
+                                <td>{{ favorita.artista }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="empty-state">Sin canciones favoritas registradas.</p>
+        {% endif %}
+    </section>
+
+    <aside class="panel favorite-panel" aria-labelledby="agregar-favorito-usuario">
+        <div class="star-seal" aria-hidden="true">★</div>
+        <p class="panel-label">Nueva relación</p>
+        <h2 id="agregar-favorito-usuario">Agregar favorito</h2>
+        {% if canciones %}
+            <form action="{{ url_for('agregar_favorito') }}" method="post" class="stack-form">
+                <input type="hidden" name="usuario_id" value="{{ usuario.id }}">
+                <input type="hidden" name="origen" value="usuario">
+                <div>
+                    <label for="cancion_id">Canción</label>
+                    <select id="cancion_id" name="cancion_id" required>
+                        <option value="" selected disabled>Canción sin seleccionar</option>
+                        {% for cancion in canciones %}
+                            <option value="{{ cancion.id }}">{{ cancion.titulo }} — {{ cancion.artista }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="primary-action">Agregar favorito</button>
+            </form>
+        {% else %}
+            <p class="empty-state">Todas las canciones registradas ya figuran como favoritas.</p>
+        {% endif %}
+        <a href="{{ url_for('canciones') }}" class="text-link">Agregar canción al catálogo <span aria-hidden="true">→</span></a>
+    </aside>
+</div>
+{% endblock %}
