@@ -102,6 +102,7 @@ class UsuariosTest(unittest.TestCase):
         self.assertIn("La contraseña debe tener al menos 8 caracteres.", response.text)
         self.assertIn('value="Ana"', response.text)
         self.assertIn('value="correo"', response.text)
+        self.assertNotIn('value="corta"', response.text)
         save.assert_not_called()
 
     @patch(f"{MODELO}.email_existe", return_value=False)
@@ -226,6 +227,19 @@ class UsuariosTest(unittest.TestCase):
     def test_login_no_revela_si_el_email_existe(self, buscar_por_email):
         response = self.client.post("/login", data={
             "email": "nadie@example.com", "password": "secreto123",
+        }, follow_redirects=True)
+        self.assertIn("Email o contraseña incorrectos.", response.text)
+
+    @patch(f"{MODELO}.buscar_por_email")
+    def test_usuario_antiguo_sin_hash_no_puede_iniciar_sesion(
+        self, buscar_por_email
+    ):
+        buscar_por_email.return_value = Usuario(dict(
+            id=7, nombre="Ana", apellido="Pérez", email="ana@example.com",
+            password=None, created_at=None, updated_at=None,
+        ))
+        response = self.client.post("/login", data={
+            "email": "ana@example.com", "password": "secreto123",
         }, follow_redirects=True)
         self.assertIn("Email o contraseña incorrectos.", response.text)
 

@@ -76,8 +76,10 @@ def login():
     password = request.form.get("password", "")
     usuario = Usuario.buscar_por_email(email)
 
-    if usuario is None or not bcrypt.check_password_hash(
-        usuario.password, password
+    if (
+        usuario is None
+        or not usuario.password
+        or not bcrypt.check_password_hash(usuario.password, password)
     ):
         flash("Email o contraseña incorrectos.", "login")
         return redirect(url_for("formulario_login"))
