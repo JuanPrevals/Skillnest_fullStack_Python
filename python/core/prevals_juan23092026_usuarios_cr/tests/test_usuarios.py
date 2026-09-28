@@ -3,9 +3,10 @@ from datetime import datetime
 from unittest.mock import patch
 
 from pymysql import OperationalError
+from flask_app.controllers.usuarios import bcrypt
 
-from python.core.usuarios_cr.flask_app.models.usuario import Usuario
-from python.core.usuarios_cr.server import app
+from flask_app.models.usuario import Usuario
+from server import app
 
 
 MODELO = "flask_app.controllers.usuarios.Usuario"
@@ -42,12 +43,23 @@ class UsuariosTest(unittest.TestCase):
     def test_listado_vacio(self, get_all):
         self.assertIn("Aún no hay usuarios", self.client.get("/usuarios").text)
 
+    @patch(f"{MODELO}.email_existe", return_value=False)
     @patch(f"{MODELO}.save", return_value=5)
-    def test_creacion_redirige(self, save):
+    def test_creacion_redirige(self, save, email_existe):
         response = self.client.post("/usuarios/crear", data={
             "nombre": " Ana ", "apellido": "Pérez", "email": "ana@example.com",
+            "password": "secreto123",
         })
-        save.assert_called_once_with(dict(nombre="Ana", apellido="Pérez", email="ana@example.com"))
+        datos_guardados = save.call_args.args[0]
+        self.assertEqual(datos_guardados["nombre"], "Ana")
+        self.assertEqual(datos_guardados["apellido"], "Pérez")
+        self.assertEqual(datos_guardados["email"], "ana@example.com")
+        self.assertNotEqual(datos_guardados["password"], "secreto123")
+        self.assertTrue(datos_guardados["password"].startswith("$2"))
+        self.assertTrue(bcrypt.check_password_hash(
+            datos_guardados["password"], "secreto123"
+        ))
+        email_existe.assert_called_once_with("ana@example.com")
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/usuarios")
 
@@ -55,21 +67,53 @@ class UsuariosTest(unittest.TestCase):
     def test_datos_invalidos_no_insertan(self, save):
         casos = (
             {},
-            dict(nombre="A" * 46, apellido="Pérez", email="ana@example.com"),
-            dict(nombre="Ana", apellido="Pérez", email="invalido"),
+            dict(nombre="A" * 46, apellido="Pérez", email="ana@example.com", password="secreto123"),
+            dict(nombre="Ana", apellido="Pérez", email="invalido", password="secreto123"),
+            dict(nombre="Ana", apellido="Pérez", email="ana@example.com", password="corta"),
         )
         for datos in casos:
             with self.subTest(datos=datos):
-                self.assertEqual(self.client.post("/usuarios/crear", data=datos).status_code, 400)
+                response = self.client.post("/usuarios/crear", data=datos)
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(response.location, "/usuarios/nuevo")
         save.assert_not_called()
 
+    @patch(f"{MODELO}.email_existe", return_value=True)
+    @patch(f"{MODELO}.save")
+    def test_email_duplicado_no_inserta(self, save, email_existe):
+        response = self.client.post("/usuarios/crear", data={
+            "nombre": "Ana", "apellido": "Pérez", "email": "ana@example.com",
+            "password": "secreto123",
+        }, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("El email ingresado ya está registrado.", response.text)
+        self.assertIn('value="Ana"', response.text)
+        save.assert_not_called()
+
+    @patch(f"{MODELO}.save")
+    def test_errores_flash_y_datos_se_conservan(self, save):
+        response = self.client.post("/usuarios/crear", data={
+            "nombre": " Ana ", "apellido": "", "email": "correo",
+            "password": "corta",
+        }, follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("El apellido es obligatorio.", response.text)
+        self.assertIn("El email no tiene un formato válido.", response.text)
+        self.assertIn("La contraseña debe tener al menos 8 caracteres.", response.text)
+        self.assertIn('value="Ana"', response.text)
+        self.assertIn('value="correo"', response.text)
+        save.assert_not_called()
+
+    @patch(f"{MODELO}.email_existe", return_value=False)
     @patch(f"{MODELO}.save", side_effect=OperationalError(2003, "Sin conexión"))
-    def test_error_mysql_conserva_formulario(self, save):
+    def test_error_mysql_conserva_formulario(self, save, email_existe):
         with self.assertLogs(app.logger, level="ERROR"):
             response = self.client.post("/usuarios/crear", data=dict(
-                nombre="Ana", apellido="Pérez", email="ana@example.com"))
-        self.assertEqual(response.status_code, 503)
-        self.assertIn(b'value="Ana"', response.data)
+                nombre="Ana", apellido="Pérez", email="ana@example.com",
+                password="secreto123"))
+        self.assertEqual(response.status_code, 302)
+        siguiente = self.client.get(response.location)
+        self.assertIn(b'value="Ana"', siguiente.data)
 
     @patch(f"{MODELO}.get_by_id")
     def test_ver_usuario(self, get_by_id):
@@ -103,8 +147,9 @@ class UsuariosTest(unittest.TestCase):
         self.assertIn(b'value="celia@example.com"', response.data)
 
     @patch(f"{MODELO}.update", return_value=0)
+    @patch(f"{MODELO}.email_existe", return_value=False)
     @patch(f"{MODELO}.get_by_id")
-    def test_actualizacion_redirige(self, get_by_id, update):
+    def test_actualizacion_redirige(self, get_by_id, email_existe, update):
         get_by_id.return_value = Usuario(dict(
             id=3, nombre="Celia", apellido="Cruz", email="celia@example.com",
             created_at=None, updated_at=None,
@@ -115,6 +160,7 @@ class UsuariosTest(unittest.TestCase):
         update.assert_called_once_with(dict(
             id=3, nombre="Celia María", apellido="Cruz", email="celia@nueva.cl",
         ))
+        email_existe.assert_called_once_with("celia@nueva.cl", excluir_id=3)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/usuarios")
 
@@ -138,6 +184,77 @@ class UsuariosTest(unittest.TestCase):
         delete.assert_called_once_with(3)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.location, "/usuarios")
+
+    @patch(f"{MODELO}.buscar_por_email")
+    def test_login_correcto_compara_password_con_hash(self, buscar_por_email):
+        password_hash = bcrypt.generate_password_hash(
+            "secreto123"
+        ).decode("utf-8")
+        buscar_por_email.return_value = Usuario(dict(
+            id=7, nombre="Ana", apellido="Pérez", email="ana@example.com",
+            password=password_hash, created_at=None, updated_at=None,
+        ))
+
+        response = self.client.post("/login", data={
+            "email": "ana@example.com", "password": "secreto123",
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.location, "/dashboard")
+        with self.client.session_transaction() as sesion:
+            self.assertEqual(sesion["usuario_id"], 7)
+
+    @patch(f"{MODELO}.buscar_por_email")
+    def test_login_rechaza_password_incorrecto(self, buscar_por_email):
+        password_hash = bcrypt.generate_password_hash(
+            "correcta123"
+        ).decode("utf-8")
+        buscar_por_email.return_value = Usuario(dict(
+            id=7, nombre="Ana", apellido="Pérez", email="ana@example.com",
+            password=password_hash, created_at=None, updated_at=None,
+        ))
+
+        response = self.client.post("/login", data={
+            "email": "ana@example.com", "password": "incorrecta",
+        }, follow_redirects=True)
+
+        self.assertIn("Email o contraseña incorrectos.", response.text)
+        with self.client.session_transaction() as sesion:
+            self.assertNotIn("usuario_id", sesion)
+
+    @patch(f"{MODELO}.buscar_por_email", return_value=None)
+    def test_login_no_revela_si_el_email_existe(self, buscar_por_email):
+        response = self.client.post("/login", data={
+            "email": "nadie@example.com", "password": "secreto123",
+        }, follow_redirects=True)
+        self.assertIn("Email o contraseña incorrectos.", response.text)
+
+    def test_dashboard_sin_sesion_redirige_al_login(self):
+        response = self.client.get("/dashboard")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.location, "/login")
+
+    @patch(f"{MODELO}.get_by_id")
+    def test_dashboard_con_sesion(self, get_by_id):
+        get_by_id.return_value = Usuario(dict(
+            id=7, nombre="Ana", apellido="Pérez", email="ana@example.com",
+            created_at=None, updated_at=None,
+        ))
+        with self.client.session_transaction() as sesion:
+            sesion["usuario_id"] = 7
+
+        response = self.client.get("/dashboard")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Bienvenido, Ana", response.text)
+
+    def test_logout_limpia_la_sesion(self):
+        with self.client.session_transaction() as sesion:
+            sesion["usuario_id"] = 7
+
+        response = self.client.get("/logout")
+        self.assertEqual(response.location, "/login")
+        with self.client.session_transaction() as sesion:
+            self.assertNotIn("usuario_id", sesion)
 
 
 if __name__ == "__main__":

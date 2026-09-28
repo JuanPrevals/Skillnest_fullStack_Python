@@ -9,7 +9,13 @@
 <body>
 <main>
     <h1>Editar usuario {{ usuario.id }}</h1>
-    {% if errores %}<ul class="error" role="alert">{% for error in errores %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% if mensajes %}
+        <ul class="error" role="alert">
+            {% for categoria, mensaje in mensajes %}<li data-campo="{{ categoria }}">{{ mensaje }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
     <form action="{{ url_for('actualizar_usuario', id=usuario.id) }}" method="post">
         <label for="nombre">Nombre:</label>
         <input id="nombre" name="nombre" autocomplete="given-name" value="{{ datos.get('nombre', '') }}" maxlength="45" required>

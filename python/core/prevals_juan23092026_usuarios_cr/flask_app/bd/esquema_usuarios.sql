@@ -9,13 +9,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(45) NOT NULL,
     apellido VARCHAR(45) NOT NULL,
-    email VARCHAR(45) NOT NULL,
+    email VARCHAR(45) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
-INSERT INTO usuarios (nombre, apellido, email) VALUES
-    ('Ricky', 'Martin', 'ricky@codingdojo.com'),
-    ('Enrique', 'Iglesias', 'enrique@codingdojo.com'),
-    ('Celia', 'Cruz', 'celia@codingdojo.com'),
-    ('Ricardo', 'Montaner', 'ricardo@codingdojo.com');

@@ -10,7 +10,14 @@
 <main>
     <header>
         <h1>Usuarios</h1>
-        <a href="{{ url_for('nuevo_usuario') }}">Nuevo Usuario</a>
+        <nav class="acciones" aria-label="Navegación principal">
+            <a href="{{ url_for('nuevo_usuario') }}">Nuevo Usuario</a>
+            {% if session.get('usuario_id') %}
+            <a href="{{ url_for('dashboard') }}">Mi cuenta</a>
+            {% else %}
+            <a href="{{ url_for('formulario_login') }}">Iniciar sesión</a>
+            {% endif %}
+        </nav>
     </header>
     {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
     <div class="tabla">

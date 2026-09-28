@@ -1,5 +1,5 @@
-from python.core.usuarios_cr.flask_app import app
-from python.core.usuarios_cr.flask_app.controllers import usuarios  # noqa: F401
+from flask_app import app
+from flask_app.controllers import usuarios  # noqa: F401
 
 
 if __name__ == "__main__":

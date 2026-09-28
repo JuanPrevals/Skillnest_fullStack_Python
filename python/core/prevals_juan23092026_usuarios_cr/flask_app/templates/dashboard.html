@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mi cuenta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main>
+    <h1>Bienvenido, {{ usuario.nombre }}</h1>
+    <section class="detalle">
+        <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+        <p><strong>E-mail:</strong> {{ usuario.email }}</p>
+    </section>
+    <nav class="acciones" aria-label="Acciones de cuenta">
+        <a href="{{ url_for('usuarios') }}">Ver usuarios</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    </nav>
+</main>
+</body>
+</html>
