@@ -1,0 +1,173 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: #202020;
+    background-color: #f3f6f8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.barra {
+    padding: 18px max(24px, calc((100% - 960px) / 2));
+    background-color: #263238;
+}
+
+.barra a {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+main {
+    width: min(960px, calc(100% - 32px));
+    margin: 40px auto;
+    padding: 32px;
+    border: 1px solid #c8d0d4;
+    background-color: white;
+}
+
+.columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+}
+
+h1,
+h2 {
+    margin-top: 0;
+}
+
+form {
+    display: grid;
+    gap: 16px;
+}
+
+.campo {
+    display: grid;
+    gap: 6px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #8b969b;
+    border-radius: 4px;
+    background-color: white;
+    font: inherit;
+}
+
+button {
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 4px;
+    color: white;
+    background-color: #2d6a4f;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1b4332;
+}
+
+a {
+    color: #1769aa;
+}
+
+.lista-cursos {
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+}
+
+.lista-cursos li {
+    border-bottom: 1px solid #d7dde0;
+}
+
+.lista-cursos a,
+.lista-cursos li:last-child {
+    display: block;
+    padding: 10px 4px;
+}
+
+.enlace-accion,
+.enlace-inicio {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.formulario-estudiante {
+    max-width: 520px;
+}
+
+.titulo-curso {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.etiqueta {
+    margin: 0 0 4px;
+    color: #5f6b70;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.tabla-contenedor {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #9aa4a8;
+    text-align: left;
+}
+
+th {
+    background-color: #e8edef;
+}
+
+.mensaje {
+    padding: 12px;
+    border: 1px solid #9aa4a8;
+}
+
+.mensaje.error {
+    color: #8e2727;
+    border-color: #c97878;
+    background-color: #fceaea;
+}
+
+.mensaje.exito {
+    color: #1b5e3b;
+    border-color: #75aa8e;
+    background-color: #e3f2e8;
+}
+
+@media (max-width: 700px) {
+    .columnas {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .titulo-curso {
+        display: block;
+    }
+}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Nuevo Estudiante{% endblock %}
+
+{% block contenido %}
+<section class="formulario-estudiante">
+    <h1>Nuevo Estudiante</h1>
+    {% if cursos %}
+        <form action="{{ url_for('crear_estudiante') }}" method="post">
+            <div class="campo">
+                <label for="curso">Curso</label>
+                <select id="curso" name="curso_id" required>
+                    <option value="">Selecciona un curso</option>
+                    {% for curso in cursos %}
+                        <option value="{{ curso.id }}">{{ curso.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="campo">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" name="nombre" maxlength="45" required>
+            </div>
+            <div class="campo">
+                <label for="apellido">Apellido</label>
+                <input id="apellido" name="apellido" maxlength="45" required>
+            </div>
+            <div class="campo">
+                <label for="edad">Edad</label>
+                <input id="edad" name="edad" type="number" min="1" max="120" required>
+            </div>
+            <button type="submit">Crear estudiante</button>
+        </form>
+    {% else %}
+        <p>Primero debes crear un curso.</p>
+    {% endif %}
+    <a class="enlace-inicio" href="{{ url_for('cursos') }}">Inicio</a>
+</section>
+{% endblock %}

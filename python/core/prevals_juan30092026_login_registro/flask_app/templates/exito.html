@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bienvenida</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="pagina-exito">
+    <main>
+        <h1>¡Hola, {{ usuario.nombre }}!</h1>
+
+        {% with mensajes = get_flashed_messages(category_filter=['exito']) %}
+            {% if mensajes %}
+                <div class="mensaje-exito" role="status">
+                    {% for mensaje in mensajes %}<p>{{ mensaje }}</p>{% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <p>Ingresaste como <strong>{{ usuario.email }}</strong>.</p>
+        {% if usuario.area_interes %}
+            <p>Área de interés: <strong>{{ usuario.area_interes|replace('datos', 'Bases de datos')|replace('frontend', 'Desarrollo frontend')|replace('backend', 'Desarrollo backend') }}</strong></p>
+        {% endif %}
+        {% if usuario.modalidad %}
+            <p>Modalidad: <strong>{{ usuario.modalidad|capitalize }}</strong></p>
+        {% endif %}
+        <form action="{{ url_for('cerrar_sesion') }}" method="post">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}{{ curso.nombre }}{% endblock %}
+
+{% block contenido %}
+<section>
+    <div class="titulo-curso">
+        <div>
+            <p class="etiqueta">Curso</p>
+            <h1>Estudiantes de {{ curso.nombre }}</h1>
+        </div>
+        <a href="{{ url_for('nuevo_estudiante') }}">Agregar estudiante</a>
+    </div>
+
+    {% if curso.estudiantes %}
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Edad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for estudiante in curso.estudiantes %}
+                        <tr>
+                            <td>{{ estudiante.nombre }}</td>
+                            <td>{{ estudiante.apellido }}</td>
+                            <td>{{ estudiante.edad }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Este curso todavía no tiene estudiantes.</p>
+    {% endif %}
+
+    <a class="enlace-inicio" href="{{ url_for('cursos') }}">Inicio</a>
+</section>
+{% endblock %}

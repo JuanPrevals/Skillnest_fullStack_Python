@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro e inicio de sesión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main>
+        <h1>Registro e inicio de sesión</h1>
+        {% with mensajes = get_flashed_messages(category_filter=['general']) %}
+            {% if mensajes %}
+                <div class="alerta" role="alert">
+                    {% for mensaje in mensajes %}<p>{{ mensaje }}</p>{% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="formularios">
+            <section>
+                <h2>Registro</h2>
+
+                {% with mensajes = get_flashed_messages(category_filter=['registro']) %}
+                    {% if mensajes %}
+                        <div class="alerta" role="alert">
+                            <ul>{% for mensaje in mensajes %}<li>{{ mensaje }}</li>{% endfor %}</ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('registrar') }}" method="post">
+                    <div class="campo">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" name="nombre" autocomplete="given-name" maxlength="45" value="{{ formulario.get('nombre', '') }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="apellido">Apellido</label>
+                        <input id="apellido" name="apellido" autocomplete="family-name" maxlength="45" value="{{ formulario.get('apellido', '') }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="registro-email">E-mail</label>
+                        <input id="registro-email" name="email" type="email" autocomplete="email" maxlength="120" value="{{ formulario.get('email', '') }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="fecha-nacimiento">Fecha de nacimiento</label>
+                        <input id="fecha-nacimiento" name="fecha_nacimiento" type="date" value="{{ formulario.get('fecha_nacimiento', '') }}" required>
+                        <small>Debes tener al menos 18 años.</small>
+                    </div>
+                    <div class="campo">
+                        <label for="area-interes">Área de interés</label>
+                        <select id="area-interes" name="area_interes" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="frontend" {% if formulario.get('area_interes') == 'frontend' %}selected{% endif %}>Desarrollo frontend</option>
+                            <option value="backend" {% if formulario.get('area_interes') == 'backend' %}selected{% endif %}>Desarrollo backend</option>
+                            <option value="datos" {% if formulario.get('area_interes') == 'datos' %}selected{% endif %}>Bases de datos</option>
+                        </select>
+                    </div>
+                    <fieldset>
+                        <legend>Modalidad preferida</legend>
+                        <label class="opcion">
+                            <input name="modalidad" type="radio" value="presencial" {% if formulario.get('modalidad') == 'presencial' %}checked{% endif %} required>
+                            Presencial
+                        </label>
+                        <label class="opcion">
+                            <input name="modalidad" type="radio" value="online" {% if formulario.get('modalidad') == 'online' %}checked{% endif %} required>
+                            Online
+                        </label>
+                    </fieldset>
+                    <div class="campo">
+                        <label for="registro-password">Contraseña</label>
+                        <input id="registro-password" name="password" type="password" autocomplete="new-password" minlength="8" aria-describedby="ayuda-password" required>
+                        <small id="ayuda-password">Mínimo 8 caracteres, una mayúscula y un número.</small>
+                    </div>
+                    <div class="campo">
+                        <label for="confirmar-password">Confirmar contraseña</label>
+                        <input id="confirmar-password" name="confirmar_password" type="password" autocomplete="new-password" minlength="8" required>
+                    </div>
+                    <label class="opcion">
+                        <input name="acepta_terminos" type="checkbox" {% if formulario.get('acepta_terminos') %}checked{% endif %} required>
+                        Acepto los términos y condiciones
+                    </label>
+                    <button type="submit">Crear mi cuenta</button>
+                </form>
+            </section>
+
+            <section>
+                <h2>Inicio de sesión</h2>
+
+                {% with mensajes = get_flashed_messages(category_filter=['login']) %}
+                    {% if mensajes %}
+                        <div class="alerta" role="alert">
+                            {% for mensaje in mensajes %}<p>{{ mensaje }}</p>{% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('iniciar_sesion') }}" method="post">
+                    <div class="campo">
+                        <label for="login-email">E-mail</label>
+                        <input id="login-email" name="email" type="email" autocomplete="email" maxlength="120" value="{{ login_email }}" required>
+                    </div>
+                    <div class="campo">
+                        <label for="login-password">Contraseña</label>
+                        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+                    </div>
+                    <button type="submit">Iniciar sesión</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
