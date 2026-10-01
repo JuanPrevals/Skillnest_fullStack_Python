@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Error interno | BookHub{% endblock %}
+{% block content %}
+<div class="container error-page text-center">
+    <p class="eyebrow">Error 500</p>
+    <h1>No pudimos completar la solicitud</h1>
+    <p class="text-secondary">Intenta nuevamente. Si el problema continúa, revisa la conexión con MySQL.</p>
+    <a class="btn btn-primary" href="{{ url_for('mis_libros') if session.get('usuario_id') else url_for('inicio') }}">Volver al inicio</a>
+</div>
+{% endblock %}

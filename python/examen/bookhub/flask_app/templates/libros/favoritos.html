@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% from 'libros/_tabla.html' import tabla_libros %}
+{% block title %}Mis favoritos | BookHub{% endblock %}
+{% block content %}
+<div class="container page-shell">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Tu selección</p>
+            <h1>Mis libros favoritos</h1>
+            <p class="text-secondary mb-0">Todos los títulos que guardaste para volver a encontrarlos.</p>
+        </div>
+        <a class="btn btn-outline-primary" href="{{ url_for('explorar') }}">Descubrir libros</a>
+    </div>
+    {{ tabla_libros(libros, favorito=true) }}
+    {% if not libros %}
+    <div class="text-center mt-3"><a class="btn btn-primary" href="{{ url_for('explorar') }}">Explorar la comunidad</a></div>
+    {% endif %}
+</div>
+{% endblock %}

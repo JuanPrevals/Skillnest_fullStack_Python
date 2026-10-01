@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% from 'libros/_tabla.html' import tabla_libros %}
+{% block title %}Mis libros | BookHub{% endblock %}
+{% block content %}
+<div class="container page-shell">
+    <section aria-labelledby="mis-libros-titulo">
+        <div class="page-heading">
+            <div>
+                <p class="eyebrow">Tu biblioteca</p>
+                <h1 id="mis-libros-titulo">Mis libros</h1>
+                <p class="text-secondary mb-0">Gestiona los títulos que compartiste con la comunidad.</p>
+            </div>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('nuevo_libro') }}">
+                <span aria-hidden="true">＋</span> Nuevo libro
+            </a>
+        </div>
+        {{ tabla_libros(propios, propias=true) }}
+        {% if not propios %}
+        <div class="text-center mt-3"><a class="btn btn-primary" href="{{ url_for('nuevo_libro') }}">Publicar mi primer libro</a></div>
+        {% endif %}
+    </section>
+
+    <section class="section-block" aria-labelledby="comunidad-titulo">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Lecturas recientes</p>
+                <h2 id="comunidad-titulo" class="h3 mb-1">Libros de la comunidad</h2>
+                <p class="text-secondary mb-0">Descubre lo que otras personas están leyendo.</p>
+            </div>
+            <a href="{{ url_for('explorar') }}">Explorar todos</a>
+        </div>
+        {{ tabla_libros(comunidad) }}
+    </section>
+</div>
+{% endblock %}

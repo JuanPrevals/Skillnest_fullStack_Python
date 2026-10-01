@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Página no encontrada | BookHub{% endblock %}
+{% block content %}
+<div class="container error-page text-center">
+    <p class="eyebrow">Error 404</p>
+    <h1>Esta página no está en el estante</h1>
+    <p class="text-secondary">El enlace puede estar desactualizado o el libro ya no existe.</p>
+    <a class="btn btn-primary" href="{{ url_for('mis_libros') if session.get('usuario_id') else url_for('inicio') }}">Volver al inicio</a>
+</div>
+{% endblock %}

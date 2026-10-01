@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="BookHub: comparte, descubre y guarda tus libros favoritos.">
+    <title>{% block title %}BookHub{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <a class="skip-link" href="#contenido-principal">Saltar al contenido principal</a>
+
+    {% if session.get('usuario_id') %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" aria-label="Navegación principal">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('mis_libros') }}">
+                <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 5.25A2.25 2.25 0 0 1 5.25 3H10a3 3 0 0 1 2 1.17A3 3 0 0 1 14 3h4.75A2.25 2.25 0 0 1 21 5.25V19a1 1 0 0 1-1.37.93A14.5 14.5 0 0 0 14.25 19c-.83 0-1.53.28-2.25.9-.72-.62-1.42-.9-2.25-.9-1.9 0-3.7.31-5.38.93A1 1 0 0 1 3 19V5.25Z" fill="currentColor"/>
+                </svg>
+                <span>BookHub</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                    aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'mis_libros' }}"
+                           {% if request.endpoint == 'mis_libros' %}aria-current="page"{% endif %}
+                           href="{{ url_for('mis_libros') }}">Mis libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'explorar' }}"
+                           {% if request.endpoint == 'explorar' %}aria-current="page"{% endif %}
+                           href="{{ url_for('explorar') }}">Explorar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'mis_favoritos' }}"
+                           {% if request.endpoint == 'mis_favoritos' %}aria-current="page"{% endif %}
+                           href="{{ url_for('mis_favoritos') }}">Mis favoritos</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-lg-center gap-3 flex-column flex-lg-row">
+                    <span class="navbar-text">Hola, {{ session.get('usuario_nombre') }}</span>
+                    <form action="{{ url_for('logout') }}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button class="btn btn-outline-light btn-sm" type="submit">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main id="contenido-principal" tabindex="-1">
+        <div class="container flash-region" aria-live="polite" aria-atomic="true">
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+                {% for categoria, mensaje in mensajes %}
+                <div class="alert alert-{{ categoria }} alert-dismissible fade show" role="status">
+                    {{ mensaje }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar mensaje"></button>
+                </div>
+                {% endfor %}
+            {% endwith %}
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container d-flex flex-column flex-sm-row justify-content-between gap-2">
+            <span>BookHub</span>
+            <span>Comparte, descubre y comenta libros.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

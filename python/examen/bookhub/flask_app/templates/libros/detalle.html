@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}{{ libro.titulo }} | BookHub{% endblock %}
+{% block content %}
+<div class="container page-shell page-shell-narrow">
+    <nav aria-label="Migas de pan">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('mis_libros') }}">Mis libros</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detalle</li>
+        </ol>
+    </nav>
+
+    <article class="card book-detail">
+        <div class="card-body p-4 p-lg-5">
+            <div class="row g-4 g-lg-5">
+                <div class="col-12 col-sm-4">
+                    <div class="book-cover" role="img" aria-label="Portada ilustrativa de {{ libro.titulo }}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Zm0 0A2.5 2.5 0 0 0 6.5 22H20v-5H6.5A2.5 2.5 0 0 0 4 19.5Z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+                        <span>{{ libro.titulo }}</span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <span class="badge text-bg-light border mb-3">{{ libro.genero }}</span>
+                    <h1 class="mb-3">{{ libro.titulo }}</h1>
+                    <dl class="book-metadata">
+                        <div><dt>Autor</dt><dd>{{ libro.autor }}</dd></div>
+                        <div><dt>Publicado por</dt><dd>{{ libro.publicado_por }}</dd></div>
+                        <div><dt>Fecha</dt><dd>{{ libro.fecha_publicacion.strftime('%d-%m-%Y') }}</dd></div>
+                    </dl>
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <form action="{{ url_for('alternar_favorito', libro_id=libro.id) }}" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <button class="btn {{ 'btn-dark' if libro.es_favorito else 'btn-outline-dark' }}" type="submit">
+                                <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S4 16 4 9.5A4.5 4.5 0 0 1 12 6.7a4.5 4.5 0 0 1 8 2.8c0 6.5-8 11-8 11Z" fill="{{ 'currentColor' if libro.es_favorito else 'none' }}" stroke="currentColor" stroke-width="1.8"/></svg>
+                                {{ 'Quitar de favoritos' if libro.es_favorito else 'Agregar a favoritos' }}
+                            </button>
+                        </form>
+                        {% if libro.usuario_id == session.get('usuario_id') %}
+                        <a class="btn btn-outline-secondary" href="{{ url_for('editar_libro', libro_id=libro.id) }}">Editar libro</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <h2 class="h5">Descripción</h2>
+            <p class="book-description mb-0">{{ libro.descripcion }}</p>
+        </div>
+    </article>
+
+    <section class="section-block" aria-labelledby="favoritos-titulo">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Comunidad</p>
+                <h2 id="favoritos-titulo" class="h3">Personas que guardaron este libro ({{ libro.total_favoritos }})</h2>
+            </div>
+        </div>
+        {% if usuarios_favoritos %}
+        <ul class="list-group">
+            {% for usuario in usuarios_favoritos %}
+            <li class="list-group-item d-flex align-items-center gap-3 py-3">
+                <span class="avatar" aria-hidden="true">{{ usuario.nombre[0] }}{{ usuario.apellido[0] }}</span>
+                <span>{{ usuario.nombre }} {{ usuario.apellido }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty-state border rounded-3 text-center">
+            <p class="mb-1 fw-semibold">Aún no hay favoritos</p>
+            <p class="mb-0 text-secondary">Puedes ser la primera persona en guardar este libro.</p>
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

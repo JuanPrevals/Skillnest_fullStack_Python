@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+htmlcov/
+.coverage
+
+# El repositorio padre ignora estos recursos; BookHub debe entregarlos.
+!README.md
+!resources/
+!resources/**

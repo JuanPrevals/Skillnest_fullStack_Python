@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="650" viewBox="0 0 1120 650" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama entidad relación de BookHub</title>
+  <desc id="desc">Usuarios publica libros y usuarios guarda libros mediante la tabla favoritos.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8f9fa}.entity{fill:#fff;stroke:#343a40;stroke-width:2}.head{fill:#343a40}.title{fill:#fff;font:700 20px Arial}.field{fill:#212529;font:15px Consolas,monospace}.muted{fill:#6c757d;font:13px Arial}.rel{fill:none;stroke:#0d6efd;stroke-width:3}.label{fill:#0d6efd;font:700 14px Arial}.badge{fill:#e7f1ff;stroke:#0d6efd}.foot{fill:#495057;font:14px Arial}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0d6efd"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1120" height="650"/>
+  <text x="48" y="52" font-family="Arial" font-size="30" font-weight="700" fill="#212529">BookHub — Diagrama entidad relación</text>
+  <text x="48" y="80" class="muted">MySQL 8 · InnoDB · utf8mb4 · claves foráneas con eliminación en cascada</text>
+
+  <g transform="translate(48 125)">
+    <rect class="entity" width="310" height="348" rx="8"/>
+    <path class="head" d="M8 0h294a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8Z"/>
+    <text class="title" x="22" y="37">USUARIOS</text>
+    <text class="field" x="22" y="94">PK  id INT UNSIGNED</text>
+    <text class="field" x="22" y="132">    nombre VARCHAR(80)</text>
+    <text class="field" x="22" y="170">    apellido VARCHAR(80)</text>
+    <text class="field" x="22" y="208">UK  email VARCHAR(255)</text>
+    <text class="field" x="22" y="246">    password VARCHAR(255)</text>
+    <text class="field" x="22" y="284">    created_at DATETIME</text>
+    <text class="field" x="22" y="322">    updated_at DATETIME</text>
+  </g>
+
+  <g transform="translate(762 125)">
+    <rect class="entity" width="310" height="386" rx="8"/>
+    <path class="head" d="M8 0h294a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8Z"/>
+    <text class="title" x="22" y="37">LIBROS</text>
+    <text class="field" x="22" y="94">PK  id INT UNSIGNED</text>
+    <text class="field" x="22" y="132">    titulo VARCHAR(180)</text>
+    <text class="field" x="22" y="170">    autor VARCHAR(160)</text>
+    <text class="field" x="22" y="208">    genero VARCHAR(80)</text>
+    <text class="field" x="22" y="246">    fecha_publicacion DATE</text>
+    <text class="field" x="22" y="284">    descripcion TEXT</text>
+    <text class="field" x="22" y="322">FK  usuario_id INT UNSIGNED</text>
+    <text class="field" x="22" y="360">    created_at / updated_at</text>
+  </g>
+
+  <g transform="translate(405 335)">
+    <rect class="entity" width="310" height="234" rx="8"/>
+    <path class="head" d="M8 0h294a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8Z"/>
+    <text class="title" x="22" y="37">FAVORITOS</text>
+    <text class="field" x="22" y="94">PK  id INT UNSIGNED</text>
+    <text class="field" x="22" y="132">FK  usuario_id INT UNSIGNED</text>
+    <text class="field" x="22" y="170">FK  libro_id INT UNSIGNED</text>
+    <text class="field" x="22" y="208">UK  (usuario_id, libro_id)</text>
+  </g>
+
+  <path class="rel" marker-start="url(#arrow)" marker-end="url(#arrow)" d="M358 210 C510 125 610 125 762 210"/>
+  <rect class="badge" x="508" y="130" width="104" height="32" rx="16"/>
+  <text class="label" x="532" y="152">publica</text>
+  <text class="label" x="374" y="164">1</text><text class="label" x="741" y="164">N</text>
+
+  <path class="rel" marker-start="url(#arrow)" marker-end="url(#arrow)" d="M358 390 C378 430 388 450 405 452"/>
+  <text class="label" x="366" y="414">1</text><text class="label" x="389" y="447">N</text>
+  <path class="rel" marker-start="url(#arrow)" marker-end="url(#arrow)" d="M715 452 C730 448 744 424 762 390"/>
+  <text class="label" x="718" y="447">N</text><text class="label" x="746" y="414">1</text>
+
+  <text x="48" y="615" class="foot">Relación N:M USUARIOS ↔ LIBROS resuelta por FAVORITOS. La restricción única impide duplicados.</text>
+</svg>

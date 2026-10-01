@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% set editando = libro.id is defined and libro.id %}
+{% block title %}{{ 'Editar libro' if editando else 'Nuevo libro' }} | BookHub{% endblock %}
+{% block content %}
+<div class="container page-shell page-shell-narrow">
+    <nav aria-label="Migas de pan">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('mis_libros') }}">Mis libros</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'Editar' if editando else 'Nuevo libro' }}</li>
+        </ol>
+    </nav>
+    <header class="mb-4">
+        <p class="eyebrow">{{ 'Actualiza la ficha' if editando else 'Comparte una lectura' }}</p>
+        <h1>{{ 'Editar libro' if editando else 'Agregar nuevo libro' }}</h1>
+        <p class="text-secondary">Todos los campos son obligatorios.</p>
+    </header>
+
+    {% if errores %}
+    <div class="alert alert-danger" role="alert" tabindex="-1" data-error-summary>
+        <strong>Revisa los campos señalados.</strong> Encontramos {{ errores|length }} {{ 'error' if errores|length == 1 else 'errores' }}.
+    </div>
+    {% endif %}
+
+    <form class="card" action="{{ url_for('actualizar_libro', libro_id=libro.id) if editando else url_for('crear_libro') }}" method="post" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-4">
+                <div class="col-12">
+                    <label class="form-label" for="titulo">Título</label>
+                    <input class="form-control {{ 'is-invalid' if errores.get('titulo') }}" id="titulo" name="titulo"
+                           value="{{ libro.titulo|default('', true) }}" minlength="2" maxlength="180" autofocus required>
+                    {% if errores.get('titulo') %}<div class="invalid-feedback">{{ errores.titulo }}</div>{% endif %}
+                </div>
+                <div class="col-md-7">
+                    <label class="form-label" for="autor">Autor</label>
+                    <input class="form-control {{ 'is-invalid' if errores.get('autor') }}" id="autor" name="autor"
+                           value="{{ libro.autor|default('', true) }}" minlength="2" maxlength="160" required>
+                    {% if errores.get('autor') %}<div class="invalid-feedback">{{ errores.autor }}</div>{% endif %}
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label" for="genero">Género</label>
+                    <select class="form-select {{ 'is-invalid' if errores.get('genero') }}" id="genero" name="genero" required>
+                        <option value="">Selecciona un género</option>
+                        {% for genero in generos %}
+                        <option value="{{ genero }}" {{ 'selected' if libro.genero|default('') == genero }}>{{ genero }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if errores.get('genero') %}<div class="invalid-feedback">{{ errores.genero }}</div>{% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="fecha_publicacion">Fecha de publicación</label>
+                    <input class="form-control {{ 'is-invalid' if errores.get('fecha_publicacion') }}" type="date" id="fecha_publicacion"
+                           name="fecha_publicacion" value="{{ libro.fecha_publicacion|default('', true) }}" max="{{ today|default('') }}" required>
+                    {% if errores.get('fecha_publicacion') %}<div class="invalid-feedback">{{ errores.fecha_publicacion }}</div>{% endif %}
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="descripcion">Descripción</label>
+                    <textarea class="form-control {{ 'is-invalid' if errores.get('descripcion') }}" id="descripcion" name="descripcion"
+                              rows="6" minlength="10" maxlength="2000" aria-describedby="descripcion-ayuda" required>{{ libro.descripcion|default('', true) }}</textarea>
+                    <div id="descripcion-ayuda" class="form-text">Entre 10 y 2000 caracteres.</div>
+                    {% if errores.get('descripcion') %}<div class="invalid-feedback">{{ errores.descripcion }}</div>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white p-4 d-flex flex-column-reverse flex-sm-row justify-content-end gap-2">
+            <a class="btn btn-outline-secondary" href="{{ url_for('detalle_libro', libro_id=libro.id) if editando else url_for('mis_libros') }}">Cancelar</a>
+            <button class="btn btn-primary" type="submit">{{ 'Guardar cambios' if editando else 'Publicar libro' }}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

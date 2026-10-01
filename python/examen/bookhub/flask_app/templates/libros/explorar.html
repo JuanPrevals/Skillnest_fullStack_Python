@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% from 'libros/_tabla.html' import tabla_libros %}
+{% block title %}Explorar | BookHub{% endblock %}
+{% block content %}
+<div class="container page-shell">
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Comunidad BookHub</p>
+            <h1>Explorar libros</h1>
+            <p class="text-secondary mb-0">Busca por título, autor o género.</p>
+        </div>
+    </div>
+    <form class="filter-bar card card-body mb-4" action="{{ url_for('explorar') }}" method="get" role="search">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-7">
+                <label class="form-label" for="q">Título o autor</label>
+                <input class="form-control" type="search" id="q" name="q" value="{{ termino }}" placeholder="Ej.: Cien años de soledad">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="filtro-genero">Género</label>
+                <select class="form-select" id="filtro-genero" name="genero">
+                    <option value="">Todos</option>
+                    {% for genero in generos %}
+                    <option value="{{ genero }}" {{ 'selected' if genero_actual == genero }}>{{ genero }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </div>
+    </form>
+    <p class="text-secondary" aria-live="polite">{{ libros|length }} {{ 'resultado' if libros|length == 1 else 'resultados' }}</p>
+    {{ tabla_libros(libros) }}
+</div>
+{% endblock %}
