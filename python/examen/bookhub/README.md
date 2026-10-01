@@ -95,6 +95,12 @@ Guarda las capturas en `resources/capturas/` con estos nombres:
 | MVC | `models/`, `controllers/`, `templates/`, `config/` |
 | Calidad | Responsive, accesible, CSRF, búsqueda, filtros y estados vacíos |
 
+## Documentación y modelo editable
+
+- `DOCUMENTACION_CODIGO.md` explica la arquitectura, configuración, rutas, modelos, vistas, seguridad, flujos y pruebas.
+- `resources/bookhub.mwb` es el modelo EER editable generado con MySQL Workbench 8.0.
+- `resources/database.sql` permite crear o reconstruir `bookhub_db` desde el SQL Editor de Workbench.
+
 ## Entrega en GitHub
 
 El examen indica que el repositorio debe ser **privado**. Antes de enviar:

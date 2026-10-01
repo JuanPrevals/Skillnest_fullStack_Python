@@ -1,7 +1,11 @@
 import os
 
 import pymysql
+from dotenv import load_dotenv
 from pymysql.cursors import DictCursor
+
+
+load_dotenv()
 
 
 class MySQLConnection:
